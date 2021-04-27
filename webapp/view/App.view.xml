@@ -1,10 +1,30 @@
-<mvc:View controllerName="uol.bpcManageVDT.controller.App" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
-	displayBlock="true" xmlns="sap.m">
-	<App>
-		<pages>
-			<Page title="{i18n>title}">
-				<content></content>
-			</Page>
-		</pages>
-	</App>
+<mvc:View controllerName="uol.bpc.ManageVDT.controller.App" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.suite.ui.commons.networkgraph"
+	displayBlock="true" height="100%">
+	<Graph enableWheelZoom="false" id="graph" nodes="{/nodes}" lines="{/lines}">
+		<nodes>
+			<Node key="{key}" title="{title}" icon="{icon}" attributes="{path:'attributes', templateShareable:true}" showActionLinksButton="false"
+				showDetailButton="false" showExpandButton="false" status="{status}" shape="Box">
+				<attributes>
+					<ElementAttribute label="{label}" value="{value}"/>
+				</attributes>
+				<actionButtons>
+					<ActionButton
+							icon="sap-icon://navigation-left-arrow"
+							title="Expand"
+							position="Left"
+							press="leftExpandPressed"/>
+					<ActionButton
+							icon="sap-icon://close-command-field"
+							title="Expand Multi"
+							position="Left"
+							press="leftMultiExpandPressed"/>
+					<ActionButton icon="sap-icon://navigation-right-arrow" title="Expand" press="rightExpandPressed"/>
+					<ActionButton icon="sap-icon://open-command-field" title="Expand Multi" press="rightMultiExpandPressed"/>
+				</actionButtons>
+			</Node>
+		</nodes>
+		<lines>
+			<Line from="{from}" to="{to}" status="Information"></Line>
+		</lines>
+	</Graph>
 </mvc:View>

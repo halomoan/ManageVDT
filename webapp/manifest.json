@@ -1,7 +1,7 @@
 {
 	"_version": "1.7.0",
 	"sap.app": {
-		"id": "uol.bpcManageVDT",
+		"id": "uol.bpc.ManageVDT",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
@@ -39,7 +39,7 @@
 
 	"sap.ui5": {
 		"rootView": {
-			"viewName": "uol.bpcManageVDT.view.App",
+			"viewName": "uol.bpc.ManageVDT.view.App",
 			"type": "XML"
 		},
 		"dependencies": {
@@ -62,7 +62,7 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "uol.bpcManageVDT.i18n.i18n"
+					"bundleName": "uol.bpc.ManageVDT.i18n.i18n"
 				}
 			}
 		},

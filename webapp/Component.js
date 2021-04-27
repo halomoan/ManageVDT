@@ -1,11 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"uol/bpcManageVDT/model/models"
+	"uol/bpc/ManageVDT/model/models"
 ], function(UIComponent, Device, models) {
 	"use strict";
 
-	return UIComponent.extend("uol.bpcManageVDT.Component", {
+	return UIComponent.extend("uol.bpc.ManageVDT.Component", {
 
 		metadata: {
 			manifest: "json"
