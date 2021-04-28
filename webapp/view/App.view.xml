@@ -3,23 +3,15 @@
 	<Graph enableWheelZoom="false" id="graph" nodes="{/nodes}" lines="{/lines}">
 		<nodes>
 			<Node key="{key}" title="{title}" icon="{icon}" attributes="{path:'attributes', templateShareable:true}" showActionLinksButton="false"
-				showDetailButton="false" showExpandButton="false" status="{status}" shape="Box">
+				showDetailButton="false" showExpandButton="true" status="{status}" shape="Box" press="hoverNode">
 				<attributes>
 					<ElementAttribute label="{label}" value="{value}"/>
 				</attributes>
 				<actionButtons>
-					<ActionButton
-							icon="sap-icon://navigation-left-arrow"
-							title="Expand"
-							position="Left"
-							press="leftExpandPressed"/>
-					<ActionButton
-							icon="sap-icon://close-command-field"
-							title="Expand Multi"
-							position="Left"
-							press="leftMultiExpandPressed"/>
-					<ActionButton icon="sap-icon://navigation-right-arrow" title="Expand" press="rightExpandPressed"/>
-					<ActionButton icon="sap-icon://open-command-field" title="Expand Multi" press="rightMultiExpandPressed"/>
+				<ActionButton
+							icon="sap-icon://settings"
+							title="Setting"
+							press="onOpenVDTNodeSetting"/>
 				</actionButtons>
 			</Node>
 		</nodes>
