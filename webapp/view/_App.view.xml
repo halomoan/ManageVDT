@@ -1,0 +1,40 @@
+<mvc:View controllerName="uol.bpc.ManageVDT.controller.App" xmlns:mvc="sap.ui.core.mvc" xmlns:graph="sap.suite.ui.commons.networkgraph"
+	xmlns:l="sap.ui.layout" xmlns="sap.m" displayBlock="true" height="100%">
+	<Page id="sideContentContainer" showHeader="false" showNavButton="false">
+		<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored sapUiContentPadding" containerQuery="true"
+			sideContentFallDown="BelowM" breakpointChanged="handleBreakpointChangeEvent">
+			
+				<graph:Graph enableWheelZoom="false" id="graph" nodes="{/nodes}" lines="{/lines}">
+					<graph:nodes>
+						<graph:Node key="{key}" title="{title}" icon="{icon}" attributes="{path:'attributes', templateShareable:true}" showActionLinksButton="false"
+							showDetailButton="false" showExpandButton="true" status="{status}" shape="Box" press="hoverNode">
+							<graph:attributes>
+								<graph:ElementAttribute label="{label}" value="{value}"/>
+							</graph:attributes>
+							<graph:actionButtons>
+								<graph:ActionButton icon="sap-icon://settings" title="Setting" press="onSettingShow"/>
+							</graph:actionButtons>
+						</graph:Node>
+					</graph:nodes>
+					<graph:lines>
+						<graph:Line from="{from}" to="{to}" status="Information"></graph:Line>
+					</graph:lines>
+				</graph:Graph>
+			
+			<l:sideContent>
+				<Toolbar>
+					<Title text="Comments"/>
+					<ToolbarSpacer/>
+					<Button text="Close" type="Transparent" press="onSettingHide" visible="{= !${media>/phone}}"/>
+				</Toolbar>
+				<l:VerticalLayout width="100%">
+					<List items="{/EntryCollection}">
+						<FeedListItem sender="{Author}" icon="{AuthorPicUrl}" iconDensityAware="false" info="{Type}" timestamp="{Date}" text="{Text}"/>
+					</List>
+					<FeedInput showIcon="true"
+						icon="http://upload.wikimedia.org/wikipedia/commons/2/25/George_Washington_as_CIC_of_the_Continental_Army_bust.jpg"/>
+				</l:VerticalLayout>
+			</l:sideContent>
+		</l:DynamicSideContent>
+	</Page>
+</mvc:View>
