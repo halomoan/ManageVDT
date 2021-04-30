@@ -2,9 +2,10 @@
 	"nodes": [
 		{
 			"key": 1,
-			"title": "TotalRoomRevenue",
+			"name": "TotalRoomRevenue",
 			"status": "Success",
 			"icon": "sap-icon://fx",
+			"formula": "#RoomServiceCharge + #RoomRevenue",
 			"attributes": [
 				{
 					"label": "Type",
@@ -14,9 +15,10 @@
 		},
 		{
 			"key": 2,
-			"title": "RoomRevenue",
+			"name": "RoomRevenue",
 			"status": "Success",
 			"icon": "sap-icon://fx",
+			"formula" : "#RoomsRevenueHotel + #RoomsRentalRevenueServicedSuites + #RoomsRentalRevenueServicedApt",
 			"attributes": [
 				{
 					"label": "Type",
@@ -26,9 +28,10 @@
 		},
 		{
 			"key": 3,
-			"title": "RoomServiceCharge",
+			"name": "RoomServiceCharge",
 			"status": "Success",
 			"icon": "sap-icon://fx",
+			"formula" : "#RoomServiceChargePerct",
 			"attributes": [
 				{
 					"label": "Type",
@@ -38,7 +41,7 @@
 		},
 		{
 			"key": 4,
-			"title": "RoomsRevenueHotel",
+			"name": "RoomsRevenueHotel",
 			"status": "Success",
 			"icon": "sap-icon://fx",
 			"attributes": [
@@ -49,7 +52,7 @@
 			]
 		},
 		{ "key": 5,
-			"title": "RoomsRentalRevenueServicedSuites",
+			"name": "RoomsRentalRevenueServicedSuites",
 			"status": "Success",
 			"icon": "sap-icon://fx",
 			"attributes": [
@@ -61,7 +64,7 @@
 		},
 		{
 			"key": 6,
-			"title": "RoomsRentalRevenueServicedApt",
+			"name": "RoomsRentalRevenueServicedApt",
 			"status": "Success",
 			"icon": "sap-icon://fx",
 			"attributes": [
@@ -73,7 +76,7 @@
 		},
 		{
 			"key": 7,
-			"title": "RoomServiceChargePerct",
+			"name": "RoomServiceChargePerct",
 			"status": "Warning",
 			"icon": "sap-icon://edit",
 			"attributes": [	{
@@ -109,5 +112,6 @@
 			"to": 7
 		}
 	
-	]
+	],
+	"maxkey": 7
 }

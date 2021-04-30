@@ -23,7 +23,8 @@
 		{
 			"Type": "Account",
 			"Name": "Account",
-			"Desc": "GL Account"
+			"Desc": "GL Account",
+			"Value": "P615011 - Room Revenue"
 		}
 		
 	]
