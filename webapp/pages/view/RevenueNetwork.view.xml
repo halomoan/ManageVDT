@@ -1,0 +1,75 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:graph="sap.suite.ui.commons.networkgraph" xmlns:l="sap.ui.layout" xmlns="sap.m"
+	controllerName="uol.bpc.ManageVDT.pages.controller.RevenueNetwork" displayBlock="true" height="100%">
+	
+		<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored sapUiContentPadding" containerQuery="true"
+			sideContentFallDown="BelowM" breakpointChanged="handleBreakpointChangeEvent">
+			<graph:Graph enableWheelZoom="false" id="graph" nodes="{graphData>/nodes}" lines="{graphData>/lines}">
+				<graph:nodes>
+					<graph:Node key="{graphData>key}" title="{graphData>name}" icon="{graphData>icon}"
+						attributes="{path:'graphData>attributes', templateShareable:true}" showActionLinksButton="false" showDetailButton="false"
+						showExpandButton="true" status="{graphData>status}" shape="Box" press="onPressNode">
+						<graph:attributes>
+							<graph:ElementAttribute label="{graphData>label}" value="{graphData>value}"/>
+						</graph:attributes>
+						<graph:actionButtons>
+							<!--<graph:ActionButton icon="sap-icon://settings" position="Left" title="Setting" press="onSettingShow"/>-->
+							<graph:ActionButton icon="sap-icon://edit" title="Add" press="onEditNode"/>
+						</graph:actionButtons>
+					</graph:Node>
+				</graph:nodes>
+				<graph:lines>
+					<graph:Line from="{graphData>from}" to="{graphData>to}" status="Information" arrowOrientation="ChildOf" arrowPosition="Middle"></graph:Line>
+				</graph:lines>
+			</graph:Graph>
+			<l:sideContent>
+				<Toolbar>
+					<Button text="Save" type="Transparent" press="onSettingSave"/>
+					<ToolbarSpacer/>
+					<Button text="Close" type="Transparent" press="onSettingHide" visible="{= !${media>/phone}}"/>
+				</Toolbar>
+				<l:VerticalLayout width="100%">
+					<NavContainer id="navCon" width="100%" height="50rem" class="navContainerControl sapUiSmallMarginBottom">
+						<Page id="p1" title="{viewData>/nodeSetting/title}">
+							<VBox>
+								<Label text="Name" class="sapUiTinyMarginTop"/>
+								<Input id="SetName" value="{viewData>/nodeSetting/name}" width="100%"/>
+								<Label text="Type" class="sapUiTinyMarginTop"/>
+								<ComboBox selectedKey="{viewData>/nodeSetting/type}" items="{ path: 'viewData>/nodetypes', sorter: { path: 'viewData>id' } }">
+									<core:Item key="{viewData>key}" text="{viewData>text}"/>
+								</ComboBox>
+								<Label text="Formula" class="sapUiTinyMarginTop" visible="{= ${viewData>/nodeSetting/type} === '0' }"/>
+								<TextArea id="SetFormula" change="onFormulaChange" value="{viewData>/nodeSetting/formula}" width="100%" rows="5"
+									visible="{= ${viewData>/nodeSetting/type} === '0' }"/>
+							</VBox>
+							<List headerText="Dimension Filter" items="{path: 'viewData>/nodeSetting/dimlist'}">
+								<CustomListItem>
+									<HBox>
+										<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+										<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+											<Link text="{viewData>Name}" target="{ProductPicUrl}" press="handlePress"/>
+											<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
+										</VBox>
+									</HBox>
+								</CustomListItem>
+							</List>
+						</Page>
+						<Page id="p2" title="Page 2">
+							<footer>
+								<Toolbar><Button text="Action 2"/></Toolbar>
+							</footer>
+						</Page>
+						<Page id="p3" title="Page 3">
+							<footer>
+								<Toolbar><Button text="Action 3"/></Toolbar>
+							</footer>
+						</Page>
+						<Page id="p4" title="Page 4">
+							<footer>
+								<Toolbar><Button text="Action 4"/></Toolbar>
+							</footer>
+						</Page>
+					</NavContainer>
+				</l:VerticalLayout>
+			</l:sideContent>
+		</l:DynamicSideContent>
+</mvc:View>
