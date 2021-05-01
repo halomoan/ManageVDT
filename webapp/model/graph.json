@@ -6,12 +6,19 @@
 			"status": "Success",
 			"icon": "sap-icon://fx",
 			"formula": "#RoomServiceCharge + #RoomRevenue",
+			"type": "0",
 			"attributes": [
 				{
 					"label": "Type",
 					"value": "Formula"
 				}
-			]
+			],
+			"dimlist": [{
+						"Type": "Entity",
+						"Name": "Entity",
+						"Desc": "Company",
+						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
+			}]
 		},
 		{
 			"key": 2,
@@ -19,12 +26,19 @@
 			"status": "Success",
 			"icon": "sap-icon://fx",
 			"formula" : "#RoomsRevenueHotel + #RoomsRentalRevenueServicedSuites + #RoomsRentalRevenueServicedApt",
+			"type": "0",
 			"attributes": [
 				{
 					"label": "Type",
 					"value": "Formula"
 				}
-			]
+			],
+			"dimlist": [{
+						"Type": "Entity",
+						"Name": "Entity",
+						"Desc": "Company",
+						"Value": "CC_2001 - PARKROYAL on Kitchener"
+			}]
 		},
 		{
 			"key": 3,
@@ -32,58 +46,93 @@
 			"status": "Success",
 			"icon": "sap-icon://fx",
 			"formula" : "#RoomServiceChargePerct",
+			"type": "0",
 			"attributes": [
 				{
 					"label": "Type",
 					"value": "Formula"
 				}
-			]
+			],
+			"dimlist": [{
+						"Type": "Entity",
+						"Name": "Entity",
+						"Desc": "Company",
+						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
+			}]
 		},
 		{
 			"key": 4,
 			"name": "RoomsRevenueHotel",
 			"status": "Success",
 			"icon": "sap-icon://fx",
+			"type": "0",
 			"attributes": [
 				{
 					"label": "Type",
 					"value": "Formula"
 				}
-			]
+			],
+			"dimlist": [{
+						"Type": "Entity",
+						"Name": "Entity",
+						"Desc": "Company",
+						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
+			}]
 		},
 		{ "key": 5,
 			"name": "RoomsRentalRevenueServicedSuites",
 			"status": "Success",
 			"icon": "sap-icon://fx",
+			"type": "0",
 			"attributes": [
 				{
 					"label": "Type",
 					"value": "Formula"
 				}
-			]
+			],
+			"dimlist": [{
+						"Type": "Entity",
+						"Name": "Entity",
+						"Desc": "Company",
+						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
+			}]
 		},
 		{
 			"key": 6,
 			"name": "RoomsRentalRevenueServicedApt",
 			"status": "Success",
 			"icon": "sap-icon://fx",
+			"type": "0",
 			"attributes": [
 				{
 					"label": "Type",
 					"value": "Formula"
 				}
-			]
+			],
+			"dimlist": [{
+						"Type": "Entity",
+						"Name": "Entity",
+						"Desc": "Company",
+						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
+			}]
 		},
 		{
 			"key": 7,
 			"name": "RoomServiceChargePerct",
 			"status": "Warning",
 			"icon": "sap-icon://edit",
+			"type": "2",
 			"attributes": [	{
 					"label": "Type",
 					"value": "Input"
 				}
-			]
+			],
+			"dimlist": [{
+						"Type": "Entity",
+						"Name": "Entity",
+						"Desc": "Company",
+						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
+			}]
 		}
 	],
 	"lines": [
@@ -111,7 +160,6 @@
 			"from": 3,
 			"to": 7
 		}
-	
 	],
 	"maxkey": 7
 }

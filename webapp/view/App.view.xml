@@ -45,18 +45,18 @@
 							<graph:Graph enableWheelZoom="false" id="graph" nodes="{graphData>/nodes}" lines="{graphData>/lines}">
 								<graph:nodes>
 									<graph:Node key="{graphData>key}" title="{graphData>name}" icon="{graphData>icon}" attributes="{path:'graphData>attributes', templateShareable:true}" showActionLinksButton="false"
-										showDetailButton="false" showExpandButton="true" status="{graphData>status}" shape="Box" press="pressNode">
+										showDetailButton="false" showExpandButton="true" status="{graphData>status}" shape="Box" press="onPressNode">
 										<graph:attributes>
 											<graph:ElementAttribute label="{graphData>label}" value="{graphData>value}"/>
 										</graph:attributes>
 										<graph:actionButtons>
-											<graph:ActionButton icon="sap-icon://settings" position="Left" title="Setting" press="onSettingShow"/>
-											<graph:ActionButton icon="sap-icon://add" title="Add" press="onAddNode"/>
+											<!--<graph:ActionButton icon="sap-icon://settings" position="Left" title="Setting" press="onSettingShow"/>-->
+											<graph:ActionButton icon="sap-icon://edit" title="Add" press="onEditNode"/>
 										</graph:actionButtons>
 									</graph:Node>
 								</graph:nodes>
 								<graph:lines>
-									<graph:Line from="{graphData>from}" to="{graphData>to}" status="Information"></graph:Line>
+									<graph:Line from="{graphData>from}" to="{graphData>to}" status="Information" arrowOrientation="ChildOf" arrowPosition="Middle"></graph:Line>
 								</graph:lines>
 							</graph:Graph>
 							<l:sideContent>
@@ -80,10 +80,10 @@
 													}">
 													<core:Item key="{viewData>key}" text="{viewData>text}" />
 												</ComboBox>
-												<Label text="Formula"  class="sapUiTinyMarginTop"/>
-												<TextArea id="SetFormula" value="{viewData>/nodeSetting/formula}" width="100%"></TextArea>
+												<Label text="Formula"  class="sapUiTinyMarginTop" visible="{= ${viewData>/nodeSetting/type} === '0' }"/>
+												<TextArea id="SetFormula" change="onFormulaChange" value="{viewData>/nodeSetting/formula}" width="100%" rows="5" visible="{= ${viewData>/nodeSetting/type} === '0' }"/>
 											</VBox>
-											<List headerText="Dimension Filter" items="{path: 'viewData>/nodeSetting/dims'}">
+											<List headerText="Dimension Filter" items="{path: 'viewData>/nodeSetting/dimlist'}">
 												<CustomListItem>
 													<HBox>
 														<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>

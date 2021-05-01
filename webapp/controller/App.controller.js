@@ -21,7 +21,7 @@ sap.ui.define([
 					name: "RoomsRevenueHotel",
 					formula: "#Formula1 + #Formula2",
 					type: "0",
-					dims: [{
+					dimlist: [{
 						"Type": "Entity",
 						"Name": "Entity",
 						"Desc": "Company",
@@ -71,21 +71,31 @@ sap.ui.define([
 				press: this.onAddNewNode.bind(this)
 
 			}));
+			
 		},
 
-		pressNode: function(oEvent) {
+		onPressNode: function(oEvent) {
+
+			// var oNode = oEvent.getSource(),
+			// 	oViewModel = this.getModel("viewData"),
+			// 	oSettingData = oViewModel.getData().nodeSetting;
+			
+			// var oNodeData = this._getNodeData(oNode);
+			
+			// oSettingData.mode = "edit";
+			// oSettingData.name = oNodeData.name;
+			// oSettingData.formula = oNodeData.formula;
+			// oSettingData.type = oNodeData.type;
+			// oSettingData.dimlist = oNodeData.dimlist;
+			
+			// oViewModel.setProperty("/nodeSetting",oSettingData);
 
 			var oNode = oEvent.getSource();
-
-			//if (!this._oPopoverForNode) {
 			this._oPopoverForNode = new Popover({
 				title: oNode.getTitle(),
 				placement: "Top"
 			});
-			//}
-			// Prevents render a default action buttons
-			//oEvent.preventDefault();
-
+		
 			this._oPopoverForNode.openBy(oNode);
 			this._oPopoverForNode = undefined;
 
@@ -124,6 +134,11 @@ sap.ui.define([
 				oGraphData = oGraphModel.getData(),
 				oSettingData = this.getModel("viewData").getData().nodeSetting;
 
+
+			if (!this._validateSetting(oSettingData)) {
+				return;
+			}
+			
 			var oParentData = oGraphData.nodes.find(function(ele) {
 			 	return ele.name === oSettingData.name;
 			 });
@@ -145,29 +160,20 @@ sap.ui.define([
 				}
 				
 				var iMaxKey = oGraphData.maxkey;
-				var sStatus,sIcon,sType;
-				sType = "Input"; sStatus = "Warning"; sIcon = "sap-icon://edit";
-				
-				/*switch(oSettingData.type){
-					case "0": sType = "Formula"; sStatus = "Success"; sIcon = "sap-icon://fx" ; console.log('aneh'); break;
-					case "1": sType = "Baseline"; sStatus = "Error"; sIcon = "sap-icon://edit" ; break;
-					case "2": sType = "Input"; sStatus = "Warning"; sIcon = "sap-icon://edit"; break;
-					case "3": sType = "Calc. Group"; sStatus = "Information"; sIcon = "sap-icon://edit"; break;
-					case "4": sType = "Integrated"; sStatus = "Default"; sIcon = "sap-icon://edit"; break;
-					default: sType = ""; sStatus = ""; sIcon = ""; break;
-				}*/
+				var oNodeAttr = this._getNodeAttrByType("2");
 				
 				for(i = 0; i < arrNewNode.length; i++){
 					var oNode = {
 						"key": ++iMaxKey,
 						"name": arrNewNode[i],
-						"status": sStatus,
-						"icon": sIcon,
+						"status": oNodeAttr.Status,
+						"icon": oNodeAttr.Icon,
 						"formula" : "",
+						"type": oNodeAttr.Type, 
 						"attributes": [
 							{
 								"label": "Type",
-								"value": sType
+								"value": oNodeAttr.Text
 							}
 						]
 					};	
@@ -181,7 +187,24 @@ sap.ui.define([
 					oGraphData.lines.push(oLine);
 				}
 				
+				arrFormula = formula.match(/#\w+|[\*|\+|\-|\/]/g);
+				var sFormula = "";
+				for (i = 0; i< arrFormula.length; i++){
+					if (i === 0) {
+						sFormula = arrFormula[i];
+					} else {
+						sFormula = sFormula + " " + arrFormula[i];
+					}
+				}
+			
+				oNodeAttr = this._getNodeAttrByType(oSettingData.type);
+				oParentData.type = oNodeAttr.Type;
+				oParentData.attributes[0].value = oNodeAttr.Text;
+				oParentData.status = oNodeAttr.Status;
+				
+				oParentData.formula = sFormula;
 				oGraphData.maxkey = iMaxKey;
+				
 				oGraphModel.setProperty("/",oGraphData);
 				
 			} else {
@@ -189,19 +212,7 @@ sap.ui.define([
 			}
 		},
 		onSettingShow: function(oEvent) {
-			var oButton = oEvent.getSource(),
-				oNode = oButton.getParent(),
-				oViewModel = this.getModel("viewData");
-
-			var oNodeData = this._getNodeData(oNode);
-
-			var oNodeSetting = oViewModel.getData().nodeSetting;
-
-			//Set Values For Node Setting
-			oNodeSetting.title = oNodeData.title;
-
-			oViewModel.setProperty("/nodeSetting", oNodeSetting);
-
+			
 			this._oDSC.setShowSideContent(true);
 		},
 
@@ -210,31 +221,42 @@ sap.ui.define([
 		},
 
 		onAddNewNode: function(oEvent) {
-			var oViewModel = this.getModel("graphData"),
+			var oViewModel = this.getModel("viewData"),
 				oNodeSetting = oViewModel.getData().nodeSetting;
 
 			//Set Values For Node Setting
 			oNodeSetting.mode = "new";
-			oNodeSetting.title = "New";
-			oNodeSetting.name = "RoomsRevenueHotel";
-			oNodeSetting.formula = "#ABC + #DEF";
+			oNodeSetting.title = "New Node";
+			oNodeSetting.name = "";
+			oNodeSetting.type = "0";
+			oNodeSetting.dimlist = [];
+			oNodeSetting.formula = "";
 
 			oViewModel.setProperty("/nodeSetting", oNodeSetting);
 
 			this._oDSC.setShowSideContent(true);
 		},
 
-		onAddNode: function(oEvent) {
-			var oButton = oEvent.getSource(),
-				oNode = oButton.getParent(),
-				oView = this.getView(),
-				oViewModel = this.getModel("viewData");
-
+		onEditNode: function(oEvent) {
+			
+			var oNode = oEvent.getSource(),
+				oViewModel = this.getModel("viewData"),
+				oSettingData = oViewModel.getData().nodeSetting;
+			
 			var oNodeData = this._getNodeData(oNode);
+			
+			oSettingData.mode = "edit";
+			oSettingData.name = oNodeData.name;
+			oSettingData.formula = oNodeData.formula;
+			oSettingData.type = oNodeData.type;
+			oSettingData.dimlist = oNodeData.dimlist;
+			
+			oViewModel.setProperty("/nodeSetting",oSettingData);
 
-			console.log(oNodeData, oNode.getChildNodes());
-
-			this.showFormDialogFragment(oView, this._formFragments, "uol.bpc.ManageVDT.fragments.VDTAddNode", this);
+			this._validateSetting(oSettingData);
+			
+			this._oDSC.setShowSideContent(true);
+			//this.showFormDialogFragment(oView, this._formFragments, "uol.bpc.ManageVDT.fragments.VDTAddNode", this);
 		},
 
 		onToggleSideNavPress: function(oEvent) {
@@ -252,11 +274,60 @@ sap.ui.define([
 		onCancelAddNode: function(oEvent) {
 			this.byId("addNodeDialog").close();
 		},
-
+		
+		onFormulaChange: function(oEvent){
+			var regex = new RegExp(/^#(\w)+(\s*[\+|\-|\*|\/]{1}\s*#(\w)+)*$/);
+			var oSetFormula = oEvent.getSource();
+			var sFormula = oEvent.getParameter('value');
+			
+			if (!regex.test(sFormula)) {
+				
+				oSetFormula.setValueState("Error");
+			} else {
+				oSetFormula.setValueState("None");
+			}
+			
+		},
+		
+		_getNodeAttrByType: function(type){
+			
+			var oAttr = {
+				Type: "2",
+				Text: "Input",
+				Status: "Defaut",
+				Icon: "sap-icon://fx"
+			};
+			
+			switch(type) {
+				case "0": oAttr.Type = "0"; oAttr.Text = "Formula"; oAttr.Status = "Success"; oAttr.Icon = "sap-icon://fx"; break;
+				case "1": oAttr.Type = "1"; oAttr.Text = "Baseline"; oAttr.Status = "Error"; oAttr.Icon = "sap-icon://edit"; break;
+				case "2": oAttr.Type = "2"; oAttr.Text = "Input"; oAttr.Status = "Warning"; oAttr.Icon = "sap-icon://edit"; break;
+				case "3": oAttr.Type = "3"; oAttr.Text = "Calculation Group"; oAttr.Status = "Information"; oAttr.Icon = "sap-icon://edit"; break;
+				case "4": oAttr.Type = "4"; oAttr.Text = "Integrated"; oAttr.Status = "Default"; oAttr.Icon = "sap-icon://edit"; break;
+			}
+			
+			return oAttr;
+				
+		},
+		_validateSetting: function(oSettingData){
+			var bIsValid = true;
+			
+			var regex = new RegExp(/^#(\w)+(\s*[\+|\-|\*|\/]{1}\s*#(\w)+)*$/);
+			var oSetFormula = this.byId('SetFormula');
+			
+			if (!regex.test(oSettingData.formula)) {
+				bIsValid = false;	
+				oSetFormula.setValueState("Error");
+			} else {
+				oSetFormula.setValueState("None");
+			}
+			
+			return bIsValid;
+		},
 		_getNodeData: function(oNode) {
-			var oModel = this.getView().getModel();
+			var oModel = this.getView().getModel("graphData");
 
-			var sPath = oNode.getBindingContext().getPath();
+			var sPath = oNode.getBindingContext("graphData").getPath();
 
 			return oModel.getProperty(sPath);
 			// var oData = oView.getModel().getData().nodes.find(function(element) {
@@ -265,7 +336,7 @@ sap.ui.define([
 
 			// return oData;
 		},
-
+	
 		_setToggleButtonTooltip: function(bLarge) {
 			var oToggleButton = this.byId('sideNavigationToggleButton');
 			if (bLarge) {
