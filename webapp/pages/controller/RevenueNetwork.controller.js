@@ -199,7 +199,7 @@ sap.ui.define([
 						"name": oSettingData.name,
 						"status": oNodeAttr.Status,
 						"icon": oNodeAttr.Icon,
-						"formula" : "",
+						"formula" : oSettingData.formula,
 						"type": oNodeAttr.Type, 
 						"attributes": [
 							{
@@ -224,6 +224,7 @@ sap.ui.define([
 				if(oParentData.type !== this._FORMULATYPE.formula){
 					return oGraphData;
 				}
+				
 				
 				
 				var arrFormula = formula.match(/\w+/g);
