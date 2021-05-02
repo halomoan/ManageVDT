@@ -1,0 +1,15 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="uol.bpc.ManageVDT.pages.controller.testerPage"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<App>
+		<pages>
+			<Page title="Title">
+				<content>
+					<Tree id="myTree" class="sapFDynamicPageAlignContent" width="auto"
+						items="{ path: 'odata>/MstHiers', parameters: { operationMode: 'Client', useServersideApplicationFilters: false }, events: { change: '.onTreeChange' } }">
+						<StandardTreeItem title="{odata>Description}"/>
+					</Tree>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

@@ -8,6 +8,7 @@
 		<title>ManageVDT</title>
 
 	   <!-- src="../../resources/sap-ui-core.js" -->
+	   <!--sap-ui-mockserver-debug=true-->
 		<script id="sap-ui-bootstrap"
 			src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
 			data-sap-ui-libs="sap.m"
@@ -15,21 +16,27 @@
 			data-sap-ui-compatVersion="edge"
 			data-sap-ui-async="true"
 			data-sap-ui-resourceroots='{"uol.bpc.ManageVDT": ""}'
-			data-sap-ui-frameOptions="trusted"
-			data-sap-ui-oninit="module:sap/ui/core/ComponentSupport">
+			>
 		</script>
 
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 
 		<script>
 			sap.ui.getCore().attachInit(function() {
-				new sap.m.Shell({
-					appWidthLimited: false,
-					app: new sap.ui.core.ComponentContainer({
-						height : "100%",
-						name : "uol.bpc.ManageVDT"
-					})
-				}).placeAt("content");
+				sap.ui.require([
+					"uol/bpc/ManageVDT/localService/mockserver",
+					"sap/m/Shell",
+					"sap/ui/core/ComponentContainer"
+				], function (mockserver, Shell, ComponentContainer) {
+					mockserver.init();
+					new Shell({
+						appWidthLimited: false,
+						app: new sap.ui.core.ComponentContainer({
+							height : "100%",
+							name : "uol.bpc.ManageVDT"
+						})
+					}).placeAt("content");
+				});
 			});
 		</script>
 	</head>

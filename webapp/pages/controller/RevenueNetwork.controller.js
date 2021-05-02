@@ -2,8 +2,9 @@ sap.ui.define([
 		"uol/bpc/ManageVDT/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
 		"sap/m/MessageBox",
-		"sap/m/Popover"
-], function(BaseController,JSONModel,MessageBox,Popover) {
+		"sap/m/Popover",
+		"sap/ui/model/Filter"
+], function(BaseController,JSONModel,MessageBox,Popover,Filter) {
 	"use strict";
 
 	return BaseController.extend("uol.bpc.ManageVDT.pages.controller.RevenueNetwork", {
@@ -108,33 +109,47 @@ sap.ui.define([
 			this._oPopoverForNode = undefined;
 
 		},
-
-		onOpenVDTNodeSetting: function(oEvent) {
-			var oButton = oEvent.getSource(),
-				oNode = oButton.getParent(),
-				oView = this.getView();
-
-			// create popover
-			if (!this._pVDTSettingPopover) {
-				this._pVDTSettingPopover = Fragment.load({
-					id: oView.getId(),
-					name: "uol.bpc.ManageVDT.fragments.VDTNodeSetting",
-					controller: this
-				}).then(function(oPopover) {
-					oView.addDependent(oPopover);
-					return oPopover;
-				});
+		onOpenDimSelect: function(oEvent){
+			var sModuleName = "uol/bpc/ManageVDT",
+				oLink = oEvent.getSource(),
+				sTarget = oLink.getTarget(),
+				oView = this.getView(),
+				oDimModel;
+			
+			
+			switch(sTarget){
+				case "Entity":
+				//oDimModel = new JSONModel(sap.ui.require.toUrl(sModuleName + "/model/mstENTITY.json")); break;		
 			}
-
-			// var oData = oView.getModel().getData().nodes.find(function(element) {
-			// 	return element.key == oNode.getKey();
-			// });
-
-			this._selectedNode = oNode;
-			this._pVDTSettingPopover.then(function(oPopover) {
-				oPopover.openBy(oNode);
-			});
+			//oView.setModel(oDimModel, "mst");
+			
+				
+			
+			this.showFormDialogFragment(oView, this._formFragments, "uol.bpc.ManageVDT.fragments.DimMemberSelector", this);	
 		},
+		
+		onTreeFilter: function(oEvent) {
+	      var query = oEvent.getParameter("newValue").trim();
+	     
+	      this.byId("MstTree").getBinding("items").filter(query ? new Filter({
+	        path: "Description",
+	        operator: "Contains",
+	        value1: query
+	      }) : null);
+	    },
+	    
+		onTreeChange: function(oEvent) {
+	      if (oEvent.getParameter("reason") == "filter") {
+	      	
+	        var model = this.getModel("search");
+	        var query = model.getProperty("/query");
+	        
+	        var oItems = this.byId("MstTree").getBinding("items");
+	        console.log(oItems);
+	        this.byId("MstTree").expandToLevel(query ? 99 : 0);
+	      }
+	    },
+
 		onSettingSave: function(oEvent) {
 			var oView = this.getView(),
 				oGraph = oView.byId("graph"),
@@ -224,19 +239,15 @@ sap.ui.define([
 				if(oParentData.type !== this._FORMULATYPE.formula){
 					return oGraphData;
 				}
-				
-				
-				
+
 				var arrFormula = formula.match(/\w+/g);
-				
-				
+
 				var arrNewNode = [];
 				for(var i = 0; i < arrFormula.length; i++ ){
 					
 					var oChildData = oGraphData.nodes.find(function(ele) {
 			 			return ele.name === arrFormula[i];
 					});
-					
 					
 					if (oChildData) {
 						oGraphData = this._deleteParentLink(oChildData.key, oGraphData);

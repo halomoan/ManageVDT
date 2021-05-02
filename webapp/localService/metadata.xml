@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<edmx:Edmx Version="1.0"
+	xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+	xmlns:sap="http://www.sap.com/Protocols/SAPData"
+>
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="Demo" xml:lang="en" sap:schema-version="1">
+ 
+			<EntityType Name="MstHier">
+				<Key>
+					<PropertyRef Name="NodeID" />
+				</Key>
+				<Property Name="NodeID" Type="Edm.Int32" Nullable="false" sap:hierarchy-node-for="NodeID"/>
+				<Property Name="HierarchyLevel" Type="Edm.Int32" Nullable="false" sap:hierarchy-level-for="NodeID"/>
+				<Property Name="Description" Type="Edm.String" Nullable="false" />
+				<Property Name="ParentNodeID" Type="Edm.Int32" Nullable="true" sap:hierarchy-parent-node-for="NodeID"/>
+				<Property Name="DrillState" Type="Edm.String" Nullable="false" sap:hierarchy-drill-state-for="NodeID" />
+			</EntityType>
+
+			<EntityContainer Name="DemoEntities" m:IsDefaultEntityContainer="true">
+				<EntitySet Name="MstHiers" EntityType="Demo.MstHier" />
+			</EntityContainer>
+ 
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

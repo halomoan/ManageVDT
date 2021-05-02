@@ -10,11 +10,20 @@
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
 		"sourceTemplate": {
-			"id": "ui5template.basicSAPUI5ApplicationProject",
-			"version": "1.40.12"
+			"id": "servicecatalog.connectivityComponent",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"MyNodes": {
+				"uri": "/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
 		}
 	},
-
 	"sap.ui": {
 		"technology": "UI5",
 		"icons": {
@@ -30,13 +39,8 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": [
-			"sap_hcb",
-			"sap_belize"
-
-		]
+		"supportedThemes": ["sap_hcb", "sap_belize"]
 	},
-
 	"sap.ui5": {
 		"rootView": {
 			"viewName": "uol.bpc.ManageVDT.view.App",
@@ -64,7 +68,19 @@
 				"settings": {
 					"bundleName": "uol.bpc.ManageVDT.i18n.i18n"
 				}
-			}
+			},
+			"odata": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"dataSource": "MyNodes",
+				"settings": {
+					"defaultBindingMode": "TwoWay",
+					"preliminaryContext": true
+				},
+				"preload": true
+			},
+			"search": {
+		        "type": "sap.ui.model.json.JSONModel"
+		     }
 		},
 		"resources": {
 			"css": [{
