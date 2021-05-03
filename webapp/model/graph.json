@@ -18,7 +18,14 @@
 						"Name": "Entity",
 						"Desc": "Company",
 						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
-			}]
+			},
+			{
+			"Type": "Generic",
+			"Name": "PROFITCTR",
+			"Desc": "Profit Centre",
+			"Value": "PC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\n" 
+			
+		}]
 		},
 		{
 			"key": 2,

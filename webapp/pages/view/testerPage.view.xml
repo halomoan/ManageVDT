@@ -4,10 +4,20 @@
 		<pages>
 			<Page title="Title">
 				<content>
-					<Tree id="myTree" class="sapFDynamicPageAlignContent" width="auto"
-						items="{ path: 'odata>/MstHiers', parameters: { operationMode: 'Client', useServersideApplicationFilters: false }, events: { change: '.onTreeChange' } }">
-						<StandardTreeItem title="{odata>Description}"/>
-					</Tree>
+					<!--<Tree id="myTree" class="sapFDynamicPageAlignContent" width="auto"-->
+					<!--	items="{ path: 'odata>/MstHiers', parameters: { operationMode: 'Client', useServersideApplicationFilters: false }, events: { change: '.onTreeChange' } }">-->
+					<!--	<StandardTreeItem title="{odata>Description}"/>-->
+					<!--</Tree>-->
+					
+					<List
+						headerText="Products"
+						items="{
+							path: 'odata>/DimensionSet(\'ID XX\')/Members'
+						}" >
+						<StandardListItem
+							title="{odata>ID}"
+							description="{odata>Description}"/>
+					</List>
 				</content>
 			</Page>
 		</pages>

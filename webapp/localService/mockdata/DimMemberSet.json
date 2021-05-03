@@ -1,19 +1,22 @@
 [{
 	"NodeID": 1,
 	"HierarchyLevel": 0,
-	"Description": "CG2000",
+	"ID" : "CG2000",
+	"Description": "PPHG Group",
 	"ParentNodeID": null,
 	"DrillState": "expanded"
 }, {
 	"NodeID": 2,
 	"HierarchyLevel": 1,
-	"Description": "CC_2000",
+	"ID": "CC_2000",
+	"Description": "PARKROYAL on Beach Road",
 	"ParentNodeID": 1,
 	"DrillState": "leaf"
 }, {
 	"NodeID": 3,
 	"HierarchyLevel": 1,
-	"Description": "CC_2001",
+	"ID": "CC_2002",
+	"Description": "PARKROYAL on Pickering",
 	"ParentNodeID": 1,
 	"DrillState": "leaf"
 }]

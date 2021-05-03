@@ -2,8 +2,8 @@
 	<Dialog id="addNodeDialog" title="Dimension: Entity" contentWidth="50rem">
 		<content>
 			<Tree id="MstTree"
-				items="{path: 'odata>/MstHiers', parameters: { operationMode: 'Client', useServersideApplicationFilters: false }, events: { change: '.onTreeChange' } }"
-				mode="MultiSelect" includeItemInSelection="false" noDataText="{i18>noDataText}" showNoData="true">
+				items="{path: 'odata>/DimMemberSet', parameters: { operationMode: 'Client', useServersideApplicationFilters: false }, events: { change: '.onTreeChange' } }"
+				mode="MultiSelect" includeItemInSelection="false" rememberSelections="false" noDataText="{i18>noDataText}" showNoData="true" >
 				<headerToolbar>
 					<OverflowToolbar>
 						<content>
@@ -15,14 +15,14 @@
 						</content>
 					</OverflowToolbar>
 				</headerToolbar>
-				<StandardTreeItem title="{odata>Description}" />
+				<StandardTreeItem title="{odata>ID} - {odata>Description}" />
 			</Tree>
 		</content>
 		<beginButton>
-			<Button text="Ok" press="onConfirmAddNode"/>
+			<Button text="Ok" press="onConfirmDimMember"/>
 		</beginButton>
 		<endButton>
-			<Button text="Cancel" press="onCancelAddNode"/>
+			<Button text="Cancel" press="onCancelDimMember"/>
 		</endButton>
 	</Dialog>
 </core:FragmentDefinition>

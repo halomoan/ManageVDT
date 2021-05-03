@@ -1,0 +1,46 @@
+[{
+	"ID": "ENTITY",
+	"Name": "ENTITY",
+	"Type": "Entity",
+	"Value": "",
+	"__metadata": {
+		"uri": "DimensionSet('1')",
+		"type": "Demo.Dimension"
+	},
+	"Members": {
+		"__deferred": {
+			"uri": "DimensionSet('1')/Members"
+		}
+	}
+},
+{
+	"ID": "PROFITCTR",
+	"Name": "PROFITCTR",
+	"Type": "Generic",
+	"Value": "",
+	"__metadata": {
+		"uri": "DimensionSet('2')",
+		"type": "Demo.Dimension"
+	},
+	"Members": {
+		"__deferred": {
+			"uri": "DimensionSet('2')/Members"
+		}
+	}
+},
+{
+	"ID": "COSTCTR",
+	"Name": "COSTCTR",
+	"Type": "Generic",
+	"Value": "",
+	"__metadata": {
+		"uri": "DimensionSet('3')",
+		"type": "Demo.Dimension"
+	},
+	"Members": {
+		"__deferred": {
+			"uri": "DimensionSet('3')/Members"
+		}
+	}
+}
+]

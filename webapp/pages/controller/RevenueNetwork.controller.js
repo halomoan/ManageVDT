@@ -32,7 +32,7 @@ sap.ui.define([
 					type: "0",
 					dimlist: [{
 						"Type": "Entity",
-						"Name": "Entity",
+						"Name": "ENTITY",
 						"Desc": "Company",
 						"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
 					} ]
@@ -110,27 +110,51 @@ sap.ui.define([
 
 		},
 		onOpenDimSelect: function(oEvent){
-			var sModuleName = "uol/bpc/ManageVDT",
+			var oViewModel = this.getModel("viewData"),
+				oSettingData = oViewModel.getData().nodeSetting,
 				oLink = oEvent.getSource(),
 				sTarget = oLink.getTarget(),
-				oView = this.getView(),
-				oDimModel;
-			
-			
-			switch(sTarget){
-				case "Entity":
-				//oDimModel = new JSONModel(sap.ui.require.toUrl(sModuleName + "/model/mstENTITY.json")); break;		
-			}
-			//oView.setModel(oDimModel, "mst");
-			
+				oView = this.getView();
 				
 			
+			this._DimIndex = oLink.getId().match(/\d$/)[0];	
+			var sText = "" + oSettingData.dimlist[this._DimIndex].Value;
+			
+		
+			var arrMembers = sText.split("\n\r");
+			
+			for (var i = 0; i < arrMembers.length; i++){
+				var sID = arrMembers[i].split(" - ")[0];
+				
+				console.log(sID);
+			}
+			
+			
+			
+			
 			this.showFormDialogFragment(oView, this._formFragments, "uol.bpc.ManageVDT.fragments.DimMemberSelector", this);	
+		
+			// var oTree =  sap.ui.core.Fragment.byId(oView.getId(),"MstTree");
+			// var oItemTemplate = new sap.m.StandardTreeItem({title:"{odata>Description}"});
+			// oTree.bindAggregation("items", {
+			// 	path: "odata>/DimensionSet('" + sTarget + "')/Members",
+			// 	parameters: { useServersideApplicationFilters: false },
+			// 	//parameters: { operationMode: 'Client', useServersideApplicationFilters: false },
+			// 	events: { change: this.onTreeChange.bind(this) },
+			// 	template: oItemTemplate,
+			// 	templateShareable: false
+			// });
+			
+			// oTree.bindItems("odata>/DimensionSet('" + sTarget + "')/Members",oItemTemplate);
+			
+				
+
+			
 		},
 		
 		onTreeFilter: function(oEvent) {
 	      var query = oEvent.getParameter("newValue").trim();
-	     
+	      
 	      this.byId("MstTree").getBinding("items").filter(query ? new Filter({
 	        path: "Description",
 	        operator: "Contains",
@@ -145,7 +169,6 @@ sap.ui.define([
 	        var query = model.getProperty("/query");
 	        
 	        var oItems = this.byId("MstTree").getBinding("items");
-	        console.log(oItems);
 	        this.byId("MstTree").expandToLevel(query ? 99 : 0);
 	      }
 	    },
@@ -300,17 +323,30 @@ sap.ui.define([
 
 		onAddNewNode: function(oEvent) {
 			var oViewModel = this.getModel("viewData"),
-				oNodeSetting = oViewModel.getData().nodeSetting;
+				oNodeSetting = oViewModel.getData().nodeSetting,
+				oOData = this.getModel("odata");
+				
+		
+			oOData.read("/DimensionSet",{
+				success: function(oResult){
+					
+					
+					//Set Values For Node Setting
+					oNodeSetting.mode = "new";
+					oNodeSetting.title = "New Node";
+					oNodeSetting.name = "";
+					oNodeSetting.type = "0";
+					oNodeSetting.dimlist = oResult.results;
+					oNodeSetting.formula = "";
+		
+					oViewModel.setProperty("/nodeSetting", oNodeSetting);
+				},
+				error: function(oError){
+					
+				}
+			});		
 
-			//Set Values For Node Setting
-			oNodeSetting.mode = "new";
-			oNodeSetting.title = "New Node";
-			oNodeSetting.name = "";
-			oNodeSetting.type = "0";
-			oNodeSetting.dimlist = [];
-			oNodeSetting.formula = "";
-
-			oViewModel.setProperty("/nodeSetting", oNodeSetting);
+			
 
 			this._oDSC.setShowSideContent(true);
 		},
@@ -335,7 +371,7 @@ sap.ui.define([
 			this._validateSetting(oSettingData);
 			
 			this._oDSC.setShowSideContent(true);
-			//this.showFormDialogFragment(oView, this._formFragments, "uol.bpc.ManageVDT.fragments.VDTAddNode", this);
+			
 		},
 
 		onToggleSideNavPress: function(oEvent) {
@@ -347,10 +383,32 @@ sap.ui.define([
 			oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
 		},
 
-		onConfirmAddNode: function(oEvent) {
+		onConfirmDimMember: function(oEvent) {
+			var oTree = this.byId("MstTree"),
+				oViewModel = this.getModel("viewData"),
+				oSettingData = oViewModel.getData().nodeSetting;
+			
+			var arrItems = oTree.getSelectedItems();
+			//var arrItems = oTree.getSelectedContexts();
+			
+			var sText = "";
+			for(var i = 0; i < arrItems.length; i++){
+				var oItem = arrItems[i];
+				
+				if (i === 0){
+					sText = oItem.getTitle();
+				} else {
+					sText = sText + "\n\r" + oItem.getTitle();
+				}
+			}
+			
+			oSettingData.dimlist[this._DimIndex].Value = sText;
+			
+			oViewModel.setProperty("/nodeSetting",oSettingData);
+			
 			this.byId("addNodeDialog").close();
 		},
-		onCancelAddNode: function(oEvent) {
+		onCancelDimMember: function(oEvent) {
 			this.byId("addNodeDialog").close();
 		},
 		

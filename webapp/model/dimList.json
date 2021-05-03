@@ -2,29 +2,29 @@
 	"results": [
 		{
 			"Type": "Entity",
-			"Name": "Entity",
+			"Name": "ENTITY",
 			"Desc": "Company",
-			"Value": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
+			"Selected": "CC_2000 - PARKROYAL on Beach Road\r\nCC_2001 - PARKROYAL Kitchener"
 		},
 		{
 			"Type": "Generic",
-			"Name": "ProfitCtr",
+			"Name": "PROFITCTR",
 			"Desc": "Profit Centre",
-			"Value": "PC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\n" 
+			"Selected": "PC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\nPC_1122345 - All Day Dining\r\n" 
 			
 		},
 		{
 			"Type": "Generic",
-			"Name": "CostCtr",
+			"Name": "COSTCTR",
 			"Desc": "Cost Centre",
-			"Value": "CT_12131122345 - Payroll & Related Expenses - COS\r\nCT_12131122345 - Other Expenses - COS\r\nCT_12131122345 - Payroll & Related Exp - COS\r\nCT_NONE - No Cost Centre\r\n" 
+			"Selected": "CT_12131122345 - Payroll & Related Expenses - COS\r\nCT_12131122345 - Other Expenses - COS\r\nCT_12131122345 - Payroll & Related Exp - COS\r\nCT_NONE - No Cost Centre\r\n" 
 			
 		},
 		{
 			"Type": "Account",
-			"Name": "Account",
+			"Name": "ACCOUNT",
 			"Desc": "GL Account",
-			"Value": "P615011 - Room Revenue"
+			"Selected": "P615011 - Room Revenue"
 		}
 		
 	]

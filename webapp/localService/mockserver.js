@@ -22,6 +22,20 @@ sap.ui.define([
 				sMockdataBaseUrl: "./localService/mockdata",
 				bGenerateMissingMockData: true
 			});
+			
+			// var fnBefore = function(oEvent){
+			// 	console.log(oEvent);
+					
+			// };
+			
+			// var fnCustom = function(oEvent) {
+			// 	var oXhr = oEvent.getParameter("oXhr");
+			// 	//if (oXhr && oXhr.url.indexOf("first") > -1) {
+			// 		oEvent.getParameter("oFilteredData").results.splice(0,2);
+			// 	//}
+			// };
+			// oMockServer.attachBefore("GET", fnBefore, "DimensionSet");
+			// oMockServer.attachAfter("GET", fnCustom, "DimensionSet");
 
 			// start
 			oMockServer.start();
