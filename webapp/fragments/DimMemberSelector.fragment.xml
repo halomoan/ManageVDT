@@ -18,11 +18,11 @@
 				<StandardTreeItem title="{odata>ID} - {odata>Description}" />
 			</Tree>
 		</content>
-		<beginButton>
-			<Button text="Ok" press="onConfirmDimMember"/>
-		</beginButton>
-		<endButton>
+		<buttons>
+			<Button text="Overwrite" press="onOverWriteDimMember"/>
+			<Button text="Append" press="onAppendDimMember"/>
 			<Button text="Cancel" press="onCancelDimMember"/>
-		</endButton>
+		</buttons>
+		
 	</Dialog>
 </core:FragmentDefinition>
