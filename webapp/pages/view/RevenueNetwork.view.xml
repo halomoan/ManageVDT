@@ -24,6 +24,7 @@
 			<l:sideContent>
 				<Toolbar>
 					<Button text="Save" type="Transparent" press="onSettingSave"/>
+					<Button text="Delete" type="Transparent" press="onSettingDelete"/>
 					<ToolbarSpacer/>
 					<Button text="Close" type="Transparent" press="onSettingHide" visible="{= !${media>/phone}}"/>
 				</Toolbar>

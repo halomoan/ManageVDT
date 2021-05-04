@@ -17,7 +17,9 @@ sap.ui.define([
 			calcgroup: "3",
 			integrated: "4"
 		},
-
+		_DimIndex: 0,
+		_DimMembers: null,
+		_DimDefaultList: null,
 		_formFragments: {},
 
 		onInit: function() {
@@ -27,6 +29,7 @@ sap.ui.define([
 			var oViewData = new JSONModel({
 				nodeSetting: {
 					mode: "new",
+					key: 0,
 					title: "Node Setting",
 					name: "RoomsRevenueHotel",
 					formula: "#Formula1 + #Formula2",
@@ -75,6 +78,24 @@ sap.ui.define([
 				press: this.onAddNewNode.bind(this)
 
 			}));
+			
+			this.getOwnerComponent().getModel("odata").metadataLoaded().then(function() {
+				var oOData = this.getModel("odata");
+				var oThis = this;
+				
+				oOData.read("/DimensionSet", {
+								success: function(oResult) {
+									oThis._DimDefaultList = oResult.results;
+								},
+								error: function(oError) {
+				
+								}
+							});
+				
+			}.bind(this));
+			
+			
+			
 
 		},
 
@@ -116,7 +137,7 @@ sap.ui.define([
 			
 			var sText = "" + oSettingData.dimlist[this._DimIndex].Value;
 
-			var arrMembers = sText.split("\n\r");
+			var arrMembers = sText.split("\n");
 
 			for (var i = 0; i < arrMembers.length; i++) {
 				var arr = arrMembers[i].split(" - ");
@@ -242,7 +263,30 @@ sap.ui.define([
 		},
 
 	
-
+		onSettingDelete: function(oEvent){
+			
+			var oThis = this,
+				oGraphModel = this.getModel("graphData"),
+				oGraphData = oGraphModel.getData(),
+				oSettingData = this.getModel("viewData").getData().nodeSetting;
+				
+			MessageBox.confirm("Are you sure to remove node: " +  oSettingData.name + " ?", {
+				actions: [MessageBox.Action.OK, "And Children Node", MessageBox.Action.CANCEL],
+				emphasizedAction: MessageBox.Action.OK,
+				onClose: function (sAction) {
+					if (sAction === "OK") {
+						
+						oGraphData = oThis._deleteNode(oSettingData.key,false,oGraphData);
+						
+					}else if(sAction === "And Children Node"){
+						oGraphData = oThis._deleteNode(oSettingData.key,true,oGraphData);
+					}
+					
+					oGraphModel.setProperty("/", oGraphData);
+					sap.m.MessageToast.show("Successfully deleted : " + oSettingData.name);
+				}
+			});	
+		},
 		onSettingShow: function(oEvent) {
 
 			this._oDSC.setShowSideContent(true);
@@ -257,24 +301,18 @@ sap.ui.define([
 				oNodeSetting = oViewModel.getData().nodeSetting,
 				oOData = this.getModel("odata");
 
-			oOData.read("/DimensionSet", {
-				success: function(oResult) {
+		
+			//Set Values For Node Setting
+			oNodeSetting.mode = "new";
+			oNodeSetting.key = 0;
+			oNodeSetting.title = "New Node";
+			oNodeSetting.name = "";
+			oNodeSetting.type = "0";
+			oNodeSetting.dimlist = this._DimDefaultList;
+			oNodeSetting.formula = "";
 
-					//Set Values For Node Setting
-					oNodeSetting.mode = "new";
-					oNodeSetting.title = "New Node";
-					oNodeSetting.name = "";
-					oNodeSetting.type = "0";
-					oNodeSetting.dimlist = oResult.results;
-					oNodeSetting.formula = "";
-
-					oViewModel.setProperty("/nodeSetting", oNodeSetting);
-				},
-				error: function(oError) {
-
-				}
-			});
-
+			oViewModel.setProperty("/nodeSetting", oNodeSetting);
+		
 			this._oDSC.setShowSideContent(true);
 		},
 
@@ -286,8 +324,10 @@ sap.ui.define([
 
 			var oNodeData = this._getNodeData(oNode);
 
+			
 			oSettingData.mode = "edit";
 			oSettingData.title = "Edit Node";
+			oSettingData.key = oNodeData.key;
 			oSettingData.name = oNodeData.name;
 			oSettingData.formula = oNodeData.formula;
 			oSettingData.type = oNodeData.type;
@@ -324,7 +364,7 @@ sap.ui.define([
 				if (i === 0) {
 					sText = oItem.getTitle();
 				} else {
-					sText = sText + "\n\r" + oItem.getTitle();
+					sText = sText + "\n" + oItem.getTitle();
 				}
 			}
 
@@ -336,6 +376,7 @@ sap.ui.define([
 		},
 		onAppendDimMember: function(oEvent){
 			var oTree = this.byId("MstTree"),
+				regex = new RegExp(/\n$/),
 				oViewModel = this.getModel("viewData"),
 				oSettingData = oViewModel.getData().nodeSetting;
 				
@@ -352,16 +393,21 @@ sap.ui.define([
 				
 				if (!bExist) {
 					if (i === 0) {
+						
 						sText = oItem.getTitle();
+						
 					} else {
-						sText = sText + "\n\r" + oItem.getTitle();
+						sText = sText + "\n" + oItem.getTitle();
+						
 					}	
 				}
-				
-				
 			}
 			
-			oSettingData.dimlist[this._DimIndex].Value += "\n\r" + sText;
+			if (oSettingData.dimlist[this._DimIndex].Value.length < 1 || regex.test(oSettingData.dimlist[this._DimIndex].Value)) {
+				oSettingData.dimlist[this._DimIndex].Value += sText;
+			} else {
+				oSettingData.dimlist[this._DimIndex].Value += "\n" + sText;
+			}
 			oViewModel.setProperty("/nodeSetting", oSettingData);
 			this.byId("addNodeDialog").close();
 			
@@ -420,6 +466,7 @@ sap.ui.define([
 			}
 			return oGraphData;
 		},
+		
 		_deleteParentLink: function(childKey, oGraphData) {
 			var oLines = oGraphData.lines;
 
@@ -431,6 +478,56 @@ sap.ui.define([
 			return oGraphData;
 
 		},
+		
+		_deleteNode: function(childKey,recursive,oGraphData){
+			var oLines = oGraphData.lines,
+				oNodes = oGraphData.nodes;
+			
+			var arrKey = [ childKey ];
+			
+			var _getChildRec = function(key){
+				for (var i = oLines.length - 1; i >= 0; i--) {
+					if (oLines[i].from === key) {
+						arrKey.push(oLines[i].to);
+						_getChildRec(oLines[i].to);
+					}
+				}
+				
+			};
+			
+			if(recursive){
+				_getChildRec(childKey);
+			}
+			
+			var i, bDelete = false;
+			
+			for (i = oLines.length - 1; i >= 0; i--) {
+				
+				bDelete = arrKey.some(function(ele){
+					return ele === oLines[i].from || ele === oLines[i].to;
+				});
+				
+				if (bDelete){
+					oLines.splice(i,1);
+				}
+			}
+			
+			for (i = oNodes.length - 1; i >= 0; i--) {
+				
+				bDelete = arrKey.some(function(ele){
+					return ele === oNodes[i].key;
+				});
+				
+				if (bDelete){
+					oNodes.splice(i,1);
+				}
+			}
+			
+		
+			
+			return oGraphData;
+		},
+		
 		_deleteChildLink: function(parentKey, oGraphData) {
 			var oLines = oGraphData.lines;
 
@@ -565,6 +662,7 @@ sap.ui.define([
 					"icon": oNodeAttr.Icon,
 					"formula": "",
 					"type": oNodeAttr.Type,
+					"dimlist": JSON.parse(JSON.stringify(this._DimDefaultList)) ,
 					"attributes": [{
 						"label": "Type",
 						"value": oNodeAttr.Text
