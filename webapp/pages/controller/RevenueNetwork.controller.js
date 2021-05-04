@@ -508,7 +508,6 @@ sap.ui.define([
 		_getNode: function(key,oGraphData){
 			var oNodes = oGraphData.nodes;
 			var oNode = oNodes.find(function(ele){
-				console.log(key,ele.key);
 				return ele.key === key;	
 			});	
 			return oNode;
