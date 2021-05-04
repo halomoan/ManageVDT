@@ -84,13 +84,13 @@ sap.ui.define([
 				var oThis = this;
 				
 				oOData.read("/DimensionSet", {
-								success: function(oResult) {
-									oThis._DimDefaultList = oResult.results;
-								},
-								error: function(oError) {
+					success: function(oResult) {
+						oThis._DimDefaultList = oResult.results;
+					},
+					error: function(oError) {
 				
-								}
-							});
+					}
+				});
 				
 			}.bind(this));
 			
@@ -277,13 +277,15 @@ sap.ui.define([
 					if (sAction === "OK") {
 						
 						oGraphData = oThis._deleteNode(oSettingData.key,false,oGraphData);
+						sap.m.MessageToast.show("Successfully deleted : " + oSettingData.name + " only.");
 						
 					}else if(sAction === "And Children Node"){
 						oGraphData = oThis._deleteNode(oSettingData.key,true,oGraphData);
+						sap.m.MessageToast.show("Successfully deleted : " + oSettingData.name + " and related nodes.");
 					}
 					
 					oGraphModel.setProperty("/", oGraphData);
-					sap.m.MessageToast.show("Successfully deleted : " + oSettingData.name);
+					
 				}
 			});	
 		},
