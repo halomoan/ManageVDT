@@ -228,6 +228,7 @@ sap.ui.define([
 				oParentData.attributes[0].value = oNodeAttr.Text;
 				oParentData.status = oNodeAttr.Status;
 				oParentData.formula = sFormula;
+				oParentData.dimlist = this._DimDefaultList;
 
 				if (oParentData.type !== this._FORMULATYPE.formula) {
 					oGraphData = this._deleteChildLink(oParentData.key, oGraphData);
@@ -248,6 +249,7 @@ sap.ui.define([
 					"icon": oNodeAttr.Icon,
 					"formula": oSettingData.formula,
 					"type": oNodeAttr.Type,
+					"dimlist": this._DimDefaultList,
 					"attributes": [{
 						"label": "Type",
 						"value": oNodeAttr.Text
@@ -481,6 +483,11 @@ sap.ui.define([
 
 		},
 		
+		_getParentNode: function(childKey,oGraphData){
+			var oLines = oGraphData.lines;
+			for (var i = oLines.length - 1; i >= 0; i--) {
+			}
+		},
 		_deleteNode: function(childKey,recursive,oGraphData){
 			var oLines = oGraphData.lines,
 				oNodes = oGraphData.nodes;
