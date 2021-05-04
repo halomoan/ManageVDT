@@ -483,16 +483,44 @@ sap.ui.define([
 
 		},
 		
+		
+		
 		_getParentNode: function(childKey,oGraphData){
-			var oLines = oGraphData.lines;
-			for (var i = oLines.length - 1; i >= 0; i--) {
+			var oLines = oGraphData.lines,
+				oNodes = oGraphData.nodes;
+			
+			var oLine = oLines.find(function(ele){
+				return ele.to === childKey;	
+			});
+			
+			if (oLine) {
+				var oNode = oNodes.find(function(ele){
+					return ele.key === oLine.from;	
+				});	
+				return oNode;
+			} else {
+				return null;
 			}
+			
+			
 		},
+		
+		_getNode: function(key,oGraphData){
+			var oNodes = oGraphData.nodes;
+			var oNode = oNodes.find(function(ele){
+				console.log(key,ele.key);
+				return ele.key === key;	
+			});	
+			return oNode;
+		},
+		
 		_deleteNode: function(childKey,recursive,oGraphData){
 			var oLines = oGraphData.lines,
 				oNodes = oGraphData.nodes;
 			
+			
 			var arrKey = [ childKey ];
+			
 			
 			var _getChildRec = function(key){
 				for (var i = oLines.length - 1; i >= 0; i--) {
@@ -508,6 +536,21 @@ sap.ui.define([
 				_getChildRec(childKey);
 			}
 			
+			
+			
+			//Fix Parent Formula
+			
+			var oChildNode = this._getNode(childKey, oGraphData);
+			var oParentNode = this._getParentNode(childKey, oGraphData);
+			var sChildName = oChildNode.name;
+			
+			var sRegExPattern = '/(\\s*[\\+|\\-|\\*|\\/]\\s*#' + sChildName + ')|(#' + sChildName + '\\s*[\\+|\\-|\\*|\\/]\\s*)|(\\s*#' + sChildName +'\\s*)/gi';
+			console.log(sRegExPattern);
+			console.log(1,oParentNode.formula);
+			oParentNode.formula = oParentNode.formula.replace( new RegExp(sRegExPattern),'');
+			console.log(2,oParentNode.formula);
+			
+			//Remove Selected Node
 			var i, bDelete = false;
 			
 			for (i = oLines.length - 1; i >= 0; i--) {
@@ -532,6 +575,9 @@ sap.ui.define([
 				}
 			}
 			
+			
+		
+			
 		
 			
 			return oGraphData;
@@ -539,7 +585,7 @@ sap.ui.define([
 		
 		_deleteChildLink: function(parentKey, oGraphData) {
 			var oLines = oGraphData.lines;
-
+	
 			for (var i = oLines.length - 1; i >= 0; i--) {
 				if (oLines[i].from === parentKey) {
 					oLines.splice(i, 1);
@@ -622,11 +668,6 @@ sap.ui.define([
 			var sPath = oNode.getBindingContext("graphData").getPath();
 
 			return oModel.getProperty(sPath);
-			// var oData = oView.getModel().getData().nodes.find(function(element) {
-			// 	return element.key == oNode.getKey();
-			// });	
-
-			// return oData;
 		},
 
 		_setToggleButtonTooltip: function(bLarge) {
