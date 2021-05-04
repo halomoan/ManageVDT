@@ -543,7 +543,7 @@ sap.ui.define([
 			var oParentNode = this._getParentNode(childKey, oGraphData);
 			var sChildName = oChildNode.name;
 			
-			var sRegExPattern = '/(\\s*[\\+|\\-|\\*|\\/]\\s*#' + sChildName + ')|(#' + sChildName + '\\s*[\\+|\\-|\\*|\\/]\\s*)|(\\s*#' + sChildName +'\\s*)/gi';
+			var sRegExPattern = '/(\\s*[\\+|\\-|\\*|\\/]\\s*#' + sChildName + ')|(#' + sChildName + '\\s*[\\+|\\-|\\*|\\/]\\s*)|(^\\s*#' + sChildName +'\\s*$)/gi';
 			console.log(sRegExPattern);
 			console.log(1,oParentNode.formula);
 			oParentNode.formula = oParentNode.formula.replace( new RegExp(sRegExPattern),'');
