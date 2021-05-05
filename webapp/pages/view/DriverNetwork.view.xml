@@ -2,7 +2,7 @@
 	controllerName="uol.bpc.ManageVDT.pages.controller.DriverNetwork" displayBlock="true" height="100%">
 
 		<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored sapUiContentPadding" containerQuery="true"
-			sideContentFallDown="BelowM" breakpointChanged="handleBreakpointChangeEvent">
+			sideContentFallDown="BelowM" breakpointChanged="handleBreakpointChangeEvent" showSideContent="false">
 			<graph:Graph enableWheelZoom="false" id="graph" nodes="{graphData>/nodes}" lines="{graphData>/lines}">
 				<graph:nodes>
 					<graph:Node key="{graphData>key}" title="{graphData>name}" icon="{graphData>icon}"
