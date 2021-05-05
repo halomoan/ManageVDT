@@ -12,28 +12,12 @@
 			</tnt:ToolHeader>
 		</tnt:header>
 		<tnt:sideContent>
-			<tnt:SideNavigation id="sideNavigation" selectedKey="subItem3" itemSelect="onNavSelect">
-				<tnt:NavigationList>
-					<tnt:NavigationListItem text="Master Data" icon="sap-icon://education">
-						<tnt:NavigationListItem text="Entity"/>
-						<tnt:NavigationListItem text="Profit Centre"/>
-						<tnt:NavigationListItem text="Cost Centre"/>
-						<tnt:NavigationListItem text="Account"/>
-					</tnt:NavigationListItem>
-					<tnt:NavigationListItem text="Revenues Network" icon="sap-icon://fx" >
-						<tnt:NavigationListItem text="Room Revenue" select="onNavSelect"/>
-						<tnt:NavigationListItem text="F&amp;B Revenue"/>
-						<tnt:NavigationListItem text="MOD Revenue"/>
-						<tnt:NavigationListItem text="Other Revenue"/>
+			<tnt:SideNavigation id="sideNavigation"  itemSelect="onNavSelect" >
+				<tnt:NavigationList items="{odata>/SideGroupMenuSet}">
+					<tnt:NavigationListItem items="{odata>SubMenus}" text="{odata>Name}" icon="sap-icon://education">
+						<tnt:NavigationListItem text="{odata>Name}"/>
 					</tnt:NavigationListItem>
 				</tnt:NavigationList>
-				<tnt:fixedItem>
-					<tnt:NavigationList>
-						<tnt:NavigationListItem text="Item 1" icon="sap-icon://employee"/>
-						<tnt:NavigationListItem text="Item 2" icon="sap-icon://building"/>
-						<tnt:NavigationListItem text="Item 3" icon="sap-icon://card"/>
-					</tnt:NavigationList>
-				</tnt:fixedItem>
 			</tnt:SideNavigation>
 		</tnt:sideContent>
 		<tnt:mainContents >

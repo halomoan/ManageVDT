@@ -12,8 +12,7 @@
 			"uri": "DimensionSet('1')/Members"
 		}
 	}
-},
-{
+}, {
 	"ID": "PROFITCTR",
 	"Name": "PROFITCTR",
 	"Type": "Generic",
@@ -27,8 +26,7 @@
 			"uri": "DimensionSet('2')/Members"
 		}
 	}
-},
-{
+}, {
 	"ID": "COSTCTR",
 	"Name": "COSTCTR",
 	"Type": "Generic",
@@ -42,5 +40,4 @@
 			"uri": "DimensionSet('3')/Members"
 		}
 	}
-}
-]
+}]

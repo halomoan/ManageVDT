@@ -19,7 +19,7 @@ sap.ui.define([
 				sMenu = oItem.getText();
 				
 			var oRouter = this.getRouter();
-					console.log(sMenu);
+				
 			
 			switch(sMenu){
 				case "Room Revenue": 

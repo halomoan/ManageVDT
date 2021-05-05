@@ -24,17 +24,50 @@
 				<Property Name="Value" Type="Edm.String" Nullable="true"></Property>
 				<NavigationProperty Name="Members" Relationship="Assoc_DimMember" FromRole="From_Dimension" ToRole="To_DimMember"/>
 			</EntityType>
-		
+			<EntityType Name="SideGroupMenu">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.String"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
+				<NavigationProperty Name="SubMenus" Relationship="Assoc_GroupItemMenu" FromRole="From_GroupMenu" ToRole="To_ItemMenu"/>
+			</EntityType>
+			<EntityType Name="SideItemMenu">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.String"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
+				<Property Name="GroupID" Type="Edm.String" Nullable="false"></Property>
+			</EntityType>
 			<Association Name="Assoc_DimMember">
 				<End Multiplicity="1" Role="From_Dimension" Type="Dimension"/>
 				<End Multiplicity="*" Role="To_DimMember" Type="DimMember"/>
 			</Association>
+			<Association Name="Assoc_GroupItemMenu">
+				<End Multiplicity="1" Role="From_GroupMenu" Type="SideGroupMenu"/>
+				<End Multiplicity="*" Role="To_ItemMenu" Type="SideItemMenu"/>
+				<ReferentialConstraint>
+					<Principal Role="From_GroupMenu">
+						<PropertyRef Name="ID"/>
+					</Principal>
+					<Dependent Role="To_ItemMenu">
+						<PropertyRef Name="GroupID"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
 			<EntityContainer Name="DemoEntities" m:IsDefaultEntityContainer="true">
 				<EntitySet EntityType="Demo.Dimension" Name="DimensionSet"/>
 				<EntitySet EntityType="Demo.DimMember" Name="DimMemberSet"/>
+				<EntitySet EntityType="Demo.SideGroupMenu" Name="SideGroupMenuSet"/>
+				<EntitySet EntityType="Demo.SideItemMenu" Name="SideItemMenuSet"/>
 				<AssociationSet Association="Assoc_DimMember" Name="Demo.Assoc_DimMemberSet">
 					<End EntitySet="DimensionSet" Role="From_Dimension"/>
 					<End EntitySet="DimMemberSet" Role="To_DimMember"/>
+				</AssociationSet>
+				<AssociationSet Association="Assoc_GroupItemMenu" Name="Demo.Assoc_GroupItemMenuSet">
+					<End EntitySet="SideGroupMenuSet" Role="From_GroupMenu"/>
+					<End EntitySet="SideItemMenuSet" Role="To_ItemMenu"/>
 				</AssociationSet>
 			</EntityContainer>
 		</Schema>
