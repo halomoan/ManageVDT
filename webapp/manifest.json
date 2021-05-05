@@ -100,14 +100,16 @@
 				}
 			},
 			"routes": [{
-				"pattern": "",
-				"name": "revenueNetwork",
-				"target": "revenueNetwork"
-			}],
+				"pattern": "driverNetwork/{drivername}",
+				"name": "driverNetwork",
+				"target": "driverNetwork"
+			}
+			],
 			"targets": {
-				"revenueNetwork": {
-					"viewId": "revenueNetwork",
-					"viewName": "RevenueNetwork"
+				"driverNetwork": {
+					"viewId": "driverNetwork",
+					"viewName": "DriverNetwork",
+					"viewLevel" : 1
 				},
 				"notFound": {
 					"viewId": "notFound",

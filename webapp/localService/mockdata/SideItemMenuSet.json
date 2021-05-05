@@ -6,8 +6,18 @@
 	"ID": "I002",
 	"Name": "Room Revenue",
 	"GroupID": "G002"
-}, {
+}, 
+ {
+	"ID": "I006",
+	"Name": "F&B Revenue",
+	"GroupID": "G002"
+},
+{
 	"ID": "I004",
 	"Name": "MOD Revenue",
 	"GroupID": "G002"
+}, {
+	"ID": "I005",
+	"Name": "Profit Centre",
+	"GroupID": "G001"
 }]

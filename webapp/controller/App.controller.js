@@ -14,16 +14,24 @@ sap.ui.define([
 			
 		},
 		
-		onNavSelect: function(oEvent){
+		onSideMenuSelect: function(oEvent){
 			var oItem = oEvent.getParameter("item"),
+				oCtx = oItem.getBindingContext("odata"),
 				sMenu = oItem.getText();
 				
 			var oRouter = this.getRouter();
 				
-			
 			switch(sMenu){
 				case "Room Revenue": 
-					oRouter.navTo("revenueNetwork"); break;
+					oRouter.navTo("driverNetwork",{
+						drivername : oCtx.getProperty("Name")
+					}); break;
+				case "MOD Revenue": 
+					oRouter.navTo("driverNetwork",{
+						drivername : oCtx.getProperty("Name")
+					}); break;	
+				default:
+					oRouter.navTo("notFound");break;
 			}
 		}
 

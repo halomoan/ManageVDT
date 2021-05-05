@@ -1,7 +1,9 @@
 [{
 	"ID": "G001",
-	"Name": "Master Data"
+	"Name": "Master Data",
+	"Icon": "sap-icon://education"
 }, {
 	"ID": "G002",
-	"Name": "Driver Network"
+	"Name": "Driver Network",
+	"Icon": "sap-icon://fx"
 }]

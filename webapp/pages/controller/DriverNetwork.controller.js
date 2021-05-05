@@ -8,7 +8,7 @@ sap.ui.define([
 ], function(BaseController, JSONModel, MessageBox, Popover, Filter, FilterOperator) {
 	"use strict";
 
-	return BaseController.extend("uol.bpc.ManageVDT.pages.controller.RevenueNetwork", {
+	return BaseController.extend("uol.bpc.ManageVDT.pages.controller.DriverNetwork", {
 
 		_FORMULATYPE: {
 			formula: "0",
@@ -27,6 +27,7 @@ sap.ui.define([
 			this._oDSC = this.byId("DynamicSideContent");
 
 			var oViewData = new JSONModel({
+				GraphTitle: "ABC",
 				nodeSetting: {
 					mode: "new",
 					key: 0,
@@ -60,17 +61,15 @@ sap.ui.define([
 				}]
 			});
 
-			var
-				sModuleName = "uol/bpc/ManageVDT",
-				oGraphModel = new JSONModel(sap.ui.require.toUrl(sModuleName + "/model/graph.json")),
-				oDimListModel = new JSONModel(sap.ui.require.toUrl(sModuleName + "/model/dimList.json")),
-				oView = this.getView(),
+			var oView = this.getView(),
 				oGraph = oView.byId("graph");
-
-			oView.setModel(oGraphModel, "graphData");
-			oView.setModel(oDimListModel, "dimlist");
+				
 			oView.setModel(oViewData, "viewData");
-
+			
+			oGraph.getToolbar().insertContent(new sap.m.Title("title", {
+				text: "{viewData>/GraphTitle}"
+			}), 0);
+			
 			oGraph.getToolbar().addContent(new sap.m.OverflowToolbarButton({
 				icon: "sap-icon://add",
 				tooltip: "Add Node",
@@ -79,13 +78,46 @@ sap.ui.define([
 
 			}));
 			
+			
 				
 			this.oRouter = this.getRouter();
-			this.oRouter.getRoute("revenueNetwork").attachPatternMatched(this.__onRouteMatched, this);
+			this.oRouter.getRoute("driverNetwork").attachPatternMatched(this.__onRouteMatched, this);
 
 		},
 		
 		__onRouteMatched: function(oEvent){
+			
+			
+			var oView = this.getView(),
+				oArgs = oEvent.getParameter("arguments"),
+				oViewModel = oView.getModel("viewData");
+				
+			
+			var
+				sModuleName = "uol/bpc/ManageVDT",
+				oGraphModel = new JSONModel(sap.ui.require.toUrl(sModuleName + "/model/graph.json"));
+			
+
+			oView.setModel(oGraphModel, "graphData");
+		
+
+
+			oViewModel.setProperty("/GraphTitle",oArgs.drivername);
+
+
+			// oView.bindElement({
+			// 	path : "/Employees(" + oArgs.employeeId + ")",
+			// 	events : {
+			// 		change: this._onBindingChange.bind(this),
+			// 		dataRequested: function (oEvent) {
+			// 			oView.setBusy(true);
+			// 		},
+			// 		dataReceived: function (oEvent) {
+			// 			oView.setBusy(false);
+			// 		}
+			// 	}
+			// });
+			
 			this.getOwnerComponent().getModel("odata").metadataLoaded().then(function() {
 				var oOData = this.getModel("odata");
 				var oThis = this;
@@ -100,6 +132,13 @@ sap.ui.define([
 				});
 				
 			}.bind(this));
+		},
+		
+		_onBindingChange : function (oEvent) {
+			// No data for the binding
+			if (!this.getView().getBindingContext()) {
+				this.getRouter().getTargets().display("notFound");
+			}
 		},
 	
 		onPressNode: function(oEvent) {

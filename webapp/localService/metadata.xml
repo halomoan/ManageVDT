@@ -30,6 +30,7 @@
 				</Key>
 				<Property Name="ID" Nullable="false" Type="Edm.String"/>
 				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
+				<Property Name="Icon" Type="Edm.String" Nullable="true"></Property>
 				<NavigationProperty Name="SubMenus" Relationship="Assoc_GroupItemMenu" FromRole="From_GroupMenu" ToRole="To_ItemMenu"/>
 			</EntityType>
 			<EntityType Name="SideItemMenu">
@@ -38,6 +39,7 @@
 				</Key>
 				<Property Name="ID" Nullable="false" Type="Edm.String"/>
 				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
+				<Property Name="Icon" Type="Edm.String" Nullable="true"></Property>
 				<Property Name="GroupID" Type="Edm.String" Nullable="false"></Property>
 			</EntityType>
 			<Association Name="Assoc_DimMember">
