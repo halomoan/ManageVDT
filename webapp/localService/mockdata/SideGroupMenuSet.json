@@ -6,4 +6,9 @@
 	"ID": "G002",
 	"Name": "Driver Network",
 	"Icon": "sap-icon://fx"
+},
+{
+	"ID": "G003",
+	"Name": "Allocation",
+	"Icon": "sap-icon://action"
 }]

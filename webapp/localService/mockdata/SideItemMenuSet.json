@@ -1,23 +1,34 @@
 [{
 	"ID": "I001",
 	"Name": "Entity",
-	"GroupID": "G001"
+	"GroupID": "G001",
+	"Type": "MASTER"
 }, {
 	"ID": "I002",
 	"Name": "Room Revenue",
-	"GroupID": "G002"
+	"GroupID": "G002",
+	"Type": "DRIVER"
 }, 
  {
 	"ID": "I006",
 	"Name": "F&B Revenue",
-	"GroupID": "G002"
+	"GroupID": "G002",
+	"Type": "DRIVER"
 },
 {
 	"ID": "I004",
 	"Name": "MOD Revenue",
-	"GroupID": "G002"
+	"GroupID": "G002",
+	"Type": "DRIVER"
 }, {
 	"ID": "I005",
 	"Name": "Profit Centre",
-	"GroupID": "G001"
+	"GroupID": "G001",
+	"Type": "MASTER"
+},
+{
+	"ID": "I006",
+	"Name": "Management Fees",
+	"GroupID": "G003",
+	"Type" : "ALLOCATION"
 }]

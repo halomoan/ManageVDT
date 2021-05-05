@@ -103,13 +103,21 @@
 				"pattern": "driverNetwork/{drivername}",
 				"name": "driverNetwork",
 				"target": "driverNetwork"
-			}
-			],
+			}, {
+				"pattern": "allocNetwork/{allocname}",
+				"name": "allocNetwork",
+				"target": "allocNetwork"
+			}],
 			"targets": {
 				"driverNetwork": {
 					"viewId": "driverNetwork",
 					"viewName": "DriverNetwork",
-					"viewLevel" : 1
+					"viewLevel": 1
+				},
+				"allocNetwork": {
+					"viewId": "allocNetwork",
+					"viewName": "AllocNetwork",
+					"viewLevel": 2
 				},
 				"notFound": {
 					"viewId": "notFound",

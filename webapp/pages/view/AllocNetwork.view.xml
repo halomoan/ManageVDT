@@ -1,5 +1,5 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:graph="sap.suite.ui.commons.networkgraph" xmlns:l="sap.ui.layout" xmlns="sap.m"
-	controllerName="uol.bpc.ManageVDT.pages.controller.DriverNetwork" displayBlock="true" height="100%">
+	controllerName="uol.bpc.ManageVDT.pages.controller.AllocNetwork" displayBlock="true" height="100%">
 
 		<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored" containerQuery="true"
 			sideContentFallDown="BelowM" breakpointChanged="handleBreakpointChangeEvent" showSideContent="false">
@@ -35,7 +35,7 @@
 								<Label text="Name" class="sapUiTinyMarginTop"/>
 								<Input id="SetName" value="{viewData>/nodeSetting/name}" width="100%"/>
 								<Label text="Type" class="sapUiTinyMarginTop"/>
-								<ComboBox selectedKey="{viewData>/nodeSetting/type}" items="{ path: 'viewData>/nodetypes', sorter: { path: 'id' } }">
+								<ComboBox selectedKey="{viewData>/nodeSetting/type}" items="{ path: 'viewData>/nodetypes', sorter: { path: 'viewData>id' } }">
 									<core:Item key="{viewData>key}" text="{viewData>text}"/>
 								</ComboBox>
 								<Label text="Formula" class="sapUiTinyMarginTop" visible="{= ${viewData>/nodeSetting/type} === '0' }"/>

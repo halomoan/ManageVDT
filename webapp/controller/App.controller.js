@@ -17,23 +17,44 @@ sap.ui.define([
 		onSideMenuSelect: function(oEvent){
 			var oItem = oEvent.getParameter("item"),
 				oCtx = oItem.getBindingContext("odata"),
-				sMenu = oItem.getText();
+				//sMenu = oItem.getText(),
+				sType = oItem.getTarget();
 				
+		
 			var oRouter = this.getRouter();
 				
-			switch(sMenu){
-				case "Room Revenue": 
+			switch(sType){
+				case "DRIVER": 
 					oRouter.navTo("driverNetwork",{
 						drivername : oCtx.getProperty("Name")
 					}); break;
-				case "MOD Revenue": 
-					oRouter.navTo("driverNetwork",{
-						drivername : oCtx.getProperty("Name")
+				case "ALLOCATION": 
+					oRouter.navTo("allocNetwork",{
+						allocname : oCtx.getProperty("Name")
 					}); break;	
 				default:
 					oRouter.navTo("notFound");break;
 			}
+		},
+		
+		onToggleSideNavPress: function(oEvent) {
+			var oToolPage = this.byId("toolPage");
+			var bSideExpanded = oToolPage.getSideExpanded();
+
+			this._setToggleButtonTooltip(bSideExpanded);
+
+			oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
+		},
+		
+		_setToggleButtonTooltip: function(bLarge) {
+			var oToggleButton = this.byId('sideNavigationToggleButton');
+			if (bLarge) {
+				oToggleButton.setTooltip('Expand');
+			} else {
+				oToggleButton.setTooltip('Collapse');
+			}
 		}
+
 
 	});
 });

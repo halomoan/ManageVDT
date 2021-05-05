@@ -15,7 +15,7 @@
 			<tnt:SideNavigation id="sideNavigation" itemSelect="onSideMenuSelect" >
 				<tnt:NavigationList items="{odata>/SideGroupMenuSet}">
 					<tnt:NavigationListItem items="{odata>SubMenus}" text="{odata>Name}" icon="{odata>Icon}" >
-						<tnt:NavigationListItem text="{odata>Name}"/>
+						<tnt:NavigationListItem text="{odata>Name}" target="{odata>Type}"/>
 					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 				<tnt:fixedItem>

@@ -26,7 +26,7 @@ sap.ui.define([
 
 			this._oDSC = this.byId("DynamicSideContent");
 
-			var oViewData = new JSONModel({
+			var oData = {
 				GraphTitle: "ABC",
 				nodeSetting: {
 					mode: "new",
@@ -45,21 +45,27 @@ sap.ui.define([
 
 				nodetypes: [{
 					"key": "0",
-					"text": "Formula"
+					"text": "Formula",
+					"status" : "Success"
 				}, {
 					"key": "1",
-					"text": "Baseline"
+					"text": "Baseline",
+					"status" : "Error"
 				}, {
 					"key": "2",
-					"text": "Input"
+					"text": "Input",
+					"status" : "Warning"
 				}, {
 					"key": "3",
-					"text": "Calculation Group"
+					"text": "Calculation Group",
+					"status" : "Information"
 				}, {
 					"key": "4",
-					"text": "Integrated"
+					"text": "Integrated",
+					"status": "Standard"
 				}]
-			});
+			};
+			var oViewData = new JSONModel(oData);
 
 			var oView = this.getView(),
 				oGraph = oView.byId("graph");
@@ -68,7 +74,7 @@ sap.ui.define([
 			
 			oGraph.getToolbar().insertContent(new sap.m.Title("title", {
 				text: "{viewData>/GraphTitle}",
-				titleStyle: sap.ui.core.TitleLevel.H1
+				titleStyle: sap.ui.core.TitleLevel.H2
 			}), 0);
 			
 			oGraph.getToolbar().addContent(new sap.m.OverflowToolbarButton({
@@ -78,6 +84,20 @@ sap.ui.define([
 				press: this.onAddNewNode.bind(this)
 
 			}));
+			
+			
+			for(var i = 0; i < oData.nodetypes.length; i++){
+				oGraph.setCustomLegendLabel({
+					label: oData.nodetypes[i].text,
+					status: oData.nodetypes[i].status
+				});
+			}
+			
+			oGraph.setCustomLegendLabel({
+				label: "Connection",
+				status: "Information",
+				isNode: false
+			});
 			
 			
 				
@@ -388,15 +408,6 @@ sap.ui.define([
 
 		},
 
-		onToggleSideNavPress: function(oEvent) {
-			var oToolPage = this.byId("toolPage");
-			var bSideExpanded = oToolPage.getSideExpanded();
-
-			this._setToggleButtonTooltip(bSideExpanded);
-
-			oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
-		},
-
 		onOverWriteDimMember: function(oEvent) {
 			var oTree = this.byId("MstTree"),
 				oViewModel = this.getModel("viewData"),
@@ -676,7 +687,7 @@ sap.ui.define([
 				case "4":
 					oAttr.Type = "4";
 					oAttr.Text = "Integrated";
-					oAttr.Status = "Default";
+					oAttr.Status = "Standard";
 					oAttr.Icon = "sap-icon://edit";
 					break;
 			}
@@ -714,15 +725,6 @@ sap.ui.define([
 			return oModel.getProperty(sPath);
 		},
 
-		_setToggleButtonTooltip: function(bLarge) {
-			var oToggleButton = this.byId('sideNavigationToggleButton');
-			if (bLarge) {
-				oToggleButton.setTooltip('Expand');
-			} else {
-				oToggleButton.setTooltip('Collapse');
-			}
-		},
-		
 		_convertFormulaToNode: function(formula, oParentData, oGraphData) {
 
 			if (oParentData.type !== this._FORMULATYPE.formula) {

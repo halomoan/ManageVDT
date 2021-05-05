@@ -41,6 +41,7 @@
 				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
 				<Property Name="Icon" Type="Edm.String" Nullable="true"></Property>
 				<Property Name="GroupID" Type="Edm.String" Nullable="false"></Property>
+				<Property Name="Type" Type="Edm.String" Nullable="false"></Property>
 			</EntityType>
 			<Association Name="Assoc_DimMember">
 				<End Multiplicity="1" Role="From_Dimension" Type="Dimension"/>
