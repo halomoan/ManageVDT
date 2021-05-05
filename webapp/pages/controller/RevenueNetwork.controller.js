@@ -79,6 +79,13 @@ sap.ui.define([
 
 			}));
 			
+				
+			this.oRouter = this.getRouter();
+			this.oRouter.getRoute("revenueNetwork").attachPatternMatched(this.__onRouteMatched, this);
+
+		},
+		
+		__onRouteMatched: function(oEvent){
 			this.getOwnerComponent().getModel("odata").metadataLoaded().then(function() {
 				var oOData = this.getModel("odata");
 				var oThis = this;
@@ -93,12 +100,8 @@ sap.ui.define([
 				});
 				
 			}.bind(this));
-			
-			
-			
-
 		},
-
+	
 		onPressNode: function(oEvent) {
 
 			// var oNode = oEvent.getSource(),

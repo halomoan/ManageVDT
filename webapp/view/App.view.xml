@@ -12,7 +12,7 @@
 			</tnt:ToolHeader>
 		</tnt:header>
 		<tnt:sideContent>
-			<tnt:SideNavigation id="sideNavigation" selectedKey="subItem3">
+			<tnt:SideNavigation id="sideNavigation" selectedKey="subItem3" itemSelect="onNavSelect">
 				<tnt:NavigationList>
 					<tnt:NavigationListItem text="Master Data" icon="sap-icon://education">
 						<tnt:NavigationListItem text="Entity"/>
@@ -20,8 +20,8 @@
 						<tnt:NavigationListItem text="Cost Centre"/>
 						<tnt:NavigationListItem text="Account"/>
 					</tnt:NavigationListItem>
-					<tnt:NavigationListItem text="Revenues Network" icon="sap-icon://fx">
-						<tnt:NavigationListItem text="Room Revenue"/>
+					<tnt:NavigationListItem text="Revenues Network" icon="sap-icon://fx" >
+						<tnt:NavigationListItem text="Room Revenue" select="onNavSelect"/>
 						<tnt:NavigationListItem text="F&amp;B Revenue"/>
 						<tnt:NavigationListItem text="MOD Revenue"/>
 						<tnt:NavigationListItem text="Other Revenue"/>
@@ -36,14 +36,11 @@
 				</tnt:fixedItem>
 			</tnt:SideNavigation>
 		</tnt:sideContent>
-		<tnt:mainContents>
-			<NavContainer id="pageContainer" initialPage="sideContentContainer">
-				<pages>
-					<Page id="revenueNetwork" showHeader="false" showNavButton="false">
-					<mvc:XMLView viewName="uol.bpc.ManageVDT.pages.view.RevenueNetwork"/>
-					</Page>
-				</pages>
-			</NavContainer>
+		<tnt:mainContents >
+			
+			<App id="app">
+		
+			</App>
 		</tnt:mainContents>
 	</tnt:ToolPage>
 </mvc:View>

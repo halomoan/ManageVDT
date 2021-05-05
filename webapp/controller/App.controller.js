@@ -11,7 +11,21 @@ sap.ui.define([
 	return BaseController.extend("uol.bpc.ManageVDT.controller.App", {
 		
 		onInit: function() {
-
+			
+		},
+		
+		onNavSelect: function(oEvent){
+			var oItem = oEvent.getParameter("item"),
+				sMenu = oItem.getText();
+				
+			var oRouter = this.getRouter();
+					console.log(sMenu);
+			
+			switch(sMenu){
+				case "Room Revenue": 
+					oRouter.navTo("revenueNetwork"); break;
+			}
 		}
+
 	});
 });

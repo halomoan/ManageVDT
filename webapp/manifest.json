@@ -91,20 +91,28 @@
 			"config": {
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
-				"viewPath": "uol.bpc.ManageVDT.view",
-				"controlId": "detail",
+				"viewPath": "uol.bpc.ManageVDT.pages.view",
+				"controlId": "app",
 				"controlAggregation": "pages",
-				"async": true
+				"async": true,
+				"bypassed": {
+					"target": "notFound"
+				}
 			},
 			"routes": [{
 				"pattern": "",
-				"name": "revnetwork",
-				"target": "revnetwork"
+				"name": "revenueNetwork",
+				"target": "revenueNetwork"
 			}],
 			"targets": {
-				"revnetwork": {
-					"viewId": "revenuenetwork",
+				"revenueNetwork": {
+					"viewId": "revenueNetwork",
 					"viewName": "RevenueNetwork"
+				},
+				"notFound": {
+					"viewId": "notFound",
+					"viewName": "NotFound",
+					"transition": "show"
 				}
 			}
 		}
