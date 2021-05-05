@@ -67,7 +67,8 @@ sap.ui.define([
 			oView.setModel(oViewData, "viewData");
 			
 			oGraph.getToolbar().insertContent(new sap.m.Title("title", {
-				text: "{viewData>/GraphTitle}"
+				text: "{viewData>/GraphTitle}",
+				titleStyle: sap.ui.core.TitleLevel.H1
 			}), 0);
 			
 			oGraph.getToolbar().addContent(new sap.m.OverflowToolbarButton({
