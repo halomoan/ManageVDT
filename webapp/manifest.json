@@ -79,13 +79,34 @@
 				"preload": true
 			},
 			"search": {
-		        "type": "sap.ui.model.json.JSONModel"
-		     }
+				"type": "sap.ui.model.json.JSONModel"
+			}
 		},
 		"resources": {
 			"css": [{
 				"uri": "css/style.css"
 			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "uol.bpc.ManageVDT.view",
+				"controlId": "detail",
+				"controlAggregation": "pages",
+				"async": true
+			},
+			"routes": [{
+				"pattern": "",
+				"name": "revnetwork",
+				"target": "revnetwork"
+			}],
+			"targets": {
+				"revnetwork": {
+					"viewId": "revenuenetwork",
+					"viewName": "RevenueNetwork"
+				}
+			}
 		}
 	}
 }

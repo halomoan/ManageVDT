@@ -539,15 +539,17 @@ sap.ui.define([
 			
 			//Fix Parent Formula
 			
+			
 			var oChildNode = this._getNode(childKey, oGraphData);
 			var oParentNode = this._getParentNode(childKey, oGraphData);
 			var sChildName = oChildNode.name;
-			
-			var sRegExPattern = '/(\\s*[\\+|\\-|\\*|\\/]\\s*#' + sChildName + ')|(#' + sChildName + '\\s*[\\+|\\-|\\*|\\/]\\s*)|(^\\s*#' + sChildName +'\\s*$)/gi';
-			console.log(sRegExPattern);
-			console.log(1,oParentNode.formula);
-			oParentNode.formula = oParentNode.formula.replace( new RegExp(sRegExPattern),'');
-			console.log(2,oParentNode.formula);
+			if (oParentNode){
+				var sRegExPattern = '(\\s*[\\+|\\-|\\*|\\/]\\s*#' + sChildName + '\\s*)|(\\s*#' + sChildName + '\\s*[\\+|\\-|\\*|\\/]\\s*)|(^\\s*#' + sChildName +'\\s*$)';
+				//console.log(sRegExPattern);
+				//console.log(1,oParentNode.formula);
+				oParentNode.formula = oParentNode.formula.replace( new RegExp(sRegExPattern,'gi'),'');
+				//console.log(2,oParentNode.formula);
+			}
 			
 			//Remove Selected Node
 			var i, bDelete = false;
