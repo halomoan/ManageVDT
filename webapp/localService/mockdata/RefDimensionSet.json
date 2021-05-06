@@ -1,0 +1,11 @@
+[{
+	"ID": "VERSION",
+	"Name": "VERSION",
+	"Type": "Version",
+	"Value" : ""
+}, {
+	"ID": "TIME",
+	"Name": "TIME",
+	"Type": "Time",
+	"Value": ""
+}]

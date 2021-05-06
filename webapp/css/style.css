@@ -1,0 +1,7 @@
+.sapUiDSC.sapUiContentPadding > div:first-child {
+	padding: 0rem !important;
+}
+
+.sapUiDSC.sapUiContentPadding > aside {
+	padding: 0rem 10px 1rem 10px !important;
+}

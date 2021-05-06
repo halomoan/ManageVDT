@@ -18,8 +18,11 @@ sap.ui.define([
 			integrated: "4"
 		},
 		_DimIndex: 0,
+		_DimMode: "def",
 		_DimMembers: null,
 		_DimDefaultList: null,
+		_DimRefList: null,
+		_IsSettingDirty: false,
 		_formFragments: {},
 
 		onInit: function() {
@@ -35,6 +38,7 @@ sap.ui.define([
 					name: "RoomsRevenueHotel",
 					formula: "#Formula1 + #Formula2",
 					type: "0",
+					refdimlist: [],
 					dimlist: [{
 						"Type": "Entity",
 						"Name": "ENTITY",
@@ -75,7 +79,7 @@ sap.ui.define([
 			oGraph.getToolbar().insertContent(new sap.m.Title("title", {
 				text: "{viewData>/GraphTitle}",
 				titleStyle: sap.ui.core.TitleLevel.H2
-			}), 0);
+			}).addStyleClass("sapUiTinyMarginBegin"), 0);
 			
 			oGraph.getToolbar().addContent(new sap.m.OverflowToolbarButton({
 				icon: "sap-icon://add",
@@ -152,6 +156,15 @@ sap.ui.define([
 					}
 				});
 				
+				oOData.read("/RefDimensionSet", {
+					success: function(oResult) {
+						oThis._DimRefList = oResult.results;
+					},
+					error: function(oError) {
+				
+					}
+				});
+				
 			}.bind(this));
 		},
 		
@@ -192,13 +205,19 @@ sap.ui.define([
 			var oViewModel = this.getModel("viewData"),
 				oSettingData = oViewModel.getData().nodeSetting,
 				oLink = oEvent.getSource(),
-				sTarget = oLink.getTarget(),
+				sMode = oLink.data("mode"),
 				oView = this.getView();
 
 			this._DimIndex = oLink.getId().match(/\d$/)[0];
 			this._DimMembers = [];
-			
-			var sText = "" + oSettingData.dimlist[this._DimIndex].Value;
+			this._DimMode = sMode;
+	
+			var sText;
+			if (this._DimMode === "def") {
+				sText = "" + oSettingData.dimlist[this._DimIndex].Value;
+			} else {
+				sText = "" + oSettingData.refdimlist[this._DimIndex].Value;
+			}
 
 			var arrMembers = sText.split("\n");
 
@@ -248,22 +267,26 @@ sap.ui.define([
 		},
 
 		onSettingSave: function(oEvent) {
-			var oView = this.getView(),
+			this._onSettingSave(this);
+		},
+		
+		_onSettingSave: function(oThis) {
+			var oView = oThis.getView(),
 				oGraph = oView.byId("graph"),
-				oGraphModel = this.getModel("graphData"),
+				oGraphModel = oThis.getModel("graphData"),
 				oGraphData = oGraphModel.getData(),
-				oSettingData = this.getModel("viewData").getData().nodeSetting;
+				oSettingData = oThis.getModel("viewData").getData().nodeSetting;
 
 			var formula = oSettingData.formula,
 				arrFormula,
 				oNodeAttr,
 				i = 0;
 
-			var oValidation = this._validateSetting(oSettingData);
+			var oValidation = oThis._validateSetting(oSettingData);
 			if (!oValidation.success) {
 
 				MessageBox.error(oValidation.msg);
-				return;
+				return false;
 			}
 
 			var oParentData = oGraphData.nodes.find(function(ele) {
@@ -273,7 +296,7 @@ sap.ui.define([
 			if (oParentData) {
 				//Parent Node Exist
 
-				oGraphData = this._deleteChildLink(oParentData.key, oGraphData);
+				oGraphData = oThis._deleteChildLink(oParentData.key, oGraphData);
 
 				arrFormula = formula.match(/#\w+|[\*|\+|\-|\/]/g);
 				var sFormula = "";
@@ -286,25 +309,32 @@ sap.ui.define([
 				}
 
 				//Update Selected (Parent) Node
-				oNodeAttr = this._getNodeAttrByType(oSettingData.type);
+				oNodeAttr = oThis._getNodeAttrByType(oSettingData.type);
 				oParentData.type = oNodeAttr.Type;
 				oParentData.attributes[0].value = oNodeAttr.Text;
 				oParentData.status = oNodeAttr.Status;
 				oParentData.formula = sFormula;
-				oParentData.dimlist = this._DimDefaultList;
-
-				if (oParentData.type !== this._FORMULATYPE.formula) {
-					oGraphData = this._deleteChildLink(oParentData.key, oGraphData);
+				oParentData.dimlist = JSON.parse(JSON.stringify(oSettingData.dimlist));
+				
+				if (oParentData.type === oThis._FORMULATYPE.integrated) {
+					oParentData.refdimlist = JSON.parse(JSON.stringify(oSettingData.refdimlist));
+					
+				} else {
+					oParentData.refdimlist = [];
 				}
 
-				oGraphData = this._convertFormulaToNode(formula, oParentData, oGraphData);
+				if (oParentData.type !== oThis._FORMULATYPE.formula) {
+					oGraphData = oThis._deleteChildLink(oParentData.key, oGraphData);
+				}
+
+				oGraphData = oThis._convertFormulaToNode(formula, oParentData, oGraphData);
 
 			} else {
 				//New - Parent Node Not Exist
 
-				//oGraphData = this._addParentNode(oSettingData, oGraphData);
+				//oGraphData = oThis._addParentNode(oSettingData, oGraphData);
 
-				oNodeAttr = this._getNodeAttrByType(oSettingData.type);
+				oNodeAttr = oThis._getNodeAttrByType(oSettingData.type);
 				oParentData = {
 					"key": ++oGraphData.maxkey,
 					"name": oSettingData.name,
@@ -312,7 +342,7 @@ sap.ui.define([
 					"icon": oNodeAttr.Icon,
 					"formula": oSettingData.formula,
 					"type": oNodeAttr.Type,
-					"dimlist": this._DimDefaultList,
+					"dimlist": oThis._DimDefaultList,
 					"attributes": [{
 						"label": "Type",
 						"value": oNodeAttr.Text
@@ -321,10 +351,13 @@ sap.ui.define([
 
 				oGraphData.nodes.push(oParentData);
 
-				oGraphData = this._convertFormulaToNode(oSettingData.formula, oParentData, oGraphData);
+				oGraphData = oThis._convertFormulaToNode(oSettingData.formula, oParentData, oGraphData);
 			}
 
 			oGraphModel.setProperty("/", oGraphData);
+			oThis._IsSettingDirty = false;
+			
+			return true;
 		},
 
 	
@@ -364,10 +397,35 @@ sap.ui.define([
 		},
 
 		onAddNewNode: function(oEvent) {
+			
+			if(this._IsSettingDirty){
+				MessageBox.warning("You have not saved the changes. Do you want to save? ", {
+					actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+					emphasizedAction: MessageBox.Action.YES,
+					onClose: function (sAction) {
+						if (sAction === MessageBox.Action.YES){
+							if (this._onSettingSave(this)) {
+								this._onAddNewNode();
+							}
+							
+						} else {
+							this._IsSettingDirty = false;
+							this._onAddNewNode();
+							
+						}
+						
+					}.bind(this)
+				});	
+			} else {
+				this._onAddNewNode();
+			}
+		},
+		
+		_onAddNewNode: function() {
 			var oViewModel = this.getModel("viewData"),
-				oNodeSetting = oViewModel.getData().nodeSetting,
-				oOData = this.getModel("odata");
-
+				oNodeSetting = oViewModel.getData().nodeSetting;
+				
+	
 		
 			//Set Values For Node Setting
 			oNodeSetting.mode = "new";
@@ -376,21 +434,58 @@ sap.ui.define([
 			oNodeSetting.name = "";
 			oNodeSetting.type = "0";
 			oNodeSetting.dimlist = this._DimDefaultList;
+			oNodeSetting.refdimlist = this._DimRefList;
 			oNodeSetting.formula = "";
-
+	
 			oViewModel.setProperty("/nodeSetting", oNodeSetting);
-		
+			
+			this._IsSettingDirty = false;
 			this._oDSC.setShowSideContent(true);
 		},
-
+		
+		
+		onSetNameChange: function(oEvent){
+			this._IsSettingDirty = true;
+		},
+		onSetTypeChange: function(oEvent){
+			this._IsSettingDirty = true;
+		},
 		onEditNode: function(oEvent) {
+			var oNode = oEvent.getSource();
+			
+			if(this._IsSettingDirty){
+				MessageBox.warning("You have not saved the changes. Do you want to save? ", {
+					actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+					emphasizedAction: MessageBox.Action.YES,
+					onClose: function (sAction) {
+						if (sAction === MessageBox.Action.YES){
+							if (this._onSettingSave(this)) {
+								this._onEditNode(oNode);
+							}
+							
+						} else {
+							this._IsSettingDirty = false;
+							this._onEditNode(oNode);
+							
+						}
+						
+						
+						
+					}.bind(this)
+				});	
+			} else {
+				this._onEditNode(oNode);
+			}
 
-			var oNode = oEvent.getSource(),
-				oViewModel = this.getModel("viewData"),
+		},
+		
+		_onEditNode: function(oNode) {
+			
+			var oViewModel = this.getModel("viewData"),
 				oSettingData = oViewModel.getData().nodeSetting;
-
+			
 			var oNodeData = this._getNodeData(oNode);
-
+			
 			
 			oSettingData.mode = "edit";
 			oSettingData.title = "Edit Node";
@@ -425,11 +520,17 @@ sap.ui.define([
 					sText = sText + "\n" + oItem.getTitle();
 				}
 			}
-
-			oSettingData.dimlist[this._DimIndex].Value = sText;
+			
+			if (this._DimMode === "ref") {
+				oSettingData.refdimlist[this._DimIndex].Value = sText;
+			} else {
+				oSettingData.dimlist[this._DimIndex].Value = sText;
+			}
 
 			oViewModel.setProperty("/nodeSetting", oSettingData);
 
+			this._IsSettingDirty = true;
+			
 			this.byId("addNodeDialog").close();
 		},
 		onAppendDimMember: function(oEvent){
@@ -461,11 +562,21 @@ sap.ui.define([
 				}
 			}
 			
-			if (oSettingData.dimlist[this._DimIndex].Value.length < 1 || regex.test(oSettingData.dimlist[this._DimIndex].Value)) {
-				oSettingData.dimlist[this._DimIndex].Value += sText;
+			if (this._DimMode === "ref") {
+				if (oSettingData.refdimlist[this._DimIndex].Value.length < 1 || regex.test(oSettingData.refdimlist[this._DimIndex].Value)) {
+					oSettingData.refdimlist[this._DimIndex].Value += sText;
+				} else {
+					oSettingData.refdimlist[this._DimIndex].Value += "\n" + sText;
+				}
 			} else {
-				oSettingData.dimlist[this._DimIndex].Value += "\n" + sText;
+				if (oSettingData.dimlist[this._DimIndex].Value.length < 1 || regex.test(oSettingData.refdimlist[this._DimIndex].Value)) {
+					oSettingData.dimlist[this._DimIndex].Value += sText;
+				} else {
+					oSettingData.dimlist[this._DimIndex].Value += "\n" + sText;
+				}
 			}
+			
+			this._IsSettingDirty = true;
 			oViewModel.setProperty("/nodeSetting", oSettingData);
 			this.byId("addNodeDialog").close();
 			
@@ -486,7 +597,7 @@ sap.ui.define([
 			} else {
 				oSetFormula.setValueState("None");
 			}
-
+			this._IsSettingDirty = true;
 		},
 
 		_addNodeToGraph: function(oSettingData, oGraphData) {
@@ -629,11 +740,6 @@ sap.ui.define([
 					oNodes.splice(i,1);
 				}
 			}
-			
-			
-		
-			
-		
 			
 			return oGraphData;
 		},

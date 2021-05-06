@@ -1,12 +1,14 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:graph="sap.suite.ui.commons.networkgraph" xmlns:l="sap.ui.layout" xmlns="sap.m"
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:graph="sap.suite.ui.commons.networkgraph" xmlns:l="sap.ui.layout" 
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns="sap.m"
 	controllerName="uol.bpc.ManageVDT.pages.controller.DriverNetwork" displayBlock="true" height="100%">
 
-		<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored" containerQuery="true"
+		<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored sapUiContentPadding" containerQuery="true"
 			sideContentFallDown="BelowM" breakpointChanged="handleBreakpointChangeEvent" showSideContent="false">
 			<graph:Graph enableWheelZoom="false" id="graph" nodes="{graphData>/nodes}" lines="{graphData>/lines}">
 				<graph:nodes>
 					<graph:Node key="{graphData>key}" title="{graphData>name}" icon="{graphData>icon}"
-						attributes="{path:'graphData>attributes', templateShareable:true}" showActionLinksButton="false" showDetailButton="false"
+						attributes="{path:'graphData>attributes', templateShareable:false}" showActionLinksButton="false" showDetailButton="false"
 						showExpandButton="true" status="{graphData>status}" shape="Box" press="onPressNode">
 						<graph:attributes>
 							<graph:ElementAttribute label="{graphData>label}" value="{graphData>value}"/>
@@ -29,25 +31,36 @@
 					<Button text="Close" type="Transparent" press="onSettingHide" visible="{= !${media>/phone}}"/>
 				</Toolbar>
 				<l:VerticalLayout width="100%">
-					<NavContainer id="navCon" width="100%" height="50rem" class="navContainerControl sapUiSmallMarginBottom">
+					<NavContainer id="navCon" width="100%" height="50rem" class="navContainerControl">
 						<Page id="p1" title="{viewData>/nodeSetting/title}">
 							<VBox>
 								<Label text="Name" class="sapUiTinyMarginTop"/>
-								<Input id="SetName" value="{viewData>/nodeSetting/name}" width="100%"/>
+								<Input id="SetName" value="{viewData>/nodeSetting/name}" width="100%" change="onSetNameChange"/>
 								<Label text="Type" class="sapUiTinyMarginTop"/>
-								<ComboBox selectedKey="{viewData>/nodeSetting/type}" items="{ path: 'viewData>/nodetypes', sorter: { path: 'id' } }">
+								<ComboBox selectedKey="{viewData>/nodeSetting/type}" items="{ path: 'viewData>/nodetypes', sorter: { path: 'id' } }" selectionChange="onSetTypeChange">
 									<core:Item key="{viewData>key}" text="{viewData>text}"/>
 								</ComboBox>
 								<Label text="Formula" class="sapUiTinyMarginTop" visible="{= ${viewData>/nodeSetting/type} === '0' }"/>
 								<TextArea id="SetFormula" change="onFormulaChange" value="{viewData>/nodeSetting/formula}" width="100%" rows="5"
 									visible="{= ${viewData>/nodeSetting/type} === '0' }"/>
 							</VBox>
+							<List id="refdimlist" visible="{= ${viewData>/nodeSetting/type} === '4' }" headerText="Reference Dimension Filter" items="{path: 'viewData>/nodeSetting/refdimlist'}">
+								<CustomListItem>
+									<HBox>
+										<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+										<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+											<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:mode="ref"/>
+											<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
+										</VBox>
+									</HBox>
+								</CustomListItem>
+							</List>
 							<List headerText="Dimension Filter" items="{path: 'viewData>/nodeSetting/dimlist'}">
 								<CustomListItem>
 									<HBox>
 										<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
 										<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-											<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect"/>
+											<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:mode="def"/>
 											<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
 										</VBox>
 									</HBox>

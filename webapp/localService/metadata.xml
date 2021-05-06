@@ -24,6 +24,17 @@
 				<Property Name="Value" Type="Edm.String" Nullable="true"></Property>
 				<NavigationProperty Name="Members" Relationship="Assoc_DimMember" FromRole="From_Dimension" ToRole="To_DimMember"/>
 			</EntityType>
+			<EntityType Name="RefDimension">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.String"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
+				<Property Name="Type" Type="Edm.String" Nullable="true"></Property>
+				<Property Name="Value" Type="Edm.String" Nullable="true"></Property>
+				<NavigationProperty Name="Members" Relationship="Assoc_RefDimMember" FromRole="From_RefDimension" ToRole="To_RefDimMember"/>
+			</EntityType>
+			
 			<EntityType Name="SideGroupMenu">
 				<Key>
 					<PropertyRef Name="ID"/>
@@ -47,6 +58,10 @@
 				<End Multiplicity="1" Role="From_Dimension" Type="Dimension"/>
 				<End Multiplicity="*" Role="To_DimMember" Type="DimMember"/>
 			</Association>
+			<Association Name="Assoc_RefDimMember">
+				<End Multiplicity="1" Role="From_RefDimension" Type="RefDimension"/>
+				<End Multiplicity="*" Role="To_RefDimMember" Type="DimMember"/>
+			</Association>
 			<Association Name="Assoc_GroupItemMenu">
 				<End Multiplicity="1" Role="From_GroupMenu" Type="SideGroupMenu"/>
 				<End Multiplicity="*" Role="To_ItemMenu" Type="SideItemMenu"/>
@@ -62,11 +77,16 @@
 			<EntityContainer Name="DemoEntities" m:IsDefaultEntityContainer="true">
 				<EntitySet EntityType="Demo.Dimension" Name="DimensionSet"/>
 				<EntitySet EntityType="Demo.DimMember" Name="DimMemberSet"/>
+				<EntitySet EntityType="Demo.RefDimension" Name="RefDimensionSet"/>
 				<EntitySet EntityType="Demo.SideGroupMenu" Name="SideGroupMenuSet"/>
 				<EntitySet EntityType="Demo.SideItemMenu" Name="SideItemMenuSet"/>
 				<AssociationSet Association="Assoc_DimMember" Name="Demo.Assoc_DimMemberSet">
 					<End EntitySet="DimensionSet" Role="From_Dimension"/>
 					<End EntitySet="DimMemberSet" Role="To_DimMember"/>
+				</AssociationSet>
+				<AssociationSet Association="Assoc_RefDimMember" Name="Demo.Assoc_RefDimMemberSet">
+					<End EntitySet="RefDimensionSet" Role="From_RefDimension"/>
+					<End EntitySet="DimMemberSet" Role="To_RefDimMember"/>
 				</AssociationSet>
 				<AssociationSet Association="Assoc_GroupItemMenu" Name="Demo.Assoc_GroupItemMenuSet">
 					<End EntitySet="SideGroupMenuSet" Role="From_GroupMenu"/>
