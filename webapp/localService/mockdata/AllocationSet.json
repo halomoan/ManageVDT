@@ -1,4 +1,8 @@
 [{
 	"ID": "1",
 	"Name": "Management Fee"
+},
+{
+	"ID": "2",
+	"Name": "SSC Fee"
 }]
