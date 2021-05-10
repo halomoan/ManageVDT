@@ -1,0 +1,15 @@
+[{
+	"ID": "1",
+	"GroupID": "1",
+	"Name": "Management Fee",
+	"Method": "Reclass",
+	"IntercoRule": true,
+	"Active": true
+}, {
+	"ID": "2",
+	"GroupID": "1",
+	"Name": "Management Fee 1",
+	"Method": "Reclass",
+	"IntercoRule": true,
+	"Active": true
+}]

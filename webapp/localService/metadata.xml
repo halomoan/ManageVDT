@@ -54,6 +54,30 @@
 				<Property Name="GroupID" Type="Edm.String" Nullable="false"></Property>
 				<Property Name="Type" Type="Edm.String" Nullable="false"></Property>
 			</EntityType>
+			
+			<EntityType Name="Allocation">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.String"/>
+				<Property Name="Name" Nullable="false" Type="Edm.String"/>
+				<NavigationProperty Name="Items" Relationship="Assoc_AllocItem" FromRole="From_Allocation" ToRole="To_AllocItem"/>
+			</EntityType>
+			
+			<EntityType Name="AllocItem">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.String"/>
+				<Property Name="GroupID" Nullable="false" Type="Edm.String"/>
+				<Property Name="Name" Nullable="false" Type="Edm.String"/>
+				<Property Name="Method" Type="Edm.String" Nullable="false"></Property>
+				<Property Name="IntercoRule" Type="Edm.Boolean" Nullable="true"></Property>
+				<Property Name="Active" Type="Edm.Boolean" Nullable="true"></Property>				
+				<Property Name="VersionDim" Type="Edm.String" Nullable="true"></Property>
+				<Property Name="Dependency" Type="Edm.String" Nullable="true"></Property>				
+			</EntityType>
+			
 			<Association Name="Assoc_DimMember">
 				<End Multiplicity="1" Role="From_Dimension" Type="Dimension"/>
 				<End Multiplicity="*" Role="To_DimMember" Type="DimMember"/>
@@ -74,12 +98,26 @@
 					</Dependent>
 				</ReferentialConstraint>
 			</Association>
+			<Association Name="Assoc_AllocItem">
+				<End Multiplicity="1" Role="From_Allocation" Type="Allocation"/>
+				<End Multiplicity="*" Role="To_AllocItem" Type="AllocItem"/>
+				<ReferentialConstraint>
+					<Principal Role="From_Allocation">
+						<PropertyRef Name="ID"/>
+					</Principal>
+					<Dependent Role="To_AllocItem">
+						<PropertyRef Name="GroupID"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
 			<EntityContainer Name="DemoEntities" m:IsDefaultEntityContainer="true">
 				<EntitySet EntityType="Demo.Dimension" Name="DimensionSet"/>
 				<EntitySet EntityType="Demo.DimMember" Name="DimMemberSet"/>
 				<EntitySet EntityType="Demo.RefDimension" Name="RefDimensionSet"/>
 				<EntitySet EntityType="Demo.SideGroupMenu" Name="SideGroupMenuSet"/>
 				<EntitySet EntityType="Demo.SideItemMenu" Name="SideItemMenuSet"/>
+				<EntitySet EntityType="Demo.Allocation" Name="AllocationSet"/>
+				<EntitySet EntityType="Demo.AllocItem" Name="AllocItemSet"/>
 				<AssociationSet Association="Assoc_DimMember" Name="Demo.Assoc_DimMemberSet">
 					<End EntitySet="DimensionSet" Role="From_Dimension"/>
 					<End EntitySet="DimMemberSet" Role="To_DimMember"/>
@@ -91,6 +129,10 @@
 				<AssociationSet Association="Assoc_GroupItemMenu" Name="Demo.Assoc_GroupItemMenuSet">
 					<End EntitySet="SideGroupMenuSet" Role="From_GroupMenu"/>
 					<End EntitySet="SideItemMenuSet" Role="To_ItemMenu"/>
+				</AssociationSet>
+				<AssociationSet Association="Assoc_AllocItem" Name="Demo.Assoc_AllocItemSet">
+					<End EntitySet="AllocationSet" Role="From_Allocation"/>
+					<End EntitySet="AllocItemSet" Role="To_AllocItem"/>
 				</AssociationSet>
 			</EntityContainer>
 		</Schema>
