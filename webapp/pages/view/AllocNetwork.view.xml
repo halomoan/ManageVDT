@@ -1,4 +1,4 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns="sap.m"
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns:t="sap.ui.table" xmlns="sap.m"
 	controllerName="uol.bpc.ManageVDT.pages.controller.AllocNetwork" displayBlock="true" height="100%">
 	<f:DynamicPage id="allocPage" toggleHeaderOnTitleClick="false">
 		<!-- DynamicPage Title -->
@@ -11,12 +11,55 @@
 		</f:title>
 		<!-- DynamicPage Content -->
 		<f:content>
-			<List headerText="Custom Content" items="{path: 'odata>/AllocationSet'}">
+			<List items="{path: 'odata>/AllocationSet'}">
 				<CustomListItem>
-					<Panel expandable="true" headerText="{odata>Name}" width="100%" >
+					<Panel expandable="true" headerText="{odata>Name}" width="100%">
 						<content>
-							<Text
-								text="Lorem ipsum dolor st amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat"/>
+							<t:Table id="table" rows="{odata>Items}" selectionMode="MultiToggle" visibleRowCount="7" ariaLabelledBy="title">
+								<t:extension>
+									<OverflowToolbar>
+										<Title id="title" text="Name"/>
+									</OverflowToolbar>
+								</t:extension>
+								<t:columns>
+									<t:Column >
+										<Label text="Allocation Rule"/>
+										<t:template>
+											<Text text="{odata>Name}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column width="11rem">
+										<Label text="Allocation Method"/>
+										<t:template>
+											<Text text="{odata>Method}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column width="7rem" hAlign="Center">
+										<Label text="Intercompany"/>
+										<t:template>
+											<CheckBox selected="{ path: 'odata>IntercoRule', type: 'sap.ui.model.type.Boolean' }"/>
+										</t:template>
+									</t:Column>
+									<t:Column width="6rem" hAlign="Center">
+										<Label text="Active"/>
+										<t:template>
+											<CheckBox selected="{ path: 'odata>Active', type: 'sap.ui.model.type.Boolean' }"/>
+										</t:template>
+									</t:Column>
+									<t:Column >
+										<Label text="Version"/>
+										<t:template>
+											<Text text="" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column >
+										<Label text="Dependency"/>
+										<t:template>
+											<Text text="" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:columns>
+							</t:Table>
 						</content>
 					</Panel>
 				</CustomListItem>
