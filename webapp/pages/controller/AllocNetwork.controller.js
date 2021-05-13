@@ -76,6 +76,7 @@ sap.ui.define([
 				}
 			];
 			this.switchState("Navigation");
+			this.oRouter = this.getRouter();
 
 		},
 		
@@ -85,8 +86,14 @@ sap.ui.define([
 			
 			sap.m.MessageToast.show("Item " + (oItem.getText() || oItem.getType()) + " pressed for product with id " +
 				this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata")));
-				
-				
+			
+			var oFCL = this.getView().getParent().getParent();
+			
+			// var oNextUIState = this.getFCLHelper().getNextUIState(1),
+			// 	sId = this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata"));
+			// this.oRouter.navTo("detail", {layout: oNextUIState.layout, Id: sId});
+			oFCL.setLayout(this.LayoutType.TwoColumnsMidExpanded);
+			
 		},
 		
 		switchState : function(sKey) {

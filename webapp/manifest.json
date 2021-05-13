@@ -103,7 +103,17 @@
 				"pattern": "driverNetwork/{drivername}",
 				"name": "driverNetwork",
 				"target": "driverNetwork"
-			}, {
+			}, 
+			
+			{
+				"pattern": "flexColumnLayout/{allocname}",
+				"name": "flexColumnLayout",
+			
+				"target": [
+					"allocNetwork"
+					]
+			},
+			{
 				"pattern": "allocNetwork/{allocname}",
 				"name": "allocNetwork",
 				"target": "allocNetwork"
@@ -114,10 +124,17 @@
 					"viewName": "DriverNetwork",
 					"viewLevel": 1
 				},
+				"flexColumnLayout": {
+					"viewId": "flexColumnLayout",
+					"viewName": "FlexibleColumnLayout",
+					"viewLevel": 2
+				},
 				"allocNetwork": {
+					"parent": "flexColumnLayout",
 					"viewId": "allocNetwork",
 					"viewName": "AllocNetwork",
-					"viewLevel": 2
+					"controlId": "fcl",
+					"controlAggregation": "beginColumnPages"
 				},
 				"notFound": {
 					"viewId": "notFound",

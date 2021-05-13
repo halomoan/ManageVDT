@@ -2,10 +2,15 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
 	"sap/ui/core/UIComponent",
-	"sap/ui/model/json/JSONModel"
-], function(Controller, History, UIComponent,JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"sap/base/util/UriParameters",
+	"sap/f/library",
+	"sap/f/FlexibleColumnLayoutSemanticHelper"
+], function(Controller, History, UIComponent,JSONModel,UriParameters,library,FlexibleColumnLayoutSemanticHelper) {
 	"use strict";
-
+	
+	var LayoutType = library.LayoutType;
+	
 	return Controller.extend("uol.bpc.ManageVDT.controller.BaseController", {
 
 		getRouter : function () {
@@ -88,6 +93,19 @@ sap.ui.define([
 				_formFragments[sPropertyName].destroy();
 				_formFragments[sPropertyName] = null;
 			}
+		},
+		
+		getFCLHelper: function () {
+			var oFCL = this.byId("fcl"),
+				oParams = UriParameters.fromQuery(location.search),
+				oSettings = {
+					defaultTwoColumnLayoutType: LayoutType.TwoColumnsMidExpanded,
+					defaultThreeColumnLayoutType: LayoutType.ThreeColumnsMidExpanded,
+					mode: oParams.get("mode"),
+					maxColumnsCount: oParams.get("max")
+				};
+
+			return FlexibleColumnLayoutSemanticHelper.getInstanceFor(oFCL, oSettings);
 		}
 
 	});
