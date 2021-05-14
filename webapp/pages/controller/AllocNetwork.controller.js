@@ -89,9 +89,6 @@ sap.ui.define([
 			
 			var oFCL = this.getView().getParent().getParent();
 			
-			// var oNextUIState = this.getFCLHelper().getNextUIState(1),
-			// 	sId = this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata"));
-			// this.oRouter.navTo("detail", {layout: oNextUIState.layout, Id: sId});
 			oFCL.setLayout(this.LayoutType.TwoColumnsMidExpanded);
 			
 		},

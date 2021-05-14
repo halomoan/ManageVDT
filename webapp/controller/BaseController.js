@@ -9,10 +9,11 @@ sap.ui.define([
 ], function(Controller, History, UIComponent,JSONModel,UriParameters,library,FlexibleColumnLayoutSemanticHelper) {
 	"use strict";
 	
-	var LayoutType = library.LayoutType;
 	
 	return Controller.extend("uol.bpc.ManageVDT.controller.BaseController", {
 
+		LayoutType : library.LayoutType,
+		
 		getRouter : function () {
 			return UIComponent.getRouterFor(this);
 		},
@@ -99,8 +100,8 @@ sap.ui.define([
 			var oFCL = this.byId("fcl"),
 				oParams = UriParameters.fromQuery(location.search),
 				oSettings = {
-					defaultTwoColumnLayoutType: LayoutType.TwoColumnsMidExpanded,
-					defaultThreeColumnLayoutType: LayoutType.ThreeColumnsMidExpanded,
+					defaultTwoColumnLayoutType: this.LayoutType.TwoColumnsMidExpanded,
+					defaultThreeColumnLayoutType: this.LayoutType.ThreeColumnsMidExpanded,
 					mode: oParams.get("mode"),
 					maxColumnsCount: oParams.get("max")
 				};

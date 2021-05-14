@@ -110,7 +110,8 @@
 				"name": "flexColumnLayout",
 			
 				"target": [
-					"allocNetwork"
+					"allocNetwork",
+					"allocDetail"
 					]
 			},
 			{
@@ -135,6 +136,13 @@
 					"viewName": "AllocNetwork",
 					"controlId": "fcl",
 					"controlAggregation": "beginColumnPages"
+				},
+				"allocDetail": {
+					"parent": "flexColumnLayout",
+					"viewId": "allocDetail",
+					"viewName": "AllocDetail",
+					"controlId": "fcl",
+					"controlAggregation": "midColumnPages"
 				},
 				"notFound": {
 					"viewId": "notFound",

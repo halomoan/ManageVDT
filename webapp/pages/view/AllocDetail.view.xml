@@ -1,0 +1,40 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns="sap.m"
+	controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail" xmlns:html="http://www.w3.org/1999/xhtml">
+	<f:DynamicPage toggleHeaderOnTitleClick="false" class="sapUiNoContentPadding">
+	<f:title>
+			<f:DynamicPageTitle class="sapUiSizeCompact">
+				<f:heading>
+					<FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<Title text="{products>text}" wrapping="true" class="sapUiTinyMarginEnd"/>
+					</FlexBox>
+				</f:heading>
+				<f:navigationActions>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="onFullScreen" tooltip="Enter Full Screen Mode"
+						visible="{= ! ${viewData>/isFullScreen} }"/>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="onExitFullScreen" tooltip="Exit Full Screen Mode"
+						visible="{= ${viewData>/isFullScreen} }"/>
+					<OverflowToolbarButton type="Transparent" icon="sap-icon://decline" press="onCloseDetail" tooltip="Close column"
+						visible="{= ${/actionButtonsInfo/endColumn/closeColumn} !== null }"/>
+				</f:navigationActions>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}"  class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter text="Info" key="info">
+						<Text text="Info content goes here ..."/>
+					</IconTabFilter>
+					<IconTabFilter text="Attachments" key="attachments">
+						<Text text="Attachments go here ..."/>
+					</IconTabFilter>
+					<IconTabFilter text="Notes" key="notes">
+						<Text text="Notes go here ..."/>
+					</IconTabFilter>
+					<IconTabFilter text="People" key="people">
+						<Text text="People content goes here ..."/>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

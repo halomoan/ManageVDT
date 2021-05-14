@@ -1,11 +1,11 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns:t="sap.ui.table" xmlns="sap.m"
 	controllerName="uol.bpc.ManageVDT.pages.controller.AllocNetwork" displayBlock="true" height="100%">
-	<f:DynamicPage id="allocPage" toggleHeaderOnTitleClick="false">
+	<f:DynamicPage id="allocPage" toggleHeaderOnTitleClick="false" class="sapUiNoContentPadding">
 		<!-- DynamicPage Title -->
 		<f:title>
 			<f:DynamicPageTitle>
 				<f:heading>
-					<Title text="Allocation ({odata>/AllocationSet?$count})"/>
+					<Title text="Allocation"/>
 				</f:heading>
 			</f:DynamicPageTitle>
 		</f:title>
@@ -15,7 +15,7 @@
 				<CustomListItem>
 					<Panel expandable="true" headerText="{odata>Name}" width="100%">
 						<content>
-							<t:Table id="table" rows="{odata>Items}" selectionMode="MultiToggle" visibleRowCount="7" ariaLabelledBy="title">
+							<t:Table id="table" rows="{odata>Items}" selectionMode="MultiToggle" visibleRowCount="5" ariaLabelledBy="title" class="sapUiSizeCompact">
 								<t:extension>
 									<OverflowToolbar>
 										<Title id="title" text="Name"/>
