@@ -21,18 +21,17 @@
 		<f:content>
 			<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}"  class="sapUiResponsiveContentPadding">
 				<items>
-					<IconTabFilter text="Info" key="info">
-						<Text text="Info content goes here ..."/>
+					<IconTabFilter text="General" key="general">
+						<mvc:XMLView id="subAllocGeneral" viewName="uol.bpc.ManageVDT.pages.view.SubAllocGeneral"/>
 					</IconTabFilter>
-					<IconTabFilter text="Attachments" key="attachments">
-						<Text text="Attachments go here ..."/>
+					<IconTabFilter text="Input" key="input">
+						<mvc:XMLView id="subAllocInput" viewName="uol.bpc.ManageVDT.pages.view.SubAllocInput"/>
 					</IconTabFilter>
-					<IconTabFilter text="Notes" key="notes">
-						<Text text="Notes go here ..."/>
+					<IconTabFilter text="Output" key="output">
+						<mvc:XMLView id="subAllocOutput" viewName="uol.bpc.ManageVDT.pages.view.SubAllocOutput"/>
+						
 					</IconTabFilter>
-					<IconTabFilter text="People" key="people">
-						<Text text="People content goes here ..."/>
-					</IconTabFilter>
+					
 				</items>
 			</IconTabBar>
 		</f:content>

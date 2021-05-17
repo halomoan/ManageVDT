@@ -1,0 +1,13 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail"
+	 xmlns:html="http://www.w3.org/1999/xhtml">
+	<Label text="Allocation Rule" labelFor="allocRule" />
+	<Input id="allocRule"
+			placeholder="Enter a Name"/>
+	<Label text="Allocation Rule" labelFor="allocMethodx" />
+	<ComboBox id="allocMethod" selectedKey="driver" selectionChange="onSetTypeChange">
+		<core:Item key="driver" text="Driver"/>
+		<core:Item key="reclass" text="Reclass"/>
+		<core:Item key="equal" text="Equal"/>
+		<core:Item key="fixedweights" text="Fixed Weights"/>
+	</ComboBox>
+</mvc:View>

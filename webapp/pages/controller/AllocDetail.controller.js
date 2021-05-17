@@ -40,6 +40,9 @@ sap.ui.define([
 			oFCL.setLayout(this.LayoutType.TwoColumnsMidExpanded);
 		},
 		
+		onPress: function(oEvent){
+			alert('Yes');	
+		},
 		onExit: function() {
 		
 		}
