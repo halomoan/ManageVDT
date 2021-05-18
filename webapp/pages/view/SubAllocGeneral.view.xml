@@ -1,13 +1,62 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	 xmlns:html="http://www.w3.org/1999/xhtml">
-	<Label text="Allocation Rule" labelFor="allocRule" />
-	<Input id="allocRule"
-			placeholder="Enter a Name"/>
-	<Label text="Allocation Rule" labelFor="allocMethodx" />
-	<ComboBox id="allocMethod" selectedKey="driver" selectionChange="onSetTypeChange">
-		<core:Item key="driver" text="Driver"/>
-		<core:Item key="reclass" text="Reclass"/>
-		<core:Item key="equal" text="Equal"/>
-		<core:Item key="fixedweights" text="Fixed Weights"/>
-	</ComboBox>
+	<VBox>
+		<Label text="Allocation Rule" labelFor="allocRule" />
+		<Input id="allocRule"
+				placeholder="Enter a Name"/>
+		<Label text="Allocation Rule" labelFor="allocMethodx" />
+		<ComboBox id="allocMethod" selectedKey="driver" selectionChange="onSetTypeChange">
+			<core:Item key="driver" text="Driver"/>
+			<core:Item key="reclass" text="Reclass"/>
+			<core:Item key="equal" text="Equal"/>
+			<core:Item key="fixedweights" text="Fixed Weights"/>
+		</ComboBox>
+	
+		<FlexBox
+				alignItems="Center"
+				justifyContent="End">
+			<Label text="InterCompany Rule" class="sapUiTinyMarginEnd" />
+			<Switch state="true" customTextOn="Yes" customTextOff="No"/>
+		</FlexBox>
+		<FlexBox
+				alignItems="Center"
+				justifyContent="End">
+			<Label text="Post To InterCompany Functional Currency" class="sapUiTinyMarginEnd" />
+			<Switch state="true" customTextOn="Yes" customTextOff="No"/>
+		</FlexBox>
+		
+		<List id="datasetdimlist" headerText="Output DataSet" items="{path: 'viewData>/general/outdatasetdimlist'}">
+			<CustomListItem>
+				<HBox>
+					<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+					<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+						<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:dataref="general.outdatasetdimlist"/>
+						<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
+					</VBox>
+				</HBox>
+			</CustomListItem>
+		</List>
+		
+		<List id="versiondimlist" headerText="Applicable Version" items="{path: 'viewData>/general/versiondimlist'}">
+			<CustomListItem>
+				<HBox>
+					<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+					<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+						<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:dataref="general.versiondimlist"/>
+						<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
+					</VBox>
+				</HBox>
+			</CustomListItem>
+		</List>
+		<Label text="Dependency Rule"  class="sapUiSmallMarginTop" />
+		<MultiComboBox
+			id="generalDep"
+			selectionChange="handleSelectionChange"
+			selectionFinish="handleSelectionFinish"
+			width="350px"
+			>
+			<core:Item key="{odata>ID}" text="{odata>Name}"/>
+		</MultiComboBox>
+	</VBox>
 </mvc:View>

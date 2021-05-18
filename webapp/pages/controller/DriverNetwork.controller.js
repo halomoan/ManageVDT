@@ -535,7 +535,6 @@ sap.ui.define([
 		},
 		onAppendDimMember: function(oEvent){
 			var oTree = this.byId("MstTree"),
-				regex = new RegExp(/\n$/),
 				oViewModel = this.getModel("viewData"),
 				oSettingData = oViewModel.getData().nodeSetting;
 				
@@ -551,7 +550,7 @@ sap.ui.define([
 				});
 				
 				if (!bExist) {
-					if (i === 0) {
+					if (sText.length < 1) {
 						
 						sText = oItem.getTitle();
 						
@@ -563,13 +562,13 @@ sap.ui.define([
 			}
 			
 			if (this._DimMode === "ref") {
-				if (oSettingData.refdimlist[this._DimIndex].Value.length < 1 || regex.test(oSettingData.refdimlist[this._DimIndex].Value)) {
+				if (oSettingData.refdimlist[this._DimIndex].Value.length < 1 ) {
 					oSettingData.refdimlist[this._DimIndex].Value += sText;
 				} else {
 					oSettingData.refdimlist[this._DimIndex].Value += "\n" + sText;
 				}
 			} else {
-				if (oSettingData.dimlist[this._DimIndex].Value.length < 1 || regex.test(oSettingData.refdimlist[this._DimIndex].Value)) {
+				if (oSettingData.dimlist[this._DimIndex].Value.length < 1 ) {
 					oSettingData.dimlist[this._DimIndex].Value += sText;
 				} else {
 					oSettingData.dimlist[this._DimIndex].Value += "\n" + sText;

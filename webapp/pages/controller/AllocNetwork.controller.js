@@ -83,9 +83,23 @@ sap.ui.define([
 		handleActionPress : function(oEvent) {
 			var oRow = oEvent.getParameter("row");
 			var oItem = oEvent.getParameter("item");
+			var regex = /^\/\w+\(\'[\w|\d]+\'\)/g;
 			
-			sap.m.MessageToast.show("Item " + (oItem.getText() || oItem.getType()) + " pressed for product with id " +
-				this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata")));
+			// sap.m.MessageToast.show("Item " + (oItem.getText() || oItem.getType()) + " pressed for product with id " +
+			// 	this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata")));
+			
+			//console.log(oItem,oRow.getBindingContext("odata"));
+			
+			var oContext = oRow.getBindingContext("odata");
+			var sPath = oContext.sDeepPath.match(regex)[0];
+			
+		
+			
+			var oItemTemplate = new sap.ui.core.Item({text:"{odata>Name}"});
+			var oGeneralDep = sap.ui.getCore().byId("__component0---allocDetail--subAllocGeneral--generalDep");
+		
+			oGeneralDep.bindItems("odata>" + sPath + "/Items",oItemTemplate);
+			
 			
 			var oFCL = this.getView().getParent().getParent();
 			
