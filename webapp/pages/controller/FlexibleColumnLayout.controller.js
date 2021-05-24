@@ -11,10 +11,15 @@ sap.ui.define([
 		
 		
 		onInit: function() {
-				
-			
+			var oViewData = {
+				"layout" : "OneColumn"
+			};
+			this.getView().setModel(new JSONModel(oViewData), "viewData");
 		},
 		
+		onStateChanged: function(oEvent){
+		
+		},
 		onExit: function () {
 		}
 

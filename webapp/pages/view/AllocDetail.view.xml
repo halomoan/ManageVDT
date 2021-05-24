@@ -5,7 +5,7 @@
 			<f:DynamicPageTitle class="sapUiSizeCompact">
 				<f:heading>
 					<FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
-						<Title text="{products>text}" wrapping="true" class="sapUiTinyMarginEnd"/>
+						<Title text="{odata>Name}" wrapping="true" class="sapUiTinyMarginEnd"/>
 					</FlexBox>
 				</f:heading>
 				<f:navigationActions>

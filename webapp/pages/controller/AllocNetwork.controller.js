@@ -90,20 +90,30 @@ sap.ui.define([
 			
 			//console.log(oItem,oRow.getBindingContext("odata"));
 			
+			var sID = this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata"));
 			var oContext = oRow.getBindingContext("odata");
 			var sPath = oContext.sDeepPath.match(regex)[0];
-			
 		
 			
 			var oItemTemplate = new sap.ui.core.Item({text:"{odata>Name}"});
 			var oGeneralDep = sap.ui.getCore().byId("__component0---allocDetail--subAllocGeneral--generalDep");
+			var oFilters = [ new sap.ui.model.Filter("ID", sap.ui.model.FilterOperator.NE, sID)];
 		
-			oGeneralDep.bindItems("odata>" + sPath + "/Items",oItemTemplate);
+			oGeneralDep.bindItems("odata>" + sPath + "/Items",oItemTemplate,null, oFilters);
 			
 			
 			var oFCL = this.getView().getParent().getParent();
-			
 			oFCL.setLayout(this.LayoutType.TwoColumnsMidExpanded);
+			
+			var oMidColumn = oFCL.getCurrentMidColumnPage();
+			
+			
+			oMidColumn.bindElement({
+				path:  oContext.getPath(),
+			 	model: "odata"
+			});
+			
+		
 			
 		},
 		

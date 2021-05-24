@@ -12,4 +12,21 @@
 	"Method": "Reclass",
 	"IntercoRule": true,
 	"Active": true
-}]
+},
+{
+	"ID": "3",
+	"GroupID": "2",
+	"Name": "SSC 1",
+	"Method": "Reclass",
+	"IntercoRule": true,
+	"Active": true
+},
+{
+	"ID": "4",
+	"GroupID": "2",
+	"Name": "SSC 2",
+	"Method": "Reclass",
+	"IntercoRule": true,
+	"Active": true
+}
+]

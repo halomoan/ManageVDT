@@ -38,9 +38,27 @@ sap.ui.define([
 						{ "Id": "0", "Text" : "Dependency 1" },
 						{ "Id": "1", "Text" : "Dependency 2" }
 					]
+				},
+				"input": {
+					"inputdimlist": [
+						{
+							"Type": "Account",
+							"Name": "ACCOUNT",
+							"Desc": "GL Account",
+							"Value": "P615011 - Room Revenue"
+						},
+						{
+							"Type": "Audit",
+							"Name": "AUDIT_TRAIL",
+							"Desc": "Audit Trail",
+							"Value": "INPUT - INPUT"
+						}
+					]
 				}
 			};
 			this.getView().setModel(new JSONModel(oViewData), "viewData");
+			
+		
 		},
 		
 		onCloseDetail: function(){

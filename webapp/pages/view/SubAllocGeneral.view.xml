@@ -1,6 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail"
 	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
-	 xmlns:html="http://www.w3.org/1999/xhtml">
+	>
 	<VBox>
 		<Label text="Allocation Rule" labelFor="allocRule" />
 		<Input id="allocRule"
@@ -58,5 +58,7 @@
 			>
 			<core:Item key="{odata>ID}" text="{odata>Name}"/>
 		</MultiComboBox>
+		<CheckBox text="Active" />
+	
 	</VBox>
 </mvc:View>
