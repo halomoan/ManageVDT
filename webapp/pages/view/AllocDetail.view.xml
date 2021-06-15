@@ -24,7 +24,7 @@
 					<IconTabFilter text="General" key="general">
 						<mvc:XMLView id="subAllocGeneral" viewName="uol.bpc.ManageVDT.pages.view.SubAllocGeneral"/>
 					</IconTabFilter>
-					<IconTabFilter text="Input" key="input">
+					<IconTabFilter text="Input" key="inputparam">
 						<mvc:XMLView id="subAllocInput" viewName="uol.bpc.ManageVDT.pages.view.SubAllocInput"/>
 					</IconTabFilter>
 					<IconTabFilter text="Output" key="output">

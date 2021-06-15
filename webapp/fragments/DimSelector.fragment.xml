@@ -1,0 +1,21 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog
+		id="DimSelectorDialog"
+		noDataText="No Dimensions Found"
+		title="Select Dimension(s)"
+		search=".onDimDialogSearch"
+		confirm=".onDimDialogClose"
+		cancel=".onDimDialogClose"
+		multiSelect="true"
+		items="{
+			path: 'odata>/DimensionSet'
+		}">
+		<StandardListItem
+			title="{odata>Name}"
+			description="{odata>Desc}"
+			icon="sap-icon://dimension"
+			iconDensityAware="false"
+			iconInset="false"
+			type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

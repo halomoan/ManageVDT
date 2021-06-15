@@ -39,21 +39,22 @@ sap.ui.define([
 						{ "Id": "1", "Text" : "Dependency 2" }
 					]
 				},
-				"input": {
-					"inputdimlist": [
+				"inputparam": {
+					"dimlist": [
 						{
-							"Type": "Account",
+							"ID": "ACCOUNT",
 							"Name": "ACCOUNT",
-							"Desc": "GL Account",
 							"Value": "P615011 - Room Revenue"
 						},
 						{
-							"Type": "Audit",
+							"ID": "AUDIT",
 							"Name": "AUDIT_TRAIL",
-							"Desc": "Audit Trail",
 							"Value": "INPUT - INPUT"
 						}
-					]
+					],
+					"isCumulative": true,
+					"type": "byvalue",
+					"factor": 1
 				}
 			};
 			this.getView().setModel(new JSONModel(oViewData), "viewData");
@@ -219,6 +220,38 @@ sap.ui.define([
 			this.byId("addNodeDialog").close();
 		},
 		
+		onSelectDimension: function(){
+			var oView = this.getView();
+				
+				this.showFormDialogFragment(oView, this._formFragments, "uol.bpc.ManageVDT.fragments.DimSelector", this);
+		},
+		
+		onDimDialogSearch: function(oEvent){
+			var sValue = oEvent.getParameter("value");
+			var oFilter = new Filter("Name", FilterOperator.Contains, sValue);
+			var oBinding = oEvent.getParameter("itemsBinding");
+			oBinding.filter([oFilter]);
+		},
+		
+		onDimDialogClose: function(oEvent){
+			var oViewModel = this.getModel("viewData"),
+				oViewData = oViewModel.getData(),
+				oDimList = oViewData.inputparam.dimlist;
+				
+			var aContexts = oEvent.getParameter("selectedContexts");
+			
+			if (aContexts && aContexts.length) {
+				oDimList = [];
+				for(var i = 0; i < aContexts.length ; i++ ){
+					
+					var oDim = aContexts[i].getObject();
+					oDimList.push(oDim);
+					
+				}
+			}
+			oViewModel.setProperty("/inputparam/dimlist", oDimList);
+			oEvent.getSource().getBinding("items").filter([]);
+		},
 		onExit: function() {
 			this.removeFragment(this._formFragments);
 		}
