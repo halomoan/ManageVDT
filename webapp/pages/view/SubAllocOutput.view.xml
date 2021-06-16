@@ -1,8 +1,35 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-	controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Button type="Accept" text="Emphasized" press="onPress" >
-          <layoutData>
-            <FlexItemData growFactor="1" />
-          </layoutData>
-        </Button> 
+	controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<VBox>
+		<List id="outputdimlist" items="{path: 'viewData>/outputparam/dimlist'}" class="sapUiTinyMarginBottom">
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="Dimension" level="H2"/>
+					<ToolbarSpacer/>
+						<Button
+					icon="sap-icon://add-activity"
+					press="onSelectDimension('outputparam')" />
+				</OverflowToolbar>
+			</headerToolbar>
+			<CustomListItem>
+				<HBox>
+					<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+					<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+						<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:dataref="outputparam"/>
+						<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
+					</VBox>
+				</HBox>
+			</CustomListItem>
+		</List>
+		<FlexBox alignItems="Center" justifyContent="End">
+			<Label text="Swap Entity-InterCo" class="sapUiTinyMarginEnd"/>
+			<Switch state="{viewData>/outputparam/swapInterco}" customTextOn="Yes" customTextOff="No"/>
+		</FlexBox>
+		<Label text="Posting Type" labelFor="postingType"/>
+		<ComboBox id="postingType" selectedKey="{viewData>/outputparam/postingtype}" selectionChange="onPostingTypeChange">
+			<core:Item key="notApplicable" text="Not Applicable"/>
+			<core:Item key="sameAsSource" text="Same As Source"/>
+			<core:Item key="userDefine" text="User Defined"/>
+		</ComboBox>
+	</VBox>
 </mvc:View>
