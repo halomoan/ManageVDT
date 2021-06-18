@@ -29,7 +29,7 @@ sap.ui.define([
 						drivername : oCtx.getProperty("Name")
 					}); break;
 				case "ALLOCATION": 
-					oRouter.navTo("flexColumnLayout",{
+					oRouter.navTo("allocation",{
 						allocname : oCtx.getProperty("Name")
 					}); break;	
 				default:

@@ -143,7 +143,8 @@ sap.ui.define([
 			// 	}
 			// });
 			
-			this.getOwnerComponent().getModel("odata").metadataLoaded().then(function() {
+			//this.getOwnerComponent().getModel("odata").metadataLoaded().then(function() {
+			this.getModel("odata").metadataLoaded().then(function() {
 				var oOData = this.getModel("odata");
 				var oThis = this;
 				

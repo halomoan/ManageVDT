@@ -1,21 +1,23 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-	controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	controllerName="uol.bpc.ManageVDT.pages.controller.SubAllocOutput"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	>
 	<VBox>
-		<List id="outputdimlist" items="{path: 'viewData>/outputparam/dimlist'}" class="sapUiTinyMarginBottom">
+		<List id="outputdimlist" items="{path: 'viewData>/outputdimlist'}" class="sapUiTinyMarginBottom">
 			<headerToolbar>
 				<OverflowToolbar>
-					<Title text="Dimension" level="H2"/>
+					<Title text="Output Dimension" level="H2"/>
 					<ToolbarSpacer/>
 						<Button
 					icon="sap-icon://add-activity"
-					press="onSelectDimension('outputparam')" />
+					press="onSelectDimension('outputdimlist')" />
 				</OverflowToolbar>
 			</headerToolbar>
 			<CustomListItem>
 				<HBox>
 					<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
 					<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-						<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:dataref="outputparam"/>
+						<Link text="{viewData>Name}" target="{viewData>ID}" press="onDimMemberSelect" customData:dataref="outputdimlist"/>
 						<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
 					</VBox>
 				</HBox>
@@ -23,13 +25,35 @@
 		</List>
 		<FlexBox alignItems="Center" justifyContent="End">
 			<Label text="Swap Entity-InterCo" class="sapUiTinyMarginEnd"/>
-			<Switch state="{viewData>/outputparam/swapInterco}" customTextOn="Yes" customTextOff="No"/>
+			<Switch state="{viewData>/swapInterco}" customTextOn="Yes" customTextOff="No"/>
 		</FlexBox>
+		<Title text="OFFSET" class="sapUiSmallMarginBottom"></Title>
 		<Label text="Posting Type" labelFor="postingType"/>
-		<ComboBox id="postingType" selectedKey="{viewData>/outputparam/postingtype}" selectionChange="onPostingTypeChange">
+		<ComboBox id="postingType" selectedKey="{viewData>/postingtype}" selectionChange="onPostingTypeChange">
 			<core:Item key="notApplicable" text="Not Applicable"/>
 			<core:Item key="sameAsSource" text="Same As Source"/>
-			<core:Item key="userDefine" text="User Defined"/>
+			<core:Item key="userDefined" text="User Defined"/>
 		</ComboBox>
+		
+		<List id="offsetdimlist" items="{path: 'viewData>/offsetdimlist'}" class="sapUiTinyMarginBottom" visible="{viewData>/useoffsetdimlist}">
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="Offset Dimension" level="H2"/>
+					<ToolbarSpacer/>
+						<Button
+					icon="sap-icon://add-activity"
+					press="onSelectDimension('offsetdimlist')" />
+				</OverflowToolbar>
+			</headerToolbar>
+			<CustomListItem>
+				<HBox>
+					<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+					<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+						<Link text="{viewData>Name}" target="{viewData>ID}" press="onDimMemberSelect" customData:dataref="offsetdimlist"/>
+						<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
+					</VBox>
+				</HBox>
+			</CustomListItem>
+		</List>
 	</VBox>
 </mvc:View>

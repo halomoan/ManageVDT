@@ -13,7 +13,7 @@ sap.ui.define([
 	return Controller.extend("uol.bpc.ManageVDT.controller.BaseController", {
 
 		LayoutType : library.LayoutType,
-		
+	
 		getRouter : function () {
 			return UIComponent.getRouterFor(this);
 		},
@@ -39,6 +39,8 @@ sap.ui.define([
 					this.getRouter().navTo("home", {}, true);
 				}
 		},
+		
+		
 		
 		getFormFragment: function (oView, _formFragments, sFragmentName,oThis) {
 			var oFormFragment = _formFragments[sFragmentName];

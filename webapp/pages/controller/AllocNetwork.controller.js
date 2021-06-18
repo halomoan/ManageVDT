@@ -76,7 +76,7 @@ sap.ui.define([
 				}
 			];
 			this.switchState("Navigation");
-			this.oRouter = this.getRouter();
+		
 
 		},
 		
@@ -87,8 +87,7 @@ sap.ui.define([
 			
 			// sap.m.MessageToast.show("Item " + (oItem.getText() || oItem.getType()) + " pressed for product with id " +
 			// 	this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata")));
-			
-			//console.log(oItem,oRow.getBindingContext("odata"));
+	
 			
 			var sID = this.getModel("odata").getProperty("ID", oRow.getBindingContext("odata"));
 			var oContext = oRow.getBindingContext("odata");
@@ -113,7 +112,6 @@ sap.ui.define([
 			 	model: "odata"
 			});
 			
-		
 			
 		},
 		

@@ -1,4 +1,4 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="uol.bpc.ManageVDT.pages.controller.AllocDetail"
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="uol.bpc.ManageVDT.pages.controller.SubAllocGeneral"
 	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	>
 	<VBox>
@@ -26,24 +26,24 @@
 			<Switch state="true" customTextOn="Yes" customTextOff="No"/>
 		</FlexBox>
 		
-		<List id="datasetdimlist" headerText="Output DataSet" items="{path: 'viewData>/general/outdatasetdimlist'}">
+		<List id="datasetdimlist" headerText="Output DataSet" items="{path: 'viewData>/outdatasetdimlist'}">
 			<CustomListItem>
 				<HBox>
 					<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
 					<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-						<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:dataref="general.outdatasetdimlist"/>
+						<Link text="{viewData>Name}" target="{viewData>ID}" press="onDimMemberSelect" customData:dataref="outdatasetdimlist"/>
 						<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
 					</VBox>
 				</HBox>
 			</CustomListItem>
 		</List>
 		
-		<List id="versiondimlist" headerText="Applicable Version" items="{path: 'viewData>/general/versiondimlist'}">
+		<List id="versiondimlist" headerText="Applicable Version" items="{path: 'viewData>/versiondimlist'}">
 			<CustomListItem>
 				<HBox>
 					<core:Icon size="2rem" src="sap-icon://add-filter" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
 					<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
-						<Link text="{viewData>Name}" target="{viewData>ID}" press="onOpenDimSelect" customData:dataref="general.versiondimlist"/>
+						<Link text="{viewData>Name}" target="{viewData>ID}" press="onDimMemberSelect" customData:dataref="versiondimlist"/>
 						<ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{viewData>Value}" overflowMode="Popover"/>
 					</VBox>
 				</HBox>

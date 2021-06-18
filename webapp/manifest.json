@@ -107,7 +107,7 @@
 			
 			{
 				"pattern": "flexColumnLayout/{allocname}/:item:",
-				"name": "flexColumnLayout",
+				"name": "allocation",
 				"target": [
 					"allocNetwork",
 					"allocDetail"
