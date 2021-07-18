@@ -104,7 +104,14 @@
 				"name": "driverNetwork",
 				"target": "driverNetwork"
 			}, 
-			
+			{
+				"pattern": "driverFCL/{drivername}/:item:",
+				"name": "driverNetwork",
+				"target": [
+					"driverList"
+				
+					]
+			},
 			{
 				"pattern": "allocFCL/{allocname}/:item:",
 				"name": "allocation",
@@ -129,18 +136,31 @@
 					"viewName": "AllocFCL",
 					"viewLevel": 2
 				},
+				"driverFCL": {
+					"viewId": "driverFCL",
+					"viewName": "DriverFCL",
+					"viewLevel": 2
+				},
+				"driverList": {
+					"parent": "driverFCL",
+					"viewId": "dirverList",
+					"viewName": "DriverList",
+					"controlId": "driverfcl",
+					"controlAggregation": "beginColumnPages"
+				},
 				"allocNetwork": {
 					"parent": "allocFCL",
 					"viewId": "allocNetwork",
 					"viewName": "AllocNetwork",
-					"controlId": "fcl",
+					"controlId": "allocfcl",
 					"controlAggregation": "beginColumnPages"
 				},
+				
 				"allocDetail": {
 					"parent": "allocFCL",
 					"viewId": "allocDetail",
 					"viewName": "AllocDetail",
-					"controlId": "fcl",
+					"controlId": "allocfcl",
 					"controlAggregation": "midColumnPages"
 				},
 				"notFound": {

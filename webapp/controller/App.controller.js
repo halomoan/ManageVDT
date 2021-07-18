@@ -24,10 +24,15 @@ sap.ui.define([
 			var oRouter = this.getRouter();
 				
 			switch(sType){
+				// case "DRIVER": 
+				// 	oRouter.navTo("driverNetwork",{
+				// 		drivername : oCtx.getProperty("Name")
+				// 	}); break;
 				case "DRIVER": 
 					oRouter.navTo("driverNetwork",{
 						drivername : oCtx.getProperty("Name")
-					}); break;
+					}); break;	
+					
 				case "ALLOCATION": 
 					oRouter.navTo("allocation",{
 						allocname : oCtx.getProperty("Name")

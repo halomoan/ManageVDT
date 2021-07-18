@@ -1,0 +1,47 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns="sap.m" xmlns:tnt="sap.tnt"
+	controllerName="uol.bpc.ManageVDT.pages.controller.DriverList" displayBlock="true" height="100%">
+	<f:DynamicPage toggleHeaderOnTitleClick="false" class="sapUiNoContentPadding">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="Drivers"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<!-- DynamicPage Content -->
+		<f:content>
+			<tnt:SideNavigation id="sideNavigation" selectedKey="subItem3">
+				<tnt:NavigationList>
+					<tnt:NavigationListItem text="Item 1" icon="sap-icon://employee">
+						<tnt:NavigationListItem text="Sub Item 1"/>
+						<tnt:NavigationListItem text="Sub Item 2"/>
+						<tnt:NavigationListItem text="Sub Item 3" id="subItem3" key="subItem3"/>
+						<tnt:NavigationListItem text="Sub Item 4"/>
+					</tnt:NavigationListItem>
+					<tnt:NavigationListItem text="Item 2" icon="sap-icon://building">
+						<tnt:NavigationListItem text="Sub Item 1"/>
+						<tnt:NavigationListItem text="Sub Item 2"/>
+						<tnt:NavigationListItem text="Sub Item 3"/>
+						<tnt:NavigationListItem text="Sub Item 4"/>
+					</tnt:NavigationListItem>
+				</tnt:NavigationList>
+				<tnt:fixedItem>
+					<tnt:NavigationList>
+						<tnt:NavigationListItem text="Item 1" icon="sap-icon://employee"/>
+						<tnt:NavigationListItem text="Item 2" icon="sap-icon://building"/>
+						<tnt:NavigationListItem text="Item 3" icon="sap-icon://card"/>
+					</tnt:NavigationList>
+				</tnt:fixedItem>
+			</tnt:SideNavigation>
+		</f:content>
+		<!-- DynamicPage Footer -->
+		<!--<f:footer>-->
+		<!--	<OverflowToolbar>-->
+		<!--		<ToolbarSpacer/>-->
+		<!--		<Button type="Accept" text="Accept"/>-->
+		<!--		<Button type="Reject" text="Reject"/>-->
+		<!--	</OverflowToolbar>-->
+		<!--</f:footer>-->
+	</f:DynamicPage>
+</mvc:View>
