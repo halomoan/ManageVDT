@@ -106,7 +106,7 @@
 			}, 
 			
 			{
-				"pattern": "flexColumnLayout/{allocname}/:item:",
+				"pattern": "allocFCL/{allocname}/:item:",
 				"name": "allocation",
 				"target": [
 					"allocNetwork",
@@ -124,20 +124,20 @@
 					"viewName": "DriverNetwork",
 					"viewLevel": 1
 				},
-				"flexColumnLayout": {
-					"viewId": "flexColumnLayout",
-					"viewName": "FlexibleColumnLayout",
+				"allocFCL": {
+					"viewId": "allocFCL",
+					"viewName": "AllocFCL",
 					"viewLevel": 2
 				},
 				"allocNetwork": {
-					"parent": "flexColumnLayout",
+					"parent": "allocFCL",
 					"viewId": "allocNetwork",
 					"viewName": "AllocNetwork",
 					"controlId": "fcl",
 					"controlAggregation": "beginColumnPages"
 				},
 				"allocDetail": {
-					"parent": "flexColumnLayout",
+					"parent": "allocFCL",
 					"viewId": "allocDetail",
 					"viewName": "AllocDetail",
 					"controlId": "fcl",

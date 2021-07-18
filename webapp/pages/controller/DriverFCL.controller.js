@@ -7,7 +7,7 @@ sap.ui.define([
 	
 	var _globalVar = {};
 	
-	return BaseController.extend("uol.bpc.ManageVDT.pages.controller.FlexibleColumnLayout", {
+	return BaseController.extend("uol.bpc.ManageVDT.pages.controller.DriverFCL", {
 
 		
 		
