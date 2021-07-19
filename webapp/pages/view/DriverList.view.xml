@@ -11,29 +11,12 @@
 		</f:title>
 		<!-- DynamicPage Content -->
 		<f:content>
-			<tnt:SideNavigation id="sideNavigation" selectedKey="subItem3">
-				<tnt:NavigationList>
-					<tnt:NavigationListItem text="Item 1" icon="sap-icon://employee">
-						<tnt:NavigationListItem text="Sub Item 1"/>
-						<tnt:NavigationListItem text="Sub Item 2"/>
-						<tnt:NavigationListItem text="Sub Item 3" id="subItem3" key="subItem3"/>
-						<tnt:NavigationListItem text="Sub Item 4"/>
-					</tnt:NavigationListItem>
-					<tnt:NavigationListItem text="Item 2" icon="sap-icon://building">
-						<tnt:NavigationListItem text="Sub Item 1"/>
-						<tnt:NavigationListItem text="Sub Item 2"/>
-						<tnt:NavigationListItem text="Sub Item 3"/>
-						<tnt:NavigationListItem text="Sub Item 4"/>
-					</tnt:NavigationListItem>
-				</tnt:NavigationList>
-				<tnt:fixedItem>
-					<tnt:NavigationList>
-						<tnt:NavigationListItem text="Item 1" icon="sap-icon://employee"/>
-						<tnt:NavigationListItem text="Item 2" icon="sap-icon://building"/>
-						<tnt:NavigationListItem text="Item 3" icon="sap-icon://card"/>
-					</tnt:NavigationList>
-				</tnt:fixedItem>
-			</tnt:SideNavigation>
+			<List items="{path: 'odata>/AllocationSet'}">
+				<CustomListItem>
+					<Panel expandable="true" headerText="{odata>Name}" width="100%">
+					</Panel>
+				</CustomListItem>
+			</List>		
 		</f:content>
 		<!-- DynamicPage Footer -->
 		<!--<f:footer>-->

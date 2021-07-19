@@ -55,6 +55,23 @@
 				<Property Name="Type" Type="Edm.String" Nullable="false"></Property>
 			</EntityType>
 			
+			<EntityType Name="NetworkGroup">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.String"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
+				<NavigationProperty Name="NetworkItems" Relationship="Assoc_NetworkGrupNetworkItem" FromRole="From_NetworkGroup" ToRole="To_NetworkItem"/>
+			</EntityType>
+			
+			<EntityType Name="NetworkItem">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Nullable="false" Type="Edm.String"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true"></Property>
+			</EntityType>
+			
 			<EntityType Name="Allocation">
 				<Key>
 					<PropertyRef Name="ID"/>
@@ -98,6 +115,19 @@
 					</Dependent>
 				</ReferentialConstraint>
 			</Association>
+			<Association Name="Assoc_NetworkGrupNetworkItem">
+				<End Multiplicity="1" Role="From_NetworkGroup" Type="NetworkGroup"/>
+				<End Multiplicity="*" Role="To_NetworkItem" Type="NetworkItem"/>
+				<ReferentialConstraint>
+					<Principal Role="From_NetworkGroup">
+						<PropertyRef Name="ID"/>
+					</Principal>
+					<Dependent Role="To_NetworkItem">
+						<PropertyRef Name="GroupID"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+			
 			<Association Name="Assoc_AllocItem">
 				<End Multiplicity="1" Role="From_Allocation" Type="Allocation"/>
 				<End Multiplicity="*" Role="To_AllocItem" Type="AllocItem"/>
@@ -116,6 +146,8 @@
 				<EntitySet EntityType="Demo.RefDimension" Name="RefDimensionSet"/>
 				<EntitySet EntityType="Demo.SideGroupMenu" Name="SideGroupMenuSet"/>
 				<EntitySet EntityType="Demo.SideItemMenu" Name="SideItemMenuSet"/>
+				<EntitySet EntityType="Demo.NetworkGroup" Name="NetworkGroupSet"/>
+				<EntitySet EntityType="Demo.NetworkItem" Name="NetworkItemSet"/>
 				<EntitySet EntityType="Demo.Allocation" Name="AllocationSet"/>
 				<EntitySet EntityType="Demo.AllocItem" Name="AllocItemSet"/>
 				<AssociationSet Association="Assoc_DimMember" Name="Demo.Assoc_DimMemberSet">
@@ -129,6 +161,10 @@
 				<AssociationSet Association="Assoc_GroupItemMenu" Name="Demo.Assoc_GroupItemMenuSet">
 					<End EntitySet="SideGroupMenuSet" Role="From_GroupMenu"/>
 					<End EntitySet="SideItemMenuSet" Role="To_ItemMenu"/>
+				</AssociationSet>
+				<AssociationSet Association="Assoc_NetworkGrupNetworkItem" Name="Demo.Assoc_NetworkGrupNetworkItemSet">
+					<End EntitySet="NetworkGroupSet" Role="From_NetworkGroup"/>
+					<End EntitySet="NetworkItemSet" Role="To_NetworkItem"/>
 				</AssociationSet>
 				<AssociationSet Association="Assoc_AllocItem" Name="Demo.Assoc_AllocItemSet">
 					<End EntitySet="AllocationSet" Role="From_Allocation"/>
