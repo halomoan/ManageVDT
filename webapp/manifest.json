@@ -21,6 +21,14 @@
 					"odataVersion": "2.0",
 					"localUri": "localService/metadata.xml"
 				}
+			},
+			"ZBPCMODEL_SRV": {
+				"uri": "/sap/opu/odata/sap/ZBPCMODEL_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/ZBPCMODEL_SRV/metadata.xml"
+				}
 			}
 		}
 	},
@@ -39,7 +47,10 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": ["sap_hcb", "sap_belize"]
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+		]
 	},
 	"sap.ui5": {
 		"rootView": {
@@ -71,7 +82,7 @@
 			},
 			"odata": {
 				"type": "sap.ui.model.odata.v2.ODataModel",
-				"dataSource": "MyNodes",
+				"dataSource": "ZBPCMODEL_SRV",
 				"settings": {
 					"defaultBindingMode": "TwoWay",
 					"preliminaryContext": true
@@ -83,9 +94,11 @@
 			}
 		},
 		"resources": {
-			"css": [{
-				"uri": "css/style.css"
-			}]
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
 		},
 		"routing": {
 			"config": {
@@ -99,32 +112,33 @@
 					"target": "notFound"
 				}
 			},
-			"routes": [{
-				"pattern": "driverNetwork/{drivername}",
-				"name": "driverNetwork",
-				"target": "driverNetwork"
-			}, 
-			{
-				"pattern": "driverFCL/{drivername}/:item:",
-				"name": "driverNetwork",
-				"target": [
-					"driverList"
-				
+			"routes": [
+				{
+					"pattern": "driverNetwork/{drivername}",
+					"name": "driverNetworkxxx",
+					"target": "driverNetwork"
+				},
+				{
+					"pattern": "driverFCL/{drivername}/:item:",
+					"name": "driverNetwork",
+					"target": [
+						"driverList"
 					]
-			},
-			{
-				"pattern": "allocFCL/{allocname}/:item:",
-				"name": "allocation",
-				"target": [
-					"allocNetwork",
-					"allocDetail"
+				},
+				{
+					"pattern": "allocFCL/{allocname}/:item:",
+					"name": "allocation",
+					"target": [
+						"allocNetwork",
+						"allocDetail"
 					]
-			},
-			{
-				"pattern": "allocNetwork/{allocname}",
-				"name": "allocNetwork",
-				"target": "allocNetwork"
-			}],
+				},
+				{
+					"pattern": "allocNetwork/{allocname}",
+					"name": "allocNetwork",
+					"target": "allocNetwork"
+				}
+			],
 			"targets": {
 				"driverNetwork": {
 					"viewId": "driverNetwork",
@@ -155,7 +169,6 @@
 					"controlId": "allocfcl",
 					"controlAggregation": "beginColumnPages"
 				},
-				
 				"allocDetail": {
 					"parent": "allocFCL",
 					"viewId": "allocDetail",

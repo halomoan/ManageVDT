@@ -1,0 +1,524 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="Demo" xml:lang="en" sap:schema-version="1">
+            <EntityType Name="DimMember" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="APPSET"/>
+                    <PropertyRef Name="APPL"/>
+                    <PropertyRef Name="DIMENSION"/>
+                    <PropertyRef Name="HIERID"/>
+                </Key>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Environment" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="APPL" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Model ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DIMENSION" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Dimenstion Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HIERID" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Attribute Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="NodeID" Type="Edm.Int32" Nullable="false" sap:unicode="false"/>
+                <Property Name="HierarchyLevel" Type="Edm.Int32" Nullable="false" sap:unicode="false"/>
+                <Property Name="MemberID" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="Dimension Member"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="ParentNodeID" Type="Edm.Int32" sap:unicode="false"/>
+                <Property Name="DrillState" Type="Edm.String" sap:unicode="false"/>
+            </EntityType>
+            <EntityType Name="Dimension" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="APPSET"/>
+                    <PropertyRef Name="APPL"/>
+                    <PropertyRef Name="DIMENSION"/>
+                </Key>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Environment"/>
+                <Property Name="APPL" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Model ID"/>
+                <Property Name="DIMENSION" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Dimenstion Name"/>
+                <Property Name="SECURE" Type="Edm.Boolean" sap:unicode="false" sap:label="Indicator"/>
+                <NavigationProperty Name="Members" Relationship="Demo.Dimension_DimMember" FromRole="FromRole_Dimension_DimMember" ToRole="ToRole_Dimension_DimMember"/>
+            </EntityType>
+            <EntityType Name="RefDimension" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="Name" Type="Edm.String" sap:unicode="false"/>
+                <Property Name="ParentID" Type="Edm.String" sap:unicode="false"/>
+                <Property Name="Value" Type="Edm.String" sap:unicode="false"/>
+                <NavigationProperty Name="Members" Relationship="Demo.RefDimension_DimMember" FromRole="FromRole_RefDimension_DimMember" ToRole="ToRole_RefDimension_DimMember"/>
+            </EntityType>
+            <EntityType Name="RuleGroupMenu" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Icon" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Seq" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Submenus" Relationship="Demo.RuleGroupMenu_RuleItemMenu" FromRole="FromRole_RuleGroupMenu_RuleItemMenu" ToRole="ToRole_RuleGroupMenu_RuleItemMenu"/>
+            </EntityType>
+            <EntityType Name="RuleItemMenu" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="Name" Type="Edm.String" sap:unicode="false"/>
+                <Property Name="Icon" Type="Edm.String" sap:unicode="false"/>
+                <Property Name="GroupID" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="Type" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+            </EntityType>
+            <EntityType Name="ALItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                    <PropertyRef Name="HeaderID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="HeaderID" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="ActionID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="Method" Type="Edm.String" Nullable="false" sap:unicode="false"/>
+                <Property Name="IsInterCo" Type="Edm.Boolean" sap:unicode="false" sap:label="Indicator"/>
+                <Property Name="Active" Type="Edm.Boolean" sap:unicode="false" sap:label="Indicator"/>
+                <Property Name="VersionDim" Type="Edm.String" sap:unicode="false"/>
+                <Property Name="Depend" Type="Edm.String" sap:unicode="false"/>
+            </EntityType>
+            <EntityType Name="BRItemMenu" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="APPSET"/>
+                    <PropertyRef Name="PROCESS"/>
+                    <PropertyRef Name="ACTION"/>
+                </Key>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Appset" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PROCESS" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ACTION" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Action ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Items" Relationship="Demo.BRItemMenu_BRItem" FromRole="FromRole_BRItemMenu_BRItem" ToRole="ToRole_BRItemMenu_BRItem"/>
+            </EntityType>
+            <EntityType Name="BRItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="APPSET"/>
+                    <PropertyRef Name="PROCESS"/>
+                    <PropertyRef Name="ACTION"/>
+                    <PropertyRef Name="Key"/>
+                </Key>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Appset" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PROCESS" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ACTION" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Action ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Key" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Key" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Status" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Status" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Icon" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Icon" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Formula" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Formula" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Attributes" Relationship="Demo.BRItem_BRItemAttr" FromRole="FromRole_BRItem_BRItemAttr" ToRole="ToRole_BRItem_BRItemAttr"/>
+                <NavigationProperty Name="Dimlist" Relationship="Demo.BRItem_BRItemDim" FromRole="FromRole_BRItem_BRItemDim" ToRole="ToRole_BRItem_BRItemDim"/>
+                <NavigationProperty Name="Refdimlist" Relationship="Demo.BRItem_BRItemRefDim" FromRole="FromRole_BRItem_BRItemRefDim" ToRole="ToRole_BRItem_BRItemRefDim"/>
+            </EntityType>
+            <EntityType Name="BRItemAttr" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="APPSET"/>
+                    <PropertyRef Name="PROCESS"/>
+                    <PropertyRef Name="ACTION"/>
+                    <PropertyRef Name="Key"/>
+                    <PropertyRef Name="AttrID"/>
+                </Key>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Appset" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PROCESS" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ACTION" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Action ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Key" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Key" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AttrID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Attribute ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Label" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Label" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Value" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="BRItemRefDim" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="APPSET"/>
+                    <PropertyRef Name="PROCESS"/>
+                    <PropertyRef Name="ACTION"/>
+                    <PropertyRef Name="Key"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Appset" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PROCESS" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ACTION" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Action ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Key" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Key" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParentID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Value" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Level" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Level" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="BRItemDim" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="APPSET"/>
+                    <PropertyRef Name="PROCESS"/>
+                    <PropertyRef Name="ACTION"/>
+                    <PropertyRef Name="Key"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="APPSET" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Appset" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PROCESS" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Process ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ACTION" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Action ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Key" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Key" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParentID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Value" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Level" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Level" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ALHeader" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="HeaderID"/>
+                </Key>
+                <Property Name="HeaderID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ActionID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Desc" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Items" Relationship="Demo.ALHeader_ALItem" FromRole="FromRole_ALHeader_ALItem" ToRole="ToRole_ALHeader_ALItem"/>
+            </EntityType>
+            <EntityType Name="ALGeneral" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Method" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsInterCo" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Depend" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Active" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DataSet" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Version" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ALInput" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ApplyCum" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="InputType" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Factor" Type="Edm.Int32" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Dimlist" Relationship="Demo.ALInput_ALInputDim" FromRole="FromRole_ALInput_ALInputDim" ToRole="ToRole_ALInput_ALInputDim"/>
+            </EntityType>
+            <EntityType Name="ALOutput" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AllocOffset" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="OutputDriverDim" Relationship="Demo.ALOutput_ALOutDrvDim" FromRole="FromRole_ALOutput_ALOutDrvDim" ToRole="ToRole_ALOutput_ALOutDrvDim"/>
+                <NavigationProperty Name="OutputOffsetDim" Relationship="Demo.ALOutput_ALOutOffDim" FromRole="FromRole_ALOutput_ALOutOffDim" ToRole="ToRole_ALOutput_ALOutOffDim"/>
+                <NavigationProperty Name="OutputAdvPosting" Relationship="Demo.ALOutput_ALAdvPosting" FromRole="FromRole_ALOutput_ALAdvPosting" ToRole="ToRole_ALOutput_ALAdvPosting"/>
+                <NavigationProperty Name="OutputDim" Relationship="Demo.ALOutput_ALOutputDim" FromRole="FromRole_ALOutput_ALOutputDim" ToRole="ToRole_ALOutput_ALOutputDim"/>
+            </EntityType>
+            <EntityType Name="ALInputDim" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Rule ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParentID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Member Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ALOutOffDim" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Rule ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParentID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Member Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ALOutputDim" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Rule ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParentID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Member Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ALOutDrvDim" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Rule ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParentID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Member Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PValue" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Parent Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ALAdvPosting" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RuleID"/>
+                    <PropertyRef Name="Dimension"/>
+                    <PropertyRef Name="InputMbr"/>
+                </Key>
+                <Property Name="RuleID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Dimension" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="InputMbr" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="OutputMbr" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Seq" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Dummy" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="RefDimension_DimMember" sap:content-version="1">
+                <End Type="Demo.RefDimension" Multiplicity="1" Role="FromRole_RefDimension_DimMember"/>
+                <End Type="Demo.DimMember" Multiplicity="*" Role="ToRole_RefDimension_DimMember"/>
+            </Association>
+            <Association Name="BRItemMenu_BRItem" sap:content-version="1">
+                <End Type="Demo.BRItemMenu" Multiplicity="1" Role="FromRole_BRItemMenu_BRItem"/>
+                <End Type="Demo.BRItem" Multiplicity="*" Role="ToRole_BRItemMenu_BRItem"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_BRItemMenu_BRItem">
+                        <PropertyRef Name="ACTION"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="APPSET"/>
+                    </Principal>
+                    <Dependent Role="ToRole_BRItemMenu_BRItem">
+                        <PropertyRef Name="ACTION"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="APPSET"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="ALInput_ALInputDim" sap:content-version="1">
+                <End Type="Demo.ALInput" Multiplicity="1" Role="FromRole_ALInput_ALInputDim"/>
+                <End Type="Demo.ALInputDim" Multiplicity="*" Role="ToRole_ALInput_ALInputDim"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ALInput_ALInputDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ALInput_ALInputDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="BRItem_BRItemAttr" sap:content-version="1">
+                <End Type="Demo.BRItem" Multiplicity="1" Role="FromRole_BRItem_BRItemAttr"/>
+                <End Type="Demo.BRItemAttr" Multiplicity="*" Role="ToRole_BRItem_BRItemAttr"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_BRItem_BRItemAttr">
+                        <PropertyRef Name="APPSET"/>
+                        <PropertyRef Name="Key"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="ACTION"/>
+                    </Principal>
+                    <Dependent Role="ToRole_BRItem_BRItemAttr">
+                        <PropertyRef Name="APPSET"/>
+                        <PropertyRef Name="Key"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="ACTION"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="BRItem_BRItemDim" sap:content-version="1">
+                <End Type="Demo.BRItem" Multiplicity="1" Role="FromRole_BRItem_BRItemDim"/>
+                <End Type="Demo.BRItemDim" Multiplicity="*" Role="ToRole_BRItem_BRItemDim"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_BRItem_BRItemDim">
+                        <PropertyRef Name="ACTION"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="APPSET"/>
+                        <PropertyRef Name="Key"/>
+                    </Principal>
+                    <Dependent Role="ToRole_BRItem_BRItemDim">
+                        <PropertyRef Name="ACTION"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="APPSET"/>
+                        <PropertyRef Name="Key"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="BRItem_BRItemRefDim" sap:content-version="1">
+                <End Type="Demo.BRItem" Multiplicity="1" Role="FromRole_BRItem_BRItemRefDim"/>
+                <End Type="Demo.BRItemRefDim" Multiplicity="*" Role="ToRole_BRItem_BRItemRefDim"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_BRItem_BRItemRefDim">
+                        <PropertyRef Name="ACTION"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="APPSET"/>
+                        <PropertyRef Name="Key"/>
+                    </Principal>
+                    <Dependent Role="ToRole_BRItem_BRItemRefDim">
+                        <PropertyRef Name="ACTION"/>
+                        <PropertyRef Name="PROCESS"/>
+                        <PropertyRef Name="APPSET"/>
+                        <PropertyRef Name="Key"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="ALOutput_ALOutDrvDim" sap:content-version="1">
+                <End Type="Demo.ALOutput" Multiplicity="1" Role="FromRole_ALOutput_ALOutDrvDim"/>
+                <End Type="Demo.ALOutDrvDim" Multiplicity="*" Role="ToRole_ALOutput_ALOutDrvDim"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ALOutput_ALOutDrvDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ALOutput_ALOutDrvDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="ALOutput_ALOutOffDim" sap:content-version="1">
+                <End Type="Demo.ALOutput" Multiplicity="1" Role="FromRole_ALOutput_ALOutOffDim"/>
+                <End Type="Demo.ALOutOffDim" Multiplicity="*" Role="ToRole_ALOutput_ALOutOffDim"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ALOutput_ALOutOffDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ALOutput_ALOutOffDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="ALOutput_ALAdvPosting" sap:content-version="1">
+                <End Type="Demo.ALOutput" Multiplicity="1" Role="FromRole_ALOutput_ALAdvPosting"/>
+                <End Type="Demo.ALAdvPosting" Multiplicity="*" Role="ToRole_ALOutput_ALAdvPosting"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ALOutput_ALAdvPosting">
+                        <PropertyRef Name="RuleID"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ALOutput_ALAdvPosting">
+                        <PropertyRef Name="RuleID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="ALOutput_ALOutputDim" sap:content-version="1">
+                <End Type="Demo.ALOutput" Multiplicity="1" Role="FromRole_ALOutput_ALOutputDim"/>
+                <End Type="Demo.ALOutputDim" Multiplicity="*" Role="ToRole_ALOutput_ALOutputDim"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ALOutput_ALOutputDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ALOutput_ALOutputDim">
+                        <PropertyRef Name="RuleID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Dimension_DimMember" sap:content-version="1">
+                <End Type="Demo.Dimension" Multiplicity="1" Role="FromRole_Dimension_DimMember"/>
+                <End Type="Demo.DimMember" Multiplicity="*" Role="ToRole_Dimension_DimMember"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Dimension_DimMember">
+                        <PropertyRef Name="DIMENSION"/>
+                        <PropertyRef Name="APPL"/>
+                        <PropertyRef Name="APPSET"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Dimension_DimMember">
+                        <PropertyRef Name="DIMENSION"/>
+                        <PropertyRef Name="APPL"/>
+                        <PropertyRef Name="APPSET"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RuleGroupMenu_RuleItemMenu" sap:content-version="1">
+                <End Type="Demo.RuleGroupMenu" Multiplicity="1" Role="FromRole_RuleGroupMenu_RuleItemMenu"/>
+                <End Type="Demo.RuleItemMenu" Multiplicity="*" Role="ToRole_RuleGroupMenu_RuleItemMenu"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_RuleGroupMenu_RuleItemMenu">
+                        <PropertyRef Name="ID"/>
+                    </Principal>
+                    <Dependent Role="ToRole_RuleGroupMenu_RuleItemMenu">
+                        <PropertyRef Name="ID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="ALHeader_ALItem" sap:content-version="1">
+                <End Type="Demo.ALHeader" Multiplicity="1" Role="FromRole_ALHeader_ALItem"/>
+                <End Type="Demo.ALItem" Multiplicity="*" Role="ToRole_ALHeader_ALItem"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ALHeader_ALItem">
+                        <PropertyRef Name="HeaderID"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ALHeader_ALItem">
+                        <PropertyRef Name="HeaderID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="Demo_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="DimMemberSet" EntityType="Demo.DimMember" sap:content-version="1"/>
+                <EntitySet Name="DimensionSet" EntityType="Demo.Dimension" sap:content-version="1"/>
+                <EntitySet Name="RefDimensionSet" EntityType="Demo.RefDimension" sap:content-version="1"/>
+                <EntitySet Name="RuleGroupMenuSet" EntityType="Demo.RuleGroupMenu" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="RuleItemMenuSet" EntityType="Demo.RuleItemMenu" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALItemSet" EntityType="Demo.ALItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="BRItemMenuSet" EntityType="Demo.BRItemMenu" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="BRItemSet" EntityType="Demo.BRItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="BRItemAttrSet" EntityType="Demo.BRItemAttr" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="BRItemRefDimSet" EntityType="Demo.BRItemRefDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="BRItemDimSet" EntityType="Demo.BRItemDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALHeaderSet" EntityType="Demo.ALHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALGeneralSet" EntityType="Demo.ALGeneral" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALInputSet" EntityType="Demo.ALInput" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALOutputSet" EntityType="Demo.ALOutput" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALInputDimSet" EntityType="Demo.ALInputDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALOutOffDimSet" EntityType="Demo.ALOutOffDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALOutputDimSet" EntityType="Demo.ALOutputDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALOutDrvDimSet" EntityType="Demo.ALOutDrvDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ALAdvPostingSet" EntityType="Demo.ALAdvPosting" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="BRItem_BRItemRefDimSet" Association="Demo.BRItem_BRItemRefDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="BRItemSet" Role="FromRole_BRItem_BRItemRefDim"/>
+                    <End EntitySet="BRItemRefDimSet" Role="ToRole_BRItem_BRItemRefDim"/>
+                </AssociationSet>
+                <AssociationSet Name="ALOutput_ALAdvPostingSet" Association="Demo.ALOutput_ALAdvPosting" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ALOutputSet" Role="FromRole_ALOutput_ALAdvPosting"/>
+                    <End EntitySet="ALAdvPostingSet" Role="ToRole_ALOutput_ALAdvPosting"/>
+                </AssociationSet>
+                <AssociationSet Name="ALInput_ALInputDimSet" Association="Demo.ALInput_ALInputDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ALInputSet" Role="FromRole_ALInput_ALInputDim"/>
+                    <End EntitySet="ALInputDimSet" Role="ToRole_ALInput_ALInputDim"/>
+                </AssociationSet>
+                <AssociationSet Name="RefDimensionSet_DimMemberSet" Association="Demo.RefDimension_DimMember" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="RefDimensionSet" Role="FromRole_RefDimension_DimMember"/>
+                    <End EntitySet="DimMemberSet" Role="ToRole_RefDimension_DimMember"/>
+                </AssociationSet>
+                <AssociationSet Name="RuleGroupMenu_RuleItemMenuSet" Association="Demo.RuleGroupMenu_RuleItemMenu" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="RuleGroupMenuSet" Role="FromRole_RuleGroupMenu_RuleItemMenu"/>
+                    <End EntitySet="RuleItemMenuSet" Role="ToRole_RuleGroupMenu_RuleItemMenu"/>
+                </AssociationSet>
+                <AssociationSet Name="ALOutput_ALOutputDimSet" Association="Demo.ALOutput_ALOutputDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ALOutputSet" Role="FromRole_ALOutput_ALOutputDim"/>
+                    <End EntitySet="ALOutputDimSet" Role="ToRole_ALOutput_ALOutputDim"/>
+                </AssociationSet>
+                <AssociationSet Name="BRItem_BRItemDimSet" Association="Demo.BRItem_BRItemDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="BRItemSet" Role="FromRole_BRItem_BRItemDim"/>
+                    <End EntitySet="BRItemDimSet" Role="ToRole_BRItem_BRItemDim"/>
+                </AssociationSet>
+                <AssociationSet Name="BRItemMenu_BRItemSet" Association="Demo.BRItemMenu_BRItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="BRItemMenuSet" Role="FromRole_BRItemMenu_BRItem"/>
+                    <End EntitySet="BRItemSet" Role="ToRole_BRItemMenu_BRItem"/>
+                </AssociationSet>
+                <AssociationSet Name="ALHeader_ALItemSet" Association="Demo.ALHeader_ALItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ALHeaderSet" Role="FromRole_ALHeader_ALItem"/>
+                    <End EntitySet="ALItemSet" Role="ToRole_ALHeader_ALItem"/>
+                </AssociationSet>
+                <AssociationSet Name="ALOutput_ALOutOffDimSet" Association="Demo.ALOutput_ALOutOffDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ALOutputSet" Role="FromRole_ALOutput_ALOutOffDim"/>
+                    <End EntitySet="ALOutOffDimSet" Role="ToRole_ALOutput_ALOutOffDim"/>
+                </AssociationSet>
+                <AssociationSet Name="DimensionSet_DimMemberSet" Association="Demo.Dimension_DimMember" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DimensionSet" Role="FromRole_Dimension_DimMember"/>
+                    <End EntitySet="DimMemberSet" Role="ToRole_Dimension_DimMember"/>
+                </AssociationSet>
+                <AssociationSet Name="BRItem_BRItemAttrSet" Association="Demo.BRItem_BRItemAttr" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="BRItemSet" Role="FromRole_BRItem_BRItemAttr"/>
+                    <End EntitySet="BRItemAttrSet" Role="ToRole_BRItem_BRItemAttr"/>
+                </AssociationSet>
+                <AssociationSet Name="ALOutput_ALOutDrvDimSet" Association="Demo.ALOutput_ALOutDrvDim" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ALOutputSet" Role="FromRole_ALOutput_ALOutDrvDim"/>
+                    <End EntitySet="ALOutDrvDimSet" Role="ToRole_ALOutput_ALOutDrvDim"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZBPCMODEL_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZBPCMODEL_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>

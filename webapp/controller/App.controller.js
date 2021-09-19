@@ -20,15 +20,14 @@ sap.ui.define([
 				//sMenu = oItem.getText(),
 				sType = oItem.getTarget();
 				
-		
 			var oRouter = this.getRouter();
-				
+			
 			switch(sType){
 				// case "DRIVER": 
 				// 	oRouter.navTo("driverNetwork",{
 				// 		drivername : oCtx.getProperty("Name")
 				// 	}); break;
-				case "DRIVER": 
+				case "VDT": 
 					oRouter.navTo("driverNetwork",{
 						drivername : oCtx.getProperty("Name")
 					}); break;	

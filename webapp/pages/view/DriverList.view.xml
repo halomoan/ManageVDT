@@ -11,9 +11,13 @@
 		</f:title>
 		<!-- DynamicPage Content -->
 		<f:content>
-			<List items="{path: 'odata>/AllocationSet'}">
+			<List items="{path: 'odata>/RuleGroupMenuSet'}">
 				<CustomListItem>
 					<Panel expandable="true" headerText="{odata>Name}" width="100%">
+						<List items="{path: 'odata>SubMenus',filters : [{ path : 'Type', operator : 'EQ', value1 : 'VDT'}]}">
+							<StandardListItem
+							title="{odata>Name}" />
+						</List>	
 					</Panel>
 				</CustomListItem>
 			</List>		

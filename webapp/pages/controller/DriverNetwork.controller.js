@@ -29,6 +29,7 @@ sap.ui.define([
 
 			this._oDSC = this.byId("DynamicSideContent");
 
+			console.log("GILA");
 			var oData = {
 				GraphTitle: "ABC",
 				nodeSetting: {
@@ -124,8 +125,6 @@ sap.ui.define([
 			
 
 			oView.setModel(oGraphModel, "graphData");
-		
-
 
 			oViewModel.setProperty("/GraphTitle",oArgs.drivername);
 

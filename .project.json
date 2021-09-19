@@ -22,7 +22,7 @@
     {
       "templateId": "servicecatalog.connectivityComponent",
       "templateVersion": "0.0.0",
-      "dateTimeStamp": "Sun, 02 May 2021 09:17:45 GMT"
+      "dateTimeStamp": "Sun, 19 Sep 2021 00:32:37 GMT"
     }
   ],
   "translation": {
@@ -52,7 +52,7 @@
     "blockPushLevel": "Error"
   },
   "mockpreview": {
-    "mockUri": "",
+    "mockUri": "/sap/opu/odata/sap/ZBPCMODEL_SRV",
     "metadataFilePath": "",
     "loadJSONFiles": true,
     "loadCustomRequests": false,
