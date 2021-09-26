@@ -122,7 +122,8 @@
 					"pattern": "driverFCL/{drivername}/:item:",
 					"name": "driverNetwork",
 					"target": [
-						"driverList"
+						"driverList",
+						"driverNetwork"
 					]
 				},
 				{
@@ -141,19 +142,21 @@
 			],
 			"targets": {
 				"driverNetwork": {
+					"parent": "driverFCL",
 					"viewId": "driverNetwork",
 					"viewName": "DriverNetwork",
-					"viewLevel": 1
+					"controlId": "driverfcl",
+					"controlAggregation": "midColumnPages"
 				},
 				"allocFCL": {
 					"viewId": "allocFCL",
 					"viewName": "AllocFCL",
-					"viewLevel": 2
+					"viewLevel": 1
 				},
 				"driverFCL": {
 					"viewId": "driverFCL",
 					"viewName": "DriverFCL",
-					"viewLevel": 2
+					"viewLevel": 1
 				},
 				"driverList": {
 					"parent": "driverFCL",

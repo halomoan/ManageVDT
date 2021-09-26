@@ -3,15 +3,15 @@
 	xmlns="sap.m"
 	controllerName="uol.bpc.ManageVDT.pages.controller.DriverNetwork" displayBlock="true" height="100%">
 
-		<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored sapUiContentPadding" containerQuery="true"
+		<l:DynamicSideContent id="drivernetwork" class="sapUiDSCExplored sapUiContentPadding" containerQuery="true"
 			sideContentFallDown="BelowM" breakpointChanged="handleBreakpointChangeEvent" showSideContent="false">
 			<graph:Graph enableWheelZoom="false" id="graph" nodes="{graphData>/nodes}" lines="{graphData>/lines}">
 				<graph:nodes>
-					<graph:Node key="{graphData>key}" title="{graphData>name}" icon="{graphData>icon}"
-						attributes="{path:'graphData>attributes', templateShareable:false}" showActionLinksButton="false" showDetailButton="false"
-						showExpandButton="true" status="{graphData>status}" shape="Box" press="onPressNode">
+					<graph:Node key="{graphData>Key}" title="{graphData>Name}" icon="{graphData>Icon}"
+						attributes="{path:'graphData>Attributes', templateShareable:false}" showActionLinksButton="false" showDetailButton="false"
+						showExpandButton="true" status="{graphData>Status}" shape="Box" press="onPressNode">
 						<graph:attributes>
-							<graph:ElementAttribute label="{graphData>label}" value="{graphData>value}"/>
+							<graph:ElementAttribute label="{graphData>Label}" value="{graphData>Value}"/>
 						</graph:attributes>
 						<graph:actionButtons>
 							<!--<graph:ActionButton icon="sap-icon://settings" position="Left" title="Setting" press="onSettingShow"/>-->

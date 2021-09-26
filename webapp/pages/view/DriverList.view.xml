@@ -15,8 +15,9 @@
 				<CustomListItem>
 					<Panel expandable="true" headerText="{odata>Name}" width="100%">
 						<List items="{path: 'odata>SubMenus',filters : [{ path : 'Type', operator : 'EQ', value1 : 'VDT'}]}">
-							<StandardListItem
-							title="{odata>Name}" />
+							<DisplayListItem press="onMenuSelect"
+							label="{odata>Name}"
+							type="Navigation"/>
 						</List>	
 					</Panel>
 				</CustomListItem>

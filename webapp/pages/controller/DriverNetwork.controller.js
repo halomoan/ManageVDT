@@ -29,7 +29,6 @@ sap.ui.define([
 
 			this._oDSC = this.byId("DynamicSideContent");
 
-			console.log("GILA");
 			var oData = {
 				GraphTitle: "ABC",
 				nodeSetting: {
@@ -103,14 +102,19 @@ sap.ui.define([
 				status: "Information",
 				isNode: false
 			});
-			
-			
-				
-			this.oRouter = this.getRouter();
-			this.oRouter.getRoute("driverNetwork").attachPatternMatched(this.__onRouteMatched, this);
 
 		},
 		
+		updateNetwork: function(oNode){
+			
+			var oGraphModel = new JSONModel(oNode);
+			
+			var oView = this.getView();
+			oView.setModel(oGraphModel, "graphData");
+				
+			
+			
+		},
 		__onRouteMatched: function(oEvent){
 			
 			
@@ -257,7 +261,7 @@ sap.ui.define([
 		},
 
 		onTreeChange: function(oEvent) {
-			if (oEvent.getParameter("reason") == "filter") {
+			if (oEvent.getParameter("reason") === "filter") {
 
 				var model = this.getModel("search");
 				var query = model.getProperty("/query");
