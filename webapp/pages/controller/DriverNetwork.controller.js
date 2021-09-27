@@ -180,7 +180,7 @@ sap.ui.define([
 		},
 	
 		onPressNode: function(oEvent) {
-
+			
 			// var oNode = oEvent.getSource(),
 			// 	oViewModel = this.getModel("viewData"),
 			// 	oSettingData = oViewModel.getData().nodeSetting;
@@ -196,6 +196,7 @@ sap.ui.define([
 			// oViewModel.setProperty("/nodeSetting",oSettingData);
 
 			var oNode = oEvent.getSource();
+			
 			this._oPopoverForNode = new Popover({
 				title: oNode.getTitle(),
 				placement: "Top"

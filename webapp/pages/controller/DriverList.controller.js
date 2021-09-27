@@ -21,29 +21,44 @@ sap.ui.define([
 			
 			
 			var oModel = this.getModel("odata");
-			var sUrl = "/BRItemMenuSet(APPSET='" + oData.HeaderID + "',PROCESS='" + oData.Process + "',ACTION='" + oData.Action + "')/Items";
+			var sUrlNode = "/BRMenuSet(APPSET='" + oData.HeaderID + "',PROCESS='" + oData.Process + "',ACTION='" + oData.Action + "')/Nodes",
+				sUrlLine = "/BRMenuSet(APPSET='" + oData.HeaderID + "',PROCESS='" + oData.Process + "',ACTION='" + oData.Action + "')/Lines";
 			
+			oModel.setDeferredGroups(["batchget"]);
 			
-			oModel.read(sUrl,
+			oModel.read(sUrlNode,
 			{
+			 groupId: "batchget",
 			 urlParameters: {
-			    "$expand": "Attributes"
+			    "$expand": "Attributes,Dimlist,Refdimlist"
 			  },
 			  success: function(oResult) { 
-			  	var oNode = { "nodes": oResult.results };
-			  	
-			  	console.log(oNode);
-			  	
-			    var oMidColumn = oFCL.getCurrentMidColumnPage();
-			  	
-			  	var oGraphModel = new JSONModel(oNode);
-			  	
-			  	oMidColumn.setModel(oGraphModel, "graphData");
-			  	
-			  	//sap.ui.controller("uol.bpc.ManageVDT.pages.controller.DriverNetwork").updateNetwork(oNode); 
-			  	
 			  },
 			  error: function(oError) { /* do something */ }
+			});
+			
+			oModel.read(sUrlLine,
+			{
+			  groupId: "batchget",
+			  success: function(oResult) { 
+			  },
+			  error: function(oError) { /* do something */ }
+			});
+			
+			oModel.submitChanges({ 
+				groupId: "batchget",
+				success: function (oResp) {
+					var aResult = oResp.__batchResponses;
+					
+					var oResult = { "nodes": aResult[0].data.results, "lines": aResult[1].data.results };
+					
+					var oGraphModel = new JSONModel(oResult);
+					var oMidColumn = oFCL.getCurrentMidColumnPage();
+					oMidColumn.setModel(oGraphModel, "graphData");
+				
+				},
+				error: function () {
+				}
 			});
 			
 			//sap.ui.controller("uol.bpc.ManageVDT.pages.controller.DriverNetwork").updateNetwork(oModel,oData);

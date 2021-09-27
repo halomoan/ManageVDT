@@ -8,10 +8,10 @@
 			<graph:Graph enableWheelZoom="false" id="graph" nodes="{graphData>/nodes}" lines="{graphData>/lines}">
 				<graph:nodes>
 					<graph:Node key="{graphData>Key}" title="{graphData>Name}" icon="{graphData>Icon}"
-						attributes="{path:'graphData>Attributes', templateShareable:false}" showActionLinksButton="false" showDetailButton="false"
+						attributes="{path:'graphData>Attributes', templateShareable:true}" showActionLinksButton="false" showDetailButton="false"
 						showExpandButton="true" status="{graphData>Status}" shape="Box" press="onPressNode">
 						<graph:attributes>
-							<graph:ElementAttribute label="{graphData>Label}" value="{graphData>Value}"/>
+							<graph:ElementAttribute label="{graphData>0/Label}" value="{graphData>0/Value}"/>
 						</graph:attributes>
 						<graph:actionButtons>
 							<!--<graph:ActionButton icon="sap-icon://settings" position="Left" title="Setting" press="onSettingShow"/>-->
@@ -20,7 +20,7 @@
 					</graph:Node>
 				</graph:nodes>
 				<graph:lines>
-					<graph:Line from="{graphData>from}" to="{graphData>to}" status="Information" arrowOrientation="ChildOf" arrowPosition="Middle"></graph:Line>
+					<graph:Line from="{graphData>From}" to="{graphData>To}" status="Information" arrowOrientation="ChildOf" arrowPosition="Middle"></graph:Line>
 				</graph:lines>
 			</graph:Graph>
 			<l:sideContent>

@@ -52,8 +52,8 @@
     "blockPushLevel": "Error"
   },
   "mockpreview": {
-    "mockUri": "/sap/opu/odata/sap/ZBPCMODEL_SRV",
-    "metadataFilePath": "",
+    "mockUri": "/",
+    "metadataFilePath": "localService/metadata.xml",
     "loadJSONFiles": true,
     "loadCustomRequests": false,
     "mockRequestsFilePath": ""
