@@ -212,7 +212,6 @@ sap.ui.define([
 			}).addStyleClass("sapUiSmallMargin");
 			
 			var sFormula = oNodeData.Formula;
-			console.log(sFormula);
 			var regex = /#(\w+)/g;
 			var aOperand = [];
 			do {
@@ -234,18 +233,24 @@ sap.ui.define([
 						return ele.Name ===  sOperand;	
 					});	
 					
-			  	var oButton = new sap.m.Button({
-						text: sOperand,
-						press: function(oEvt){
-							var oSource = oEvt.getSource();
-							var iKey = oSource.data("Key");
-							var oTargetNode = oThis.oGraph.getNodeByKey(iKey);
-							oThis.oGraph.scrollToElement(oTargetNode);
-							oTargetNode.setSelected(true);	
-						}
-					});
-				oButton.data("Key",oNode.Key);
-				oLayout.addItem(oButton);
+				if (oNode){	
+					
+				  	var oButton = new sap.m.Button({
+							text: sOperand,
+							press: function(oEvt){
+								var oSource = oEvt.getSource();
+								var iKey = oSource.data("Key");
+								var oTargetNode = oThis.oGraph.getNodeByKey(iKey);
+								oThis.oGraph.scrollToElement(oTargetNode);
+								oTargetNode.setSelected(true);	
+							}
+						});
+					
+				
+					oButton.data("Key",oNode.Key);
+				
+					oLayout.addItem(oButton);
+				}
 			  } else {
 			  	var htmlText = '<span style="font-size: 25px; margin-top: 20px; padding-left: 10px; padding-right: 10px;"> ' + sChar + ' </span>';
 			    var oOperator = new sap.m.FormattedText("",{
