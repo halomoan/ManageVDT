@@ -16,6 +16,10 @@ sap.ui.define([
 			//var sPath = oSource.getBindingContext("odata").getPath();
 			var oData =  oSource.getBindingContext("odata").getObject();
 			
+			
+			var oToolpage =  sap.ui.getCore().byId("__xmlview0--toolPage");
+			oToolpage.setSideExpanded(false);
+
 			var oFCL = this.getView().getParent().getParent();
 			oFCL.setLayout(this.LayoutType.TwoColumnsMidExpanded);
 			
@@ -51,8 +55,10 @@ sap.ui.define([
 					var aResult = oResp.__batchResponses;
 					
 					var oResult = { "nodes": aResult[0].data.results, "lines": aResult[1].data.results };
+					//var oResult = { "nodes": aResult[0].data.results };
 					
 					var oGraphModel = new JSONModel(oResult);
+					oGraphModel.setSizeLimit(200);
 					var oMidColumn = oFCL.getCurrentMidColumnPage();
 					oMidColumn.setModel(oGraphModel, "graphData");
 				

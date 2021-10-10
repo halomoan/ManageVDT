@@ -71,17 +71,18 @@ sap.ui.define([
 			};
 			var oViewData = new JSONModel(oData);
 
-			var oView = this.getView(),
-				oGraph = oView.byId("graph");
+			var oView = this.getView();
+			
+			this.oGraph = oView.byId("graph");
 				
 			oView.setModel(oViewData, "viewData");
 			
-			oGraph.getToolbar().insertContent(new sap.m.Title("title", {
+			this.oGraph.getToolbar().insertContent(new sap.m.Title("title", {
 				text: "{viewData>/GraphTitle}",
 				titleStyle: sap.ui.core.TitleLevel.H2
 			}).addStyleClass("sapUiTinyMarginBegin"), 0);
 			
-			oGraph.getToolbar().addContent(new sap.m.OverflowToolbarButton({
+			this.oGraph.getToolbar().addContent(new sap.m.OverflowToolbarButton({
 				icon: "sap-icon://add",
 				tooltip: "Add Node",
 				type: "Transparent",
@@ -91,13 +92,13 @@ sap.ui.define([
 			
 			
 			for(var i = 0; i < oData.nodetypes.length; i++){
-				oGraph.setCustomLegendLabel({
+				this.oGraph.setCustomLegendLabel({
 					label: oData.nodetypes[i].text,
 					status: oData.nodetypes[i].status
 				});
 			}
 			
-			oGraph.setCustomLegendLabel({
+			this.oGraph.setCustomLegendLabel({
 				label: "Connection",
 				status: "Information",
 				isNode: false
@@ -181,12 +182,14 @@ sap.ui.define([
 	
 		onPressNode: function(oEvent) {
 			
-			// var oNode = oEvent.getSource(),
+			 var oSourceNode = oEvent.getSource();
+			 var oThis = this;
 			// 	oViewModel = this.getModel("viewData"),
 			// 	oSettingData = oViewModel.getData().nodeSetting;
 
-			// var oNodeData = this._getNodeData(oNode);
-
+			 var oNodeData = this._getNodeData(oSourceNode),
+			 	 oGraphModel = this.getModel("graphData"),
+				 aNodes = oGraphModel.getData().nodes;
 			// oSettingData.mode = "edit";
 			// oSettingData.name = oNodeData.name;
 			// oSettingData.formula = oNodeData.formula;
@@ -194,18 +197,79 @@ sap.ui.define([
 			// oSettingData.dimlist = oNodeData.dimlist;
 
 			// oViewModel.setProperty("/nodeSetting",oSettingData);
+			// var oLink = new sap.m.Link({
+			// 	text: oNodeData.Formula
+			// });
+			
+			// var oLayout = new sap.ui.layout.VerticalLayout({
+			// 	content: []
+			// }).addStyleClass("sapUiSmallMargin");
+			
+			var oLayout = new sap.m.FlexBox({
+				// alignContent: "SpaceBetween",
+				// alignItems:"Center",
+				wrap: "Wrap"
+			}).addStyleClass("sapUiSmallMargin");
+			
+			var sFormula = oNodeData.Formula;
+			console.log(sFormula);
+			var regex = /#(\w+)/g;
+			var aOperand = [];
+			do {
+				var aResult = regex.exec(sFormula);
+				if (aResult) {
+			    aOperand.push(aResult[1]);    
+			  }
+			} 
+			while (aResult)
+			
+			var sPattern = sFormula.replace(regex,'?');
+			
+			for(var i = 0; i < sPattern.length;i++){
+			  var sChar = sPattern.charAt(i);
+			
+			  if (sChar === "?") {
+			  	var sOperand =  aOperand.shift();
+			  	var oNode = aNodes.find(function(ele){
+						return ele.Name ===  sOperand;	
+					});	
+					
+			  	var oButton = new sap.m.Button({
+						text: sOperand,
+						press: function(oEvt){
+							var oSource = oEvt.getSource();
+							var iKey = oSource.data("Key");
+							var oTargetNode = oThis.oGraph.getNodeByKey(iKey);
+							oThis.oGraph.scrollToElement(oTargetNode);
+							oTargetNode.setSelected(true);	
+						}
+					});
+				oButton.data("Key",oNode.Key);
+				oLayout.addItem(oButton);
+			  } else {
+			  	var htmlText = '<span style="font-size: 25px; margin-top: 20px; padding-left: 10px; padding-right: 10px;"> ' + sChar + ' </span>';
+			    var oOperator = new sap.m.FormattedText("",{
+								htmlText: htmlText,
+								width: "100%",
+								height: "auto"
+							});
+				oLayout.addItem(oOperator);			
+			  }  
+			}
 
-			var oNode = oEvent.getSource();
 			
 			this._oPopoverForNode = new Popover({
-				title: oNode.getTitle(),
+				title: oSourceNode.getTitle(),
+				contentWidth: "30rem",
+				content: [oLayout],
 				placement: "Top"
-			});
+			}).addStyleClass("sapUiResponsivePadding--header");
 
-			this._oPopoverForNode.openBy(oNode);
+			this._oPopoverForNode.openBy(oSourceNode);
 			this._oPopoverForNode = undefined;
 
 		},
+		
 		onOpenDimSelect: function(oEvent) {
 			var oViewModel = this.getModel("viewData"),
 				oSettingData = oViewModel.getData().nodeSetting,
@@ -276,8 +340,7 @@ sap.ui.define([
 		},
 		
 		_onSettingSave: function(oThis) {
-			var oView = oThis.getView(),
-				oGraph = oView.byId("graph"),
+			var 
 				oGraphModel = oThis.getModel("graphData"),
 				oGraphData = oGraphModel.getData(),
 				oSettingData = oThis.getModel("viewData").getData().nodeSetting;
@@ -400,7 +463,8 @@ sap.ui.define([
 		onSettingHide: function(oEvent) {
 			this._oDSC.setShowSideContent(false);
 		},
-
+		
+	
 		onAddNewNode: function(oEvent) {
 			
 			if(this._IsSettingDirty){

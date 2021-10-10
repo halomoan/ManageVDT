@@ -1,6 +1,6 @@
 <mvc:View controllerName="uol.bpc.ManageVDT.controller.App" xmlns:mvc="sap.ui.core.mvc" xmlns:graph="sap.suite.ui.commons.networkgraph"
 		xmlns:l="sap.ui.layout" xmlns:tnt="sap.tnt" xmlns:core="sap.ui.core" xmlns="sap.m" displayBlock="true" height="100%">
-	<tnt:ToolPage id="toolPage">
+	<tnt:ToolPage id="toolPage" class="sapUiSizeCompact">
 		<tnt:header>
 			<tnt:ToolHeader>
 				<Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent" press=".onToggleSideNavPress" tooltip="Collapse">
